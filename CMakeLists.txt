@@ -43,6 +43,10 @@ add_subdirectory(include/beman/expected)
 beman_install_library(beman.expected)
 
 if(BEMAN_EXPECTED_BUILD_TESTS)
+  find_package(GTest CONFIG REQUIRED)
+endif()
+
+if(BEMAN_EXPECTED_BUILD_TESTS)
     enable_testing()
     add_subdirectory(tests/beman/expected)
 endif()
