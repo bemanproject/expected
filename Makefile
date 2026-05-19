@@ -55,7 +55,7 @@ VCPKG ?= $(shell command -v vcpkg 2> /dev/null)
 ifeq ($(VCPKG),)
 	_cmake_top_level?="./cmake/use-fetch-content.cmake"
 	_toolchain:=$(_local_toolchain)
-	_args=-DBEMANINFRA_googletest_REPO=file:///home/sdowney/bld/googletest/googletest.git
+	_args=-DBEMANINFRA_Catch2_REPO=file:///home/sdowney/bld/Catch2/Catch2.git
 else
 	_vcpkg_toolchain:=$(VCPKG_ROOT)/scripts/buildsystems/vcpkg.cmake
 	_cmake_top_level?=$(_vcpkg_toolchain)
@@ -81,6 +81,7 @@ define run_cmake =
 	-DCMAKE_TOOLCHAIN_FILE=$(_toolchain) \
     $(_args) \
 	$(_cmake_args) \
+	--log-level DEBUG \
 	$(CURDIR)
 endef
 
