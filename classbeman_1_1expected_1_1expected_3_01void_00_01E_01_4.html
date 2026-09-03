@@ -195,11 +195,16 @@ template&lt;class... Args&gt; <br />
 requires (std::is_reference_v&lt;E&gt; &amp;&amp; !std::is_constructible_v&lt;E, Args...&gt; &amp;&amp; !detail::unexpect_dangles_v&lt;E, Args...&gt;)</td></tr>
 <tr class="memitem:a61ffdcdbd2adb1984b5ab61626692348"><td class="memTemplItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><b>expected</b> (<a class="el" href="structbeman_1_1expected_1_1unexpect__t.html">unexpect_t</a>, Args &amp;&amp;...)</td></tr>
 <tr class="separator:a61ffdcdbd2adb1984b5ab61626692348"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af01b46a8d5672e637279fabe98bdb2d3"><td class="memTemplParams" colspan="2"><a id="af01b46a8d5672e637279fabe98bdb2d3" name="af01b46a8d5672e637279fabe98bdb2d3"></a>
+<tr class="memitem:a5b25f48ccc6074bf64e33533b0e9d4a2"><td class="memTemplParams" colspan="2"><a id="a5b25f48ccc6074bf64e33533b0e9d4a2" name="a5b25f48ccc6074bf64e33533b0e9d4a2"></a>
 template&lt;class U , class... Args&gt; <br />
-requires std::is_constructible_v&lt;E, std::initializer_list&lt;U&gt;&amp;, Args...&gt;</td></tr>
-<tr class="memitem:af01b46a8d5672e637279fabe98bdb2d3"><td class="memTemplItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><b>expected</b> (<a class="el" href="structbeman_1_1expected_1_1unexpect__t.html">unexpect_t</a>, std::initializer_list&lt; U &gt; il, Args &amp;&amp;... args)</td></tr>
-<tr class="separator:af01b46a8d5672e637279fabe98bdb2d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+requires (!std::is_reference_v&lt;E&gt; &amp;&amp; std::is_constructible_v&lt;E, std::initializer_list&lt;U&gt;&amp;, Args...&gt;)</td></tr>
+<tr class="memitem:a5b25f48ccc6074bf64e33533b0e9d4a2"><td class="memTemplItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><b>expected</b> (<a class="el" href="structbeman_1_1expected_1_1unexpect__t.html">unexpect_t</a>, std::initializer_list&lt; U &gt; il, Args &amp;&amp;... args)</td></tr>
+<tr class="separator:a5b25f48ccc6074bf64e33533b0e9d4a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae43ed02bcb892bb2e15698c127f8c5af"><td class="memTemplParams" colspan="2"><a id="ae43ed02bcb892bb2e15698c127f8c5af" name="ae43ed02bcb892bb2e15698c127f8c5af"></a>
+template&lt;class U , class... Args&gt; <br />
+requires std::is_reference_v&lt;E&gt;</td></tr>
+<tr class="memitem:ae43ed02bcb892bb2e15698c127f8c5af"><td class="memTemplItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><b>expected</b> (<a class="el" href="structbeman_1_1expected_1_1unexpect__t.html">unexpect_t</a>, std::initializer_list&lt; U &gt;, Args &amp;&amp;...)</td></tr>
+<tr class="separator:ae43ed02bcb892bb2e15698c127f8c5af"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a790c037a8e6d650f9caab729018a968d"><td class="memTemplParams" colspan="2"><a id="a790c037a8e6d650f9caab729018a968d" name="a790c037a8e6d650f9caab729018a968d"></a>
 template&lt;class G &gt; <br />
 requires (std::is_reference_v&lt;E&gt; &amp;&amp; std::is_convertible_v&lt;G&amp;, E&gt; &amp;&amp; !detail::reference_constructs_from_temporary_v&lt;E, G&amp;&gt;)</td></tr>
