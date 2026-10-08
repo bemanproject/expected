@@ -136,7 +136,7 @@ class unexpected<E&> {
     // Binds E& directly to the referenced object; deleted below when G would bind to a temporary.
     template <class G = E>
         requires(!std::is_same_v<std::remove_cvref_t<G>, unexpected> &&
-                 !std::is_same_v<std::remove_cvref_t<G>, std::in_place_t> && std::is_constructible_v<E&, G &&> &&
+                 !std::is_same_v<std::remove_cvref_t<G>, std::in_place_t> && std::is_constructible_v<E&, G&&> &&
                  !detail::reference_constructs_from_temporary_v<E&, G>)
     constexpr explicit unexpected(G&& e) noexcept : ptr_(std::addressof(static_cast<E&>(std::forward<G>(e)))) {}
 
@@ -149,7 +149,7 @@ class unexpected<E&> {
     // Deleted catch-all: neither constructible nor a dangling case
     template <class G>
         requires(!std::is_same_v<std::remove_cvref_t<G>, unexpected> &&
-                 !std::is_same_v<std::remove_cvref_t<G>, std::in_place_t> && !std::is_constructible_v<E&, G &&> &&
+                 !std::is_same_v<std::remove_cvref_t<G>, std::in_place_t> && !std::is_constructible_v<E&, G&&> &&
                  !detail::reference_constructs_from_temporary_v<E&, G>)
     constexpr unexpected(G&&) =
         BEMAN_EXPECTED_DELETE_MSG("unexpected<E&>: no viable conversion from the given argument to E&");
@@ -159,7 +159,7 @@ class unexpected<E&> {
     // reference or not. Naturally restricted to arity 1: there is no variadic overload here,
     // and expected only ever calls this when is_constructible_v<E&, Args...> already holds.
     template <class G = E>
-        requires(std::is_constructible_v<E&, G &&> && !detail::reference_constructs_from_temporary_v<E&, G>)
+        requires(std::is_constructible_v<E&, G&&> && !detail::reference_constructs_from_temporary_v<E&, G>)
     constexpr explicit unexpected(std::in_place_t, G&& e) noexcept
         : ptr_(std::addressof(static_cast<E&>(std::forward<G>(e)))) {}
 
