@@ -37,6 +37,7 @@ var classbeman_1_1expected_1_1expected =
     [ "operator->", "classbeman_1_1expected_1_1expected.html#a007ed9086a61ee350029ee8499630abe", null ],
     [ "operator->", "classbeman_1_1expected_1_1expected.html#a9eeb2a99ef3756d1f5bb42693bc94393", null ],
     [ "operator=", "classbeman_1_1expected_1_1expected.html#a14acbbd525db8376d456e070ef654352", null ],
+    [ "operator=", "classbeman_1_1expected_1_1expected.html#aa6938c2495532a2afc846bf9088736d2", null ],
     [ "operator=", "classbeman_1_1expected_1_1expected.html#af8f4fb1030c2bbd064e7c5e7445972ca", null ],
     [ "operator=", "classbeman_1_1expected_1_1expected.html#a034d3cf7ee90b95e0ce0b1fd63b82c9a", null ],
     [ "operator=", "classbeman_1_1expected_1_1expected.html#a08b8ae82b1b6d76d82622bbac109f49a", null ],
