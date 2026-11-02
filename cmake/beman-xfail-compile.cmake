@@ -44,8 +44,10 @@ include_guard(GLOBAL)
 #   so the expectation lives next to the ill-formed code it describes.
 #   Several lines are joined with "|", so a long alternation can be split
 #   one compiler's wording per line and stay inside a formatter's column
-#   limit. Configuration re-runs when that file changes. Passing EXPECT
-#   overrides the comment, for sources that cannot carry one.
+#   limit. The driver reads those lines when the test runs, so editing them
+#   takes effect on the next `ctest` with neither a reconfigure nor a
+#   rebuild; configuration only checks that at least one is present.
+#   Passing EXPECT overrides the comment, for sources that cannot carry one.
 #
 # LINK_LIBRARIES (optional)
 #   Targets whose usage requirements the source is compiled with, typically
@@ -79,7 +81,9 @@ include_guard(GLOBAL)
 # under `ctest -j` the nested builds never run concurrently in one build
 # tree. Other tests still run alongside them.
 #
-# EXPECT is a CMake regular expression and must not contain ";".
+# EXPECT is a CMake regular expression. Passed as an argument it must not
+# contain ";", since it travels to the driver as one element of the test
+# command; read from SOURCE it may.
 
 function(beman_add_xfail_compile_test name)
     set(oneValueArgs SOURCE EXPECT TARGET_PREFIX)
@@ -110,42 +114,32 @@ function(beman_add_xfail_compile_test name)
             _source_path
             BASE_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
         )
-        set_property(
-            DIRECTORY
-            APPEND
-            PROPERTY CMAKE_CONFIGURE_DEPENDS "${_source_path}"
+        include(
+            ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/beman-xfail-compile-expect.cmake
         )
-        file(STRINGS "${_source_path}" _expect_lines REGEX "^// EXPECT: \"")
-        if(NOT _expect_lines)
+        beman_xfail_compile_read_expect("${_source_path}" _expect)
+        if("${_expect}" STREQUAL "")
             message(
                 FATAL_ERROR
                 "beman_add_xfail_compile_test(${name}): no '// EXPECT: \"<regex>\"' line in ${_source_path}; add one or pass EXPECT"
             )
         endif()
-        set(_alternatives)
-        foreach(_line IN LISTS _expect_lines)
-            string(
-                REGEX REPLACE "^// EXPECT: \"(.*)\"[ \t]*$"
-                "\\1"
-                _alternative
-                "${_line}"
+        set(_expect_arg "-DBEMAN_XFAIL_EXPECT_FILE=${_source_path}")
+    else()
+        if("${BEMAN_XFAIL_EXPECT}" STREQUAL "")
+            message(
+                FATAL_ERROR
+                "beman_add_xfail_compile_test(${name}): EXPECT must not be empty"
             )
-            list(APPEND _alternatives "${_alternative}")
-        endforeach()
-        list(JOIN _alternatives "|" BEMAN_XFAIL_EXPECT)
-    endif()
-    if("${BEMAN_XFAIL_EXPECT}" STREQUAL "")
-        message(
-            FATAL_ERROR
-            "beman_add_xfail_compile_test(${name}): EXPECT must not be empty"
-        )
-    endif()
-    string(FIND "${BEMAN_XFAIL_EXPECT}" ";" _semicolon)
-    if(NOT _semicolon EQUAL -1)
-        message(
-            FATAL_ERROR
-            "beman_add_xfail_compile_test(${name}): EXPECT must not contain ';'"
-        )
+        endif()
+        string(FIND "${BEMAN_XFAIL_EXPECT}" ";" _semicolon)
+        if(NOT _semicolon EQUAL -1)
+            message(
+                FATAL_ERROR
+                "beman_add_xfail_compile_test(${name}): EXPECT must not contain ';'"
+            )
+        endif()
+        set(_expect_arg "-DBEMAN_XFAIL_EXPECT=${BEMAN_XFAIL_EXPECT}")
     endif()
     if(NOT DEFINED BEMAN_XFAIL_TARGET_PREFIX)
         set(BEMAN_XFAIL_TARGET_PREFIX "${PROJECT_NAME}.tests.")
@@ -174,7 +168,7 @@ function(beman_add_xfail_compile_test name)
         COMMAND
             ${CMAKE_COMMAND} -DBEMAN_XFAIL_BUILD_DIR=${CMAKE_BINARY_DIR}
             -DBEMAN_XFAIL_TARGET=${_target} -DBEMAN_XFAIL_CONFIG=$<CONFIG>
-            -DBEMAN_XFAIL_EXPECT=${BEMAN_XFAIL_EXPECT} -P
+            ${_expect_arg} -P
             ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/beman-xfail-compile-driver.cmake
     )
     set_tests_properties(
