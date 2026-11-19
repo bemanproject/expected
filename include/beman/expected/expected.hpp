@@ -3648,9 +3648,12 @@ class expected<T&, E> {
 //! `rhs.val`, so that `*this` and `rhs` refer to the same object;
 //! otherwise, initializes `unex` with `rhs.unex`.
 //! \ensures `rhs.has_value() == this->has_value()`.
-//! \remarks This constructor is trivial if the corresponding constructor
-//! of `E` is trivial, and is defined as deleted unless
-//! `is_copy_constructible_v<E>` is `true`.
+//! \remarks The exception specification of the move constructor is
+//! equivalent to `is_nothrow_move_constructible_v<E>`. Each of these
+//! constructors is trivial if the corresponding constructor of `E` is
+//! trivial. The copy constructor is defined as deleted unless
+//! `is_copy_constructible_v<E>` is `true`, and the move constructor unless
+//! `is_move_constructible_v<E>` is `true`.
 template <class T, class E>
 constexpr expected<T&, E>::expected(const expected& rhs) noexcept(std::is_nothrow_copy_constructible_v<E>)
     requires(std::is_copy_constructible_v<E> && !std::is_trivially_copy_constructible_v<E>)
@@ -3838,9 +3841,13 @@ constexpr expected<T&, E>::~expected()
 //! template. In every case `*this` comes to refer to the object `rhs`
 //! refers to, or to hold the error of `rhs`.
 //! \returns `*this`.
-//! \remarks This operator is defined as deleted unless
-//! `is_copy_assignable_v<E>` is `true` and `is_copy_constructible_v<E>`
-//! is `true`.
+//! \remarks The exception specification of the move assignment operator is
+//! equivalent to `is_nothrow_move_constructible_v<E> &&
+//! is_nothrow_move_assignable_v<E>`. The copy assignment operator is defined
+//! as deleted unless `is_copy_assignable_v<E>` is `true` and
+//! `is_copy_constructible_v<E>` is `true`, and the move assignment operator
+//! unless `is_move_assignable_v<E>` is `true` and
+//! `is_move_constructible_v<E>` is `true`.
 template <class T, class E>
 constexpr expected<T&, E>&
 expected<T&, E>::operator=(const expected& rhs) noexcept(std::is_nothrow_copy_constructible_v<E> &&

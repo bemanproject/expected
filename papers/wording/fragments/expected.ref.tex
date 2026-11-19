@@ -246,7 +246,7 @@ If \tcode{rhs.has_value()} is \tcode{true}, initializes \exposid{val} with \tcod
 
 \pnum
 \remarks
-This constructor is trivial if the corresponding constructor of \tcode{E} is trivial, and is defined as deleted unless \tcode{is_copy_constructible_v<E>} is \tcode{true}.
+The exception specification of the move constructor is equivalent to \tcode{is_nothrow_move_constructible_v<E>}. Each of these constructors is trivial if the corresponding constructor of \tcode{E} is trivial. The copy constructor is defined as deleted unless \tcode{is_copy_constructible_v<E>} is \tcode{true}, and the move constructor unless \tcode{is_move_constructible_v<E>} is \tcode{true}.
 \end{itemdescr}
 
 \indexlibraryctor{expected}%
@@ -584,7 +584,7 @@ If \tcode{rhs.has_value()} is \tcode{true}: if \tcode{has_value()} is \tcode{tru
 
 \pnum
 \remarks
-This operator is defined as deleted unless \tcode{is_copy_assignable_v<E>} is \tcode{true} and \tcode{is_copy_constructible_v<E>} is \tcode{true}.
+The exception specification of the move assignment operator is equivalent to \tcode{is_nothrow_move_constructible_v<E> \&\& is_nothrow_move_assignable_v<E>}. The copy assignment operator is defined as deleted unless \tcode{is_copy_assignable_v<E>} is \tcode{true} and \tcode{is_copy_constructible_v<E>} is \tcode{true}, and the move assignment operator unless \tcode{is_move_assignable_v<E>} is \tcode{true} and \tcode{is_move_constructible_v<E>} is \tcode{true}.
 \end{itemdescr}
 
 \indexlibrarymember{operator=}{expected}%
