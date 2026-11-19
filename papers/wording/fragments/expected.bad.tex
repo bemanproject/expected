@@ -1,16 +1,5 @@
 \rSec2[expected.bad]{Class template \tcode{bad_expected_access}}
 
-\indexlibrarymember{what}{bad_expected_access}%
-\begin{itemdecl}
-const char* what() const noexcept override;
-\end{itemdecl}
-
-\begin{itemdescr}
-\pnum
-\returns
-An \impldef{return value of \tcode{bad_expected_access<void>::what}} \ntbs{}, which during constant evaluation is encoded with the ordinary literal encoding\iref{lex.ccon}.
-\end{itemdescr}
-
 \begin{codeblock}
 namespace std {
   template<class E>

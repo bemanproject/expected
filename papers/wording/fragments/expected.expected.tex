@@ -16,6 +16,8 @@ namespace std {
 
     template<class U> using rebind = expected<U, error_type>;
 
+    // \ref{expected.object.cons}, constructors
+
     constexpr expected() noexcept(is_nothrow_default_constructible_v<T>);
 
     constexpr expected(const expected&) = default;
@@ -86,9 +88,13 @@ namespace std {
     template<class U, class... Args>
     constexpr expected(unexpect_t, initializer_list<U>, Args&&...) = delete;
 
+    // \ref{expected.object.dtor}, destructor
+
     constexpr ~expected() = default;
 
     constexpr ~expected();
+
+    // \ref{expected.object.assign}, assignment
 
     constexpr expected& operator=(const expected&) = default;
 
@@ -123,6 +129,8 @@ namespace std {
     template<class U, class... Args>
     constexpr T& emplace(initializer_list<U> il, Args&&... args) noexcept;
 
+    // \ref{expected.object.swap}, swap
+
     constexpr void swap(expected& rhs) noexcept(is_nothrow_move_constructible_v<T> &&
                                                 is_nothrow_swappable_v<T> &&
                                                 is_nothrow_move_constructible_v<E> &&
@@ -130,6 +138,8 @@ namespace std {
                                                  is_nothrow_swappable_v<E>));
 
     friend constexpr void swap(expected& x, expected& y) noexcept(noexcept(x.swap(y)));
+
+    // \ref{expected.object.obs}, observers
 
     constexpr const T* operator->() const noexcept;
     constexpr T* operator->() noexcept;
@@ -162,6 +172,8 @@ namespace std {
     template<class G = @\exposid{error-value-type}@>
     constexpr @\exposid{error-value-type}@ error_or(G&& def) &&;
 
+    // \ref{expected.object.monadic}, monadic operations
+
     template<class F> constexpr auto and_then(F&& f) &;
     template<class F> constexpr auto and_then(F&& f) &&;
     template<class F> constexpr auto and_then(F&& f) const&;
@@ -181,6 +193,8 @@ namespace std {
     template<class F> constexpr auto transform_error(F&& f) &&;
     template<class F> constexpr auto transform_error(F&& f) const&;
     template<class F> constexpr auto transform_error(F&& f) const&&;
+
+    // \ref{expected.object.eq}, equality operators
 
     template<class T2, class E2>
     friend constexpr bool operator==(const expected& x, const expected<T2, E2>& y);

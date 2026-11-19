@@ -16,6 +16,8 @@ namespace std {
 
     template<class U> using rebind = expected<U, error_type>;
 
+    // \ref{expected.ref.cons}, constructors
+
     expected() = delete;
 
     constexpr expected(const expected&) = default;
@@ -85,9 +87,13 @@ namespace std {
     template<class U, class... Args>
     constexpr expected(unexpect_t, initializer_list<U>, Args&&...) = delete;
 
+    // \ref{expected.ref.dtor}, destructor
+
     constexpr ~expected() = default;
 
     constexpr ~expected();
+
+    // \ref{expected.ref.assign}, assignment
 
     constexpr expected& operator=(const expected&) = default;
 
@@ -118,11 +124,15 @@ namespace std {
     template<class U = T>
     constexpr T& emplace(U&& u) noexcept(is_nothrow_constructible_v<T&, U>);
 
+    // \ref{expected.ref.swap}, swap
+
     constexpr void swap(expected& rhs) noexcept(is_nothrow_move_constructible_v<E> &&
                                                 (is_reference_v<E> ||
                                                  is_nothrow_swappable_v<E>));
 
     friend constexpr void swap(expected& x, expected& y) noexcept(noexcept(x.swap(y)));
+
+    // \ref{expected.ref.obs}, observers
 
     constexpr T* operator->() const noexcept;
     constexpr T& operator*() const noexcept;
@@ -146,6 +156,8 @@ namespace std {
     template<class G = @\exposid{error-value-type}@>
     constexpr @\exposid{error-value-type}@ error_or(G&& def) &&;
 
+    // \ref{expected.ref.monadic}, monadic operations
+
     template<class F> constexpr auto and_then(F&& f) &;
     template<class F> constexpr auto and_then(F&& f) &&;
     template<class F> constexpr auto and_then(F&& f) const&;
@@ -165,6 +177,8 @@ namespace std {
     template<class F> constexpr auto transform_error(F&& f) &&;
     template<class F> constexpr auto transform_error(F&& f) const&;
     template<class F> constexpr auto transform_error(F&& f) const&&;
+
+    // \ref{expected.ref.eq}, equality operators
 
     template<class T2, class E2>
     friend constexpr bool operator==(const expected& x, const expected<T2, E2>& y);

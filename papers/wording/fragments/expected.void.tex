@@ -16,6 +16,8 @@ namespace std {
 
     template<class U> using rebind = expected<U, error_type>;
 
+    // \ref{expected.void.cons}, constructors
+
     constexpr expected() noexcept;
 
     constexpr expected(const expected& rhs) noexcept(
@@ -73,7 +75,11 @@ namespace std {
     template<class G>
     constexpr explicit(!is_convertible_v<G&, E>) expected(expected<void, G&>&& rhs);
 
+    // \ref{expected.void.dtor}, destructor
+
     constexpr ~expected();
+
+    // \ref{expected.void.assign}, assignment
 
     constexpr expected& operator=(const expected& rhs) noexcept(
         is_nothrow_copy_constructible_v<E> && is_nothrow_copy_assignable_v<E>);
@@ -97,11 +103,15 @@ namespace std {
 
     constexpr void emplace() noexcept;
 
+    // \ref{expected.void.swap}, swap
+
     constexpr void swap(expected& rhs) noexcept(is_nothrow_move_constructible_v<E> &&
                                                 (is_reference_v<E> ||
                                                  is_nothrow_swappable_v<E>));
 
     friend constexpr void swap(expected& x, expected& y) noexcept(noexcept(x.swap(y)));
+
+    // \ref{expected.void.obs}, observers
 
     constexpr explicit operator bool() const noexcept;
     constexpr bool has_value() const noexcept;
@@ -124,6 +134,8 @@ namespace std {
 
     template<class U> constexpr void value_or(U&&) const = delete;
 
+    // \ref{expected.void.monadic}, monadic operations
+
     template<class F> constexpr auto and_then(F&& f) &;
     template<class F> constexpr auto and_then(F&& f) &&;
     template<class F> constexpr auto and_then(F&& f) const&;
@@ -143,6 +155,8 @@ namespace std {
     template<class F> constexpr auto transform_error(F&& f) &&;
     template<class F> constexpr auto transform_error(F&& f) const&;
     template<class F> constexpr auto transform_error(F&& f) const&&;
+
+    // \ref{expected.void.eq}, equality operators
 
     template<class T2, class E2>
     friend constexpr bool operator==(const expected& x, const expected<T2, E2>& y);

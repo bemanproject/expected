@@ -75,6 +75,16 @@ class bad_expected_access<void> : public std::exception {
     BEMAN_EXPECTED_CONSTEXPR_EXCEPTION const char* what() const noexcept override;
 };
 
+// bad_expected_access<void> out-of-line definitions
+
+//! \returns An
+//! \impldef{return value of \tcode{bad_expected_access<void>::what}}
+//! \ntbs{}, which during constant evaluation is encoded with the ordinary
+//! literal encoding\iref{lex.ccon}.
+inline BEMAN_EXPECTED_CONSTEXPR_EXCEPTION const char* bad_expected_access<void>::what() const noexcept {
+    return "bad expected access";
+}
+
 // \rSec2[expected.bad]{Class template `bad_expected_access`}
 //! \remarks The class template `bad_expected_access` defines the type of
 //! objects thrown as exceptions to report the situation where an attempt is
@@ -94,16 +104,6 @@ class bad_expected_access : public bad_expected_access<void> {
     //! \expos
     E unex;
 };
-
-// bad_expected_access<void> out-of-line definitions
-
-//! \returns An
-//! \impldef{return value of \tcode{bad_expected_access<void>::what}}
-//! \ntbs{}, which during constant evaluation is encoded with the ordinary
-//! literal encoding\iref{lex.ccon}.
-inline BEMAN_EXPECTED_CONSTEXPR_EXCEPTION const char* bad_expected_access<void>::what() const noexcept {
-    return "bad expected access";
-}
 
 // bad_expected_access<E> out-of-line definitions
 

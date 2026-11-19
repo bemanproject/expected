@@ -76,10 +76,10 @@ class unexpected {
                   "unexpected<E>: E must not be a specialization of unexpected");
 
   public:
+    // \ref{expected.un.cons}, constructors
     constexpr unexpected(const unexpected&) = default;
     constexpr unexpected(unexpected&&)      = default;
 
-    //! \at expected.un.cons
     //! \constraints
     //! \item `is_same_v<remove_cvref_t<Err>, unexpected>` is `false`; and
     //! \item `is_same_v<remove_cvref_t<Err>, in_place_t>` is `false`; and
@@ -93,7 +93,6 @@ class unexpected {
     constexpr explicit unexpected(Err&& e) noexcept(std::is_nothrow_constructible_v<E, Err>)
         : unex_(std::forward<Err>(e)) {}
 
-    //! \at expected.un.cons
     //! \constraints `is_constructible_v<E, Args...>` is `true`.
     //! \effects Direct-non-list-initializes `unex` with
     //! `std::forward<Args>(args)...`.
@@ -104,7 +103,6 @@ class unexpected {
                                   Args&&... args) noexcept(std::is_nothrow_constructible_v<E, Args...>)
         : unex_(std::forward<Args>(args)...) {}
 
-    //! \at expected.un.cons
     //! \constraints `is_constructible_v<E, initializer_list<U>&, Args...>` is
     //! `true`.
     //! \effects Direct-non-list-initializes `unex` with `il,
