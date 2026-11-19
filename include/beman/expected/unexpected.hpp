@@ -58,12 +58,12 @@ inline constexpr bool reference_constructs_from_temporary_v = __reference_constr
 
 } // namespace detail
 
-// \rSec2[expected.unexpected]{Class template unexpected}
+// \rSec2[expected.unexpected]{Class template `unexpected`}
 // \rSec3[expected.un.general]{General}
 //! \mandates A program that instantiates the definition of `unexpected` for
 //! a non-object type other than an lvalue reference type, an array type, a
 //! specialization of `unexpected`, or a cv-qualified type is ill-formed.
-//! \remarks Subclause \iref{expected.unexpected} describes the class
+//! \remarks Subclause \ref{expected.unexpected} describes the class
 //! template `unexpected` that represents unexpected objects stored in
 //! `expected` objects.
 template <class E>
@@ -76,10 +76,10 @@ class unexpected {
                   "unexpected<E>: E must not be a specialization of unexpected");
 
   public:
+    // \ref{expected.un.cons}, constructors
     constexpr unexpected(const unexpected&) = default;
     constexpr unexpected(unexpected&&)      = default;
 
-    //! \at expected.un.cons
     //! \constraints
     //! \item `is_same_v<remove_cvref_t<Err>, unexpected>` is `false`; and
     //! \item `is_same_v<remove_cvref_t<Err>, in_place_t>` is `false`; and
@@ -93,7 +93,6 @@ class unexpected {
     constexpr explicit unexpected(Err&& e) noexcept(std::is_nothrow_constructible_v<E, Err>)
         : unex_(std::forward<Err>(e)) {}
 
-    //! \at expected.un.cons
     //! \constraints `is_constructible_v<E, Args...>` is `true`.
     //! \effects Direct-non-list-initializes `unex` with
     //! `std::forward<Args>(args)...`.
@@ -104,7 +103,6 @@ class unexpected {
                                   Args&&... args) noexcept(std::is_nothrow_constructible_v<E, Args...>)
         : unex_(std::forward<Args>(args)...) {}
 
-    //! \at expected.un.cons
     //! \constraints `is_constructible_v<E, initializer_list<U>&, Args...>` is
     //! `true`.
     //! \effects Direct-non-list-initializes `unex` with `il,
@@ -172,7 +170,7 @@ unexpected(E) -> unexpected<E>;
 // \rSec3[expected.un.swap]{Swap}
 // \rSec3[expected.un.eq]{Equality operator}
 
-// \rSec3[expected.un.ref]{Partial specialization unexpected<E&>}
+// \rSec3[expected.un.ref]{Partial specialization `unexpected<E&>`}
 // Stores a pointer to the referenced object; keeps expected<> from needing a
 // separate set of specializations just to hold a reference error type.
 //! \at expected.un.ref

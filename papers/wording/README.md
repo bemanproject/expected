@@ -27,6 +27,11 @@ make clean-wording wording
 `wording` writes them all again. It deletes checked-in files, so it refuses to
 run when `specgen` is not found, and `make clean` does not reach it.
 
+The run validates the wording and fails on a finding: an error in a docblock,
+or a warning, which is something specgen checked and found wrong. The fragments
+are written first in either case, so what failed can be read in them. A note
+is something specgen cannot check for itself, and does not fail the run.
+
 GNU Make 4.3 or newer. One specgen invocation writes all six fragments, which
 the makefile states as a grouped target (`&:`) — a rule 4.2 parses as something
 else entirely, and would then run specgen once per fragment.
@@ -39,6 +44,24 @@ hand-maintained prerequisite list would forget.
 
 If embedded Clang cannot locate the C++ standard library, set
 `SPECGEN_GCC_TOOLCHAIN` to the GCC installation prefix before regenerating.
+
+## How far it is from the paper and from the draft
+
+```sh
+make wording-gap DRAFT_SOURCE=/path/to/draft/source
+```
+
+prints two measures and fails on neither. The first is the generated wording
+against the paper's hand-written `expected-new.tex`, counted in tokens of code
+and of prose, with what a minimal diff leaves on each side. The second is the
+change marks specgen makes when it diffs the generated wording against the
+working draft, clause by clause, beside the marks the paper makes by hand. A
+clause the paper does not change should have none.
+
+`DRAFT_SOURCE` is the `source` directory of a
+[cplusplus/draft](https://github.com/cplusplus/draft) checkout; without it the
+second measure is skipped. specgen reads whatever revision is there and records
+none, so name the revision when quoting the numbers.
 
 ## `expected.tex`
 

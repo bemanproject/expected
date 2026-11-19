@@ -1,15 +1,4 @@
-\rSec2[expected.bad]{Class template bad_expected_access}
-
-\indexlibrarymember{what}{bad_expected_access}%
-\begin{itemdecl}
-const char* what() const noexcept override;
-\end{itemdecl}
-
-\begin{itemdescr}
-\pnum
-\returns
-An implementation-defined ntbs, which during constant evaluation is encoded with the ordinary literal encoding (\iref{lex.ccon}).
-\end{itemdescr}
+\rSec2[expected.bad]{Class template \tcode{bad_expected_access}}
 
 \begin{codeblock}
 namespace std {
@@ -24,7 +13,7 @@ namespace std {
     constexpr const E&& error() const&& noexcept;
 
   private:
-    E @\exposidnc{unex}@; // exposition only
+    E @\exposid{unex}@; // \expos
   };
 }
 \end{codeblock}
@@ -52,7 +41,7 @@ const char* what() const noexcept override;
 \begin{itemdescr}
 \pnum
 \returns
-An implementation-defined ntbs, which during constant evaluation is encoded with the ordinary literal encoding (\iref{lex.ccon}).
+An \impldef{return value of \tcode{bad_expected_access<E>::what}} \ntbs{}, which during constant evaluation is encoded with the ordinary literal encoding\iref{lex.ccon}.
 \end{itemdescr}
 
 \indexlibrarymember{error}{bad_expected_access}%

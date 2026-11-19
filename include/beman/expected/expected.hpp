@@ -120,7 +120,7 @@ constexpr bool converts_from_any_cvref = std::disjunction_v<std::is_constructibl
                                                             std::is_convertible<const W, T>>;
 } // namespace detail
 
-// \rSec2[expected.expected]{Class template expected}
+// \rSec2[expected.expected]{Class template `expected`}
 // \rSec3[expected.object.general]{General}
 //! \mandates A program that instantiates the definition of `expected<T, E>`
 //! with a `T` that is not a valid value type for `expected` (that is,
@@ -130,10 +130,10 @@ constexpr bool converts_from_any_cvref = std::disjunction_v<std::is_constructibl
 //! E>` with an `E` that is not a valid template argument for `unexpected`
 //! is ill-formed.
 //! \remarks Any object of type `expected<T, E>` either contains a value of
-//! type `T` or a value of type `E` nested within it. Member `has_val`
-//! indicates whether the `expected<T, E>` object contains an object of type
-//! `T`. When `has_value()` is `false`, the error is `unex.error()`. The
-//! error is held as an `unexpected<E>`, and not as an `E`, so that `E` may
+//! type `T` or a value of type `E` nested within\iref{intro.object} it. Member
+//! `has_val` indicates whether the `expected<T, E>` object contains an object
+//! of type `T`. When `has_value()` is `false`, the error is `unex.error()`.
+//! The error is held as an `unexpected<E>`, and not as an `E`, so that `E` may
 //! be an lvalue reference type: an `E&` cannot be a union member, whereas
 //! `unexpected<E&>` holds a pointer to an external object.
 template <class T, class E>
@@ -160,9 +160,7 @@ class expected {
     template <class U>
     using rebind = expected<U, error_type>;
 
-    // -------------------------------------------------------------------------
-    // [expected.object.cons] Constructors
-    // -------------------------------------------------------------------------
+    // \ref{expected.object.cons}, constructors
 
     // Default constructor: value-initializes T
     constexpr expected() noexcept(std::is_nothrow_default_constructible_v<T>)
@@ -173,7 +171,6 @@ class expected {
     // then implicitly defined as deleted), and the more-constrained
     // non-trivial-path overload below is selected over it by constraint
     // subsumption whenever it is viable.
-    //! \at expected.object.cons
     //! \effects Direct-non-list-initializes `val` or `unex` (matching
     //! `rhs`'s active member) by trivial copy construction.
     //! \ensures `rhs.has_value() == this->has_value()`.
@@ -189,7 +186,6 @@ class expected {
     // Move constructor (trivial path). Unconstrained; see the copy
     // constructor above for why. No explicit noexcept: let the compiler
     // deduce it, so a non-movable-at-all E deletes rather than mismatches.
-    //! \at expected.object.cons
     //! \effects Direct-non-list-initializes `val` or `unex` (matching
     //! `rhs`'s active member) by trivial move construction.
     //! \ensures `rhs.has_value() == this->has_value()`.
@@ -272,7 +268,6 @@ class expected {
     // Deleted for reference E with value G: the referent lives inside the unexpected<G> object, so
     // binding E& to it would dangle once a temporary source is destroyed. Use (unexpect, lvalue), or
     // an unexpected<E&> holding an external object, instead.
-    //! \at expected.object.cons
     //! \group cvt-unexpected-ctor-deleted
     //! \remarks When `E` is a reference type, an overload taking
     //! `unexpected<G>` for a non-reference `G` is defined as deleted: the
@@ -284,7 +279,6 @@ class expected {
     constexpr expected(const unexpected<G>&) = BEMAN_EXPECTED_DELETE_MSG(
         "expected<T,E&>: cannot construct from unexpected<value>; the value would dangle — use unexpected<E&>");
 
-    //! \at expected.object.cons
     //! \also cvt-unexpected-ctor-deleted
     template <class G>
         requires(std::is_reference_v<E> && !std::is_reference_v<G>)
@@ -307,7 +301,6 @@ class expected {
     constexpr explicit expected(unexpect_t, Args&&... args);
 
     // Deleted: single argument would bind E& to a temporary — dangling prevention
-    //! \at expected.object.cons
     //! \group unexpect-ctor-deleted
     //! \remarks When `E` is a reference type, an overload with the same
     //! parameter types is defined as deleted if the single argument would
@@ -320,7 +313,6 @@ class expected {
 
     // Deleted catch-all: reference E, argument neither constructible nor a dangling case
     // (e.g. binding a non-const E& from a const lvalue).
-    //! \at expected.object.cons
     //! \also unexpect-ctor-deleted
     template <class... Args>
         requires(std::is_reference_v<E> && !std::is_constructible_v<E, Args...> &&
@@ -333,7 +325,6 @@ class expected {
         requires(!std::is_reference_v<E> && std::is_constructible_v<E, std::initializer_list<U>&, Args...>)
     constexpr explicit expected(unexpect_t, std::initializer_list<U> il, Args&&... args);
 
-    //! \at expected.object.cons
     //! \remarks An overload with the same parameter types is defined as
     //! deleted when `E` is an lvalue reference type. An initializer list
     //! cannot provide the required long-lived error referent.
@@ -342,11 +333,8 @@ class expected {
     constexpr expected(unexpect_t, std::initializer_list<U>, Args&&...) = BEMAN_EXPECTED_DELETE_MSG(
         "expected<T,E&>: initializer-list error construction cannot bind a reference; pass an lvalue reference");
 
-    // -------------------------------------------------------------------------
-    // [expected.object.dtor] Destructor
-    // -------------------------------------------------------------------------
+    // \ref{expected.object.dtor}, destructor
 
-    //! \at expected.object.dtor
     //! \effects None: `val` or `unex` (whichever is active) has a trivial
     //! destructor.
     //! \remarks This destructor is trivial.
@@ -357,12 +345,9 @@ class expected {
     constexpr ~expected()
         requires(!(std::is_trivially_destructible_v<T> && std::is_trivially_destructible_v<E>));
 
-    // -------------------------------------------------------------------------
-    // [expected.object.assign] Assignment
-    // -------------------------------------------------------------------------
+    // \ref{expected.object.assign}, assignment
 
     // Copy assignment (trivial path)
-    //! \at expected.object.assign
     //! \effects Trivially copies `rhs`'s active member into `*this`.
     //! \returns `*this`.
     //! \remarks This operator is trivial.
@@ -384,6 +369,20 @@ class expected {
                    std::is_trivially_destructible_v<T> && std::is_trivially_copy_constructible_v<E> &&
                    std::is_trivially_copy_assignable_v<E> && std::is_trivially_destructible_v<E>));
 
+    // This deleted copy assignment is satisfied exactly when neither the
+    // trivial nor the non-trivial path above is, so some candidate always is.
+    // It is here for clang. Clang (17 through at least 24) treats a class
+    // whose copy-assignment candidates all have unsatisfied constraints as not
+    // trivially copyable, although none of them is eligible ([special]) and
+    // [class.prop] counts only eligible ones; gcc gets it right. Without it,
+    // expected<int, MoveOnly> is trivially copyable under gcc and not under
+    // clang, while libstdc++'s std::expected is under both. A deleted
+    // candidate is not eligible either, so the triviality it restores is the
+    // one the standard gives. It is copy assignment only: a satisfied deleted
+    // move assignment would win overload resolution for an rvalue and stop it
+    // falling back to copy assignment. expected<void, E> and expected<T&, E>
+    // carry the same overload for the same reason. It is not wording, so it
+    // is `\omit`ted.
     //! \omit
     constexpr expected& operator=(const expected&)
         requires(!(std::is_trivially_copy_constructible_v<T> && std::is_trivially_copy_assignable_v<T> &&
@@ -395,7 +394,6 @@ class expected {
     = delete;
 
     // Move assignment (trivial path)
-    //! \at expected.object.assign
     //! \effects Trivially moves `rhs`'s active member into `*this`.
     //! \returns `*this`.
     //! \remarks This operator is trivial.
@@ -453,7 +451,6 @@ class expected {
     constexpr expected& operator=(unexpected<G>&& e);
 
     // Deleted for reference E with value G: would rebind E& to unexpected<G>'s temporary storage.
-    //! \at expected.object.assign
     //! \group cvt-unexpected-assign-deleted
     //! \remarks When `E` is a reference type, an overload taking
     //! `unexpected<G>` for a non-reference `G` is defined as deleted: it
@@ -463,7 +460,6 @@ class expected {
     constexpr expected& operator=(const unexpected<G>&) = BEMAN_EXPECTED_DELETE_MSG(
         "expected<T,E&>: cannot assign from unexpected<value>; the value would dangle — use unexpected<E&>");
 
-    //! \at expected.object.assign
     //! \also cvt-unexpected-assign-deleted
     template <class G>
         requires(std::is_reference_v<E> && !std::is_reference_v<G>)
@@ -479,9 +475,7 @@ class expected {
         requires std::is_nothrow_constructible_v<T, std::initializer_list<U>&, Args...>
     constexpr T& emplace(std::initializer_list<U> il, Args&&... args) noexcept;
 
-    // -------------------------------------------------------------------------
-    // [expected.object.swap] Swap
-    // -------------------------------------------------------------------------
+    // \ref{expected.object.swap}, swap
 
     constexpr void swap(expected& rhs) noexcept(std::is_nothrow_move_constructible_v<T> &&
                                                 std::is_nothrow_swappable_v<T> &&
@@ -491,7 +485,6 @@ class expected {
                  std::is_move_constructible_v<T> && std::is_move_constructible_v<E> &&
                  (std::is_nothrow_move_constructible_v<T> || std::is_nothrow_move_constructible_v<E>));
 
-    //! \at expected.object.swap
     //! \effects Equivalent to `x.swap(y)`.
     friend constexpr void swap(expected& x, expected& y) noexcept(noexcept(x.swap(y)))
         requires(std::is_swappable_v<T> && (std::is_reference_v<E> || std::is_swappable_v<E>) &&
@@ -501,9 +494,7 @@ class expected {
         x.swap(y);
     }
 
-    // -------------------------------------------------------------------------
-    // [expected.object.obs] Observers
-    // -------------------------------------------------------------------------
+    // \ref{expected.object.obs}, observers
 
     constexpr const T* operator->() const noexcept;
     constexpr T*       operator->() noexcept;
@@ -540,9 +531,7 @@ class expected {
         requires(std::is_move_constructible_v<error_value_type> && std::is_convertible_v<G, error_value_type>)
     constexpr error_value_type error_or(G&& def) &&;
 
-    // -------------------------------------------------------------------------
-    // [expected.object.monadic] Monadic operations
-    // -------------------------------------------------------------------------
+    // \ref{expected.object.monadic}, monadic operations
 
     template <class F>
         requires std::is_constructible_v<E, E&>
@@ -596,11 +585,8 @@ class expected {
         requires std::is_constructible_v<T, const T&&>
     constexpr auto transform_error(F&& f) const&&;
 
-    // -------------------------------------------------------------------------
-    // [expected.object.eq] Equality operators (hidden friends)
-    // -------------------------------------------------------------------------
+    // \ref{expected.object.eq}, equality operators
 
-    //! \at expected.object.eq
     //! \mandates `!is_void_v<T2>` is `true`. The expression `*x == *y` is
     //! well-formed and its result is convertible to `bool`. The expression
     //! `x.error() == y.error()` is well-formed and its result is
@@ -618,7 +604,6 @@ class expected {
         return x.error() == y.error();
     }
 
-    //! \at expected.object.eq
     //! \mandates `T2` is not a specialization of `expected`. The expression
     //! `*x == val` is well-formed and its result is convertible to `bool`.
     //! \returns `x.has_value() && static_cast<bool>(*x == val)`.
@@ -628,7 +613,6 @@ class expected {
         return x.has_value() && static_cast<bool>(*x == val);
     }
 
-    //! \at expected.object.eq
     //! \mandates The expression `x.error() == e.error()` is well-formed and
     //! its result is convertible to `bool`.
     //! \returns `!x.has_value() && static_cast<bool>(x.error() ==
@@ -639,7 +623,7 @@ class expected {
     }
 
   private:
-    //! \expos
+    //! \expos(has_val)
     bool has_val_;
     union {
         //! \expos
@@ -648,22 +632,6 @@ class expected {
         unexpected<E> unex_;
     };
 };
-
-// The deleted copy assignment, the `\omit`ted one after the trivial and
-// non-trivial paths, is satisfied exactly when neither of them is, so some
-// candidate always is. It is here for clang. Clang (17 through at least 24)
-// treats a class whose copy-assignment candidates all have unsatisfied
-// constraints as not trivially copyable, although none of them is eligible
-// ([special]) and [class.prop] counts only eligible ones; gcc gets it right.
-// Without it, expected<int, MoveOnly> is trivially copyable under gcc and not
-// under clang, while libstdc++'s std::expected is under both. A deleted
-// candidate is not eligible either, so the triviality it restores is the one
-// the standard gives. It is copy assignment only: a satisfied deleted move
-// assignment would win overload resolution for an rvalue and stop it falling
-// back to copy assignment. expected<void, E> and expected<T&, E> carry the
-// same overload for the same reason. It is not wording, so it is `\omit`ted,
-// and a comment on it would be carried into the synopsis, which is why this
-// one sits here.
 
 // \rSec3[expected.object.cons]{Constructors}
 
@@ -722,13 +690,12 @@ constexpr expected<T, E>::expected(expected&& rhs) noexcept(std::is_nothrow_move
 
 //! \group cvt-copy-ctor
 //! \constraints `is_constructible_v<T, const U&>` is `true`; and
-//! `is_constructible_v<E, const G&>` is `true`; and if `T` is not `bool`,
-//! `converts-from-any-cvref<T, expected<U, G>>` is `false`; and
+//! `is_constructible_v<E, const G&>` is `true`; and if `T` is not \cv{}
+//! `bool`, `converts-from-any-cvref<T, expected<U, G>>` is `false`; and
 //! `is_constructible_v<unexpected<E>, expected<U, G>&>` is `false`; and
 //! `is_constructible_v<unexpected<E>, expected<U, G>>` is `false`; and
-//! `is_constructible_v<unexpected<E>, const expected<U, G>&>` is `false`;
-//! and `is_constructible_v<unexpected<E>, const expected<U, G>>` is
-//! `false`.
+//! `is_constructible_v<unexpected<E>, const expected<U, G>&>` is `false`; and
+//! `is_constructible_v<unexpected<E>, const expected<U, G>>` is `false`.
 //! \effects If `rhs.has_value()`, direct-non-list-initializes `val` with
 //! `*rhs`. Otherwise, direct-non-list-initializes `unex` with
 //! `rhs.error()`.
@@ -805,7 +772,7 @@ constexpr expected<T, E>::expected(expected<U, G>&& rhs) : has_val_(rhs.has_valu
 //! `is_same_v<remove_cvref_t<U>, unexpect_t>` is `false`; and
 //! `is_same_v<remove_cvref_t<U>, expected>` is `false`; and
 //! `is_constructible_v<T, U>` is `true`; and `remove_cvref_t<U>` is not a
-//! specialization of `unexpected`; and if `T` is `bool`,
+//! specialization of `unexpected`; and if `T` is \cv{} `bool`,
 //! `remove_cvref_t<U>` is not a specialization of `expected`.
 //! \effects Direct-non-list-initializes `val` with `std::forward<U>(v)`.
 //! \ensures `has_value()` is `true`.
@@ -1197,7 +1164,8 @@ constexpr T& expected<T, E>::emplace(std::initializer_list<U> il, Args&&... args
 //! unchanged), leaving `has_value()` `false` and `rhs.has_value()` `true`.
 //! If `rhs.has_value()` is `true` and `this->has_value()` is `false`,
 //! equivalent to `rhs.swap(*this)`.
-//! \throws Any exception thrown by the expressions in the Effects.
+//! \throws Any exception thrown by the expressions in the
+//! \Fundescx{Effects}.
 //! \remarks The exception specification is equivalent to
 //! `is_nothrow_move_constructible_v<T> && is_nothrow_swappable_v<T> &&
 //! is_nothrow_move_constructible_v<E> && (is_reference_v<E> ||
@@ -1840,16 +1808,16 @@ constexpr auto expected<T, E>::transform_error(F&& f) const&& {
 // [expected.void] Partial specialization for void value type
 // =============================================================================
 
-// \rSec2[expected.void]{Partial specialization of expected for void types}
+// \rSec2[expected.void]{Partial specialization of `expected` for `void` types}
 // \rSec3[expected.void.general]{General}
 //! \at expected.void.general
 //! \mandates A program that instantiates the definition of `expected<T, E>`
 //! with an `E` that is not a valid template argument for `unexpected` is
 //! ill-formed.
-//! \remarks Any object of type `expected<T, E>` either represents a value
-//! of type `T`, or contains a value of type `E` nested within it. Member
-//! `has_val` indicates whether the `expected<T, E>` object represents a
-//! value of type `T`. When `has_value()` is `false`, the error is
+//! \remarks Any object of type `expected<T, E>` either represents a value of
+//! type `T`, or contains a value of type `E` nested within\iref{intro.object}
+//! it. Member `has_val` indicates whether the `expected<T, E>` object
+//! represents a value of type `T`. When `has_value()` is `false`, the error is
 //! `unex.error()`.
 template <class E>
 class expected<void, E> {
@@ -1872,16 +1840,13 @@ class expected<void, E> {
     template <class U>
     using rebind = expected<U, error_type>;
 
-    // -------------------------------------------------------------------------
-    // [expected.void.cons] Constructors
-    // -------------------------------------------------------------------------
+    // \ref{expected.void.cons}, constructors
 
     constexpr expected() noexcept;
 
     // Unconstrained trivial-path candidate: see the primary template's copy
     // constructor for why (the sole declaration when E is not copy
     // constructible at all; subsumed by the non-trivial path otherwise).
-    //! \at expected.void.cons
     //! \merge
     constexpr expected(const expected&) = default;
 
@@ -1890,7 +1855,6 @@ class expected<void, E> {
 
     // Unconstrained; no explicit noexcept — see the primary template's move
     // constructor for why.
-    //! \at expected.void.cons
     //! \merge
     constexpr expected(expected&&) = default;
 
@@ -1941,7 +1905,6 @@ class expected<void, E> {
 
     // Deleted for reference E with value G: the referent lives inside the temporary unexpected<G>, so
     // binding E& to it would dangle once the source is destroyed. Use (unexpect, lvalue) instead.
-    //! \at expected.void.cons
     //! \group void-cvt-unexpected-ctor-deleted
     //! \remarks When `E` is a reference type, an overload taking
     //! `unexpected<G>` for a non-reference `G` is defined as deleted: the
@@ -1953,7 +1916,6 @@ class expected<void, E> {
     constexpr expected(const unexpected<G>&) = BEMAN_EXPECTED_DELETE_MSG(
         "expected<void,E&>: cannot construct from unexpected<value>; the value would dangle — use unexpected<E&>");
 
-    //! \at expected.void.cons
     //! \also void-cvt-unexpected-ctor-deleted
     template <class G>
         requires(std::is_reference_v<E> && !std::is_reference_v<G>)
@@ -1969,7 +1931,6 @@ class expected<void, E> {
     constexpr explicit expected(unexpect_t, Args&&... args);
 
     // Deleted: single argument would bind E& to a temporary — dangling prevention
-    //! \at expected.void.cons
     //! \group void-unexpect-ctor-deleted
     //! \remarks When `E` is a reference type, an overload with the same
     //! parameter types is defined as deleted if the single argument would
@@ -1982,7 +1943,6 @@ class expected<void, E> {
 
     // Deleted catch-all: reference E, argument neither constructible nor a dangling case
     // (e.g. binding a non-const E& from a const lvalue).
-    //! \at expected.void.cons
     //! \also void-unexpect-ctor-deleted
     template <class... Args>
         requires(std::is_reference_v<E> && !std::is_constructible_v<E, Args...> &&
@@ -1995,7 +1955,6 @@ class expected<void, E> {
         requires(!std::is_reference_v<E> && std::is_constructible_v<E, std::initializer_list<U>&, Args...>)
     constexpr explicit expected(unexpect_t, std::initializer_list<U> il, Args&&... args);
 
-    //! \at expected.void.cons
     //! \remarks An overload with the same parameter types is defined as
     //! deleted when `E` is an lvalue reference type. An initializer list
     //! cannot provide the required long-lived error referent.
@@ -2019,11 +1978,8 @@ class expected<void, E> {
                  !detail::reference_constructs_from_temporary_v<E, G&>)
     constexpr explicit(!std::is_convertible_v<G&, E>) expected(expected<void, G&>&& rhs);
 
-    // -------------------------------------------------------------------------
-    // [expected.void.dtor] Destructor
-    // -------------------------------------------------------------------------
+    // \ref{expected.void.dtor}, destructor
 
-    //! \at expected.void.dtor
     //! \merge
     constexpr ~expected()
         requires std::is_trivially_destructible_v<E>
@@ -2032,12 +1988,9 @@ class expected<void, E> {
     constexpr ~expected()
         requires(!std::is_trivially_destructible_v<E>);
 
-    // -------------------------------------------------------------------------
-    // [expected.void.assign] Assignment
-    // -------------------------------------------------------------------------
+    // \ref{expected.void.assign}, assignment
 
     // Copy assignment (trivial path)
-    //! \at expected.void.assign
     //! \merge
     constexpr expected& operator=(const expected&)
         requires(std::is_trivially_copy_constructible_v<E> && std::is_trivially_copy_assignable_v<E> &&
@@ -2059,7 +2012,6 @@ class expected<void, E> {
     = delete;
 
     // Move assignment (trivial path)
-    //! \at expected.void.assign
     //! \merge
     constexpr expected& operator=(expected&&) noexcept
         requires(std::is_trivially_move_constructible_v<E> && std::is_trivially_move_assignable_v<E> &&
@@ -2094,7 +2046,6 @@ class expected<void, E> {
     constexpr expected& operator=(unexpected<G>&& e);
 
     // Deleted for reference E with value G: would bind E& to storage inside the temporary unexpected.
-    //! \at expected.void.assign
     //! \group void-cvt-unexpected-assign-deleted
     //! \remarks When `E` is a reference type, an overload taking
     //! `unexpected<G>` for a non-reference `G` is defined as deleted: it
@@ -2104,7 +2055,6 @@ class expected<void, E> {
     constexpr expected& operator=(const unexpected<G>&) = BEMAN_EXPECTED_DELETE_MSG(
         "expected<void,E&>: cannot assign from unexpected<value>; the value would dangle — use unexpected<E&>");
 
-    //! \at expected.void.assign
     //! \also void-cvt-unexpected-assign-deleted
     template <class G>
         requires(std::is_reference_v<E> && !std::is_reference_v<G>)
@@ -2113,15 +2063,12 @@ class expected<void, E> {
 
     constexpr void emplace() noexcept;
 
-    // -------------------------------------------------------------------------
-    // [expected.void.swap] Swap
-    // -------------------------------------------------------------------------
+    // \ref{expected.void.swap}, swap
 
     constexpr void swap(expected& rhs) noexcept(std::is_nothrow_move_constructible_v<E> &&
                                                 (std::is_reference_v<E> || std::is_nothrow_swappable_v<E>))
         requires((std::is_reference_v<E> || std::is_swappable_v<E>) && std::is_move_constructible_v<E>);
 
-    //! \at expected.void.swap
     //! \effects Equivalent to `x.swap(y)`.
     friend constexpr void swap(expected& x, expected& y) noexcept(noexcept(x.swap(y)))
         requires((std::is_reference_v<E> || std::is_swappable_v<E>) && std::is_move_constructible_v<E>)
@@ -2129,9 +2076,7 @@ class expected<void, E> {
         x.swap(y);
     }
 
-    // -------------------------------------------------------------------------
-    // [expected.void.obs] Observers
-    // -------------------------------------------------------------------------
+    // \ref{expected.void.obs}, observers
 
     constexpr explicit operator bool() const noexcept;
     constexpr bool     has_value() const noexcept;
@@ -2159,7 +2104,6 @@ class expected<void, E> {
 
     // Deleted: value_or is not available for void expected. Gated to reference E only so that,
     // for value E, no value_or overload is declared at all (there is nothing to delete against).
-    //! \at expected.void.obs
     //! \remarks `expected<void, E>` has no `value_or` member: there is no
     //! value to fall back from. This overload exists only to give a clear
     //! diagnostic when `E` is a reference type, and is defined as deleted.
@@ -2169,9 +2113,7 @@ class expected<void, E> {
         BEMAN_EXPECTED_DELETE_MSG("expected<void,E>: value_or is not defined for void value_type; there is no "
                                   "value to fall back from — use has_value()/error()");
 
-    // -------------------------------------------------------------------------
-    // [expected.void.monadic] Monadic operations
-    // -------------------------------------------------------------------------
+    // \ref{expected.void.monadic}, monadic operations
 
     template <class F>
         requires std::is_constructible_v<E, E&>
@@ -2217,11 +2159,8 @@ class expected<void, E> {
     template <class F>
     constexpr auto transform_error(F&& f) const&&;
 
-    // -------------------------------------------------------------------------
-    // [expected.void.eq] Equality operators (hidden friends)
-    // -------------------------------------------------------------------------
+    // \ref{expected.void.eq}, equality operators
 
-    //! \at expected.void.eq
     //! \mandates `is_void_v<T2>` is `true`. The expression `x.error() ==
     //! y.error()` is well-formed and its result is convertible to `bool`.
     //! \returns If `x.has_value() != y.has_value()`, `false`; otherwise, if
@@ -2237,7 +2176,6 @@ class expected<void, E> {
         return x.error() == y.error();
     }
 
-    //! \at expected.void.eq
     //! \mandates The expression `x.error() == e.error()` is well-formed and
     //! its result is convertible to `bool`.
     //! \returns `!x.has_value() && static_cast<bool>(x.error() ==
@@ -2248,30 +2186,29 @@ class expected<void, E> {
     }
 
   private:
-    //! \expos
+    //! \expos(has_val)
     bool has_val_;
     union {
+        // `void_` is the value state's active union member. It is not
+        // exposition-only: the draft's union holds `unex` alone, and specgen
+        // drops an unmarked alternative from the synopsis.
+        //
+        // It is here for gcc. Under -fsanitize=address the use-after-scope
+        // markers stop gcc forwarding a just-stored `has_val_` to the load
+        // that guards a later read of `unex_`, so a value-state object whose
+        // union was never written gets that read reported as
+        // -Wmaybe-uninitialized. Initializing `void_` in every constructor
+        // that can end in the value state fixes it: the front end folds the
+        // constructor to an aggregate, and because an empty member does not
+        // fill the union, the gimplifier zero-clears the whole object before
+        // storing the fields, which leaves nothing unwritten. libstdc++'s
+        // expected<void, E> carries the same member for the same reason.
         struct {
         } void_;
         //! \expos
         unexpected<E> unex_;
     };
 };
-
-// `void_` is the value state's active union member. It is not exposition-only
-// -- the draft's union holds `unex` alone, and specgen drops an unmarked
-// alternative from the synopsis -- and a comment on it would be carried into
-// the synopsis, which is why this one sits here.
-//
-// It is here for gcc. Under -fsanitize=address the use-after-scope markers
-// stop gcc forwarding a just-stored `has_val_` to the load that guards a
-// later read of `unex_`, so a value-state object whose union was never
-// written gets that read reported as -Wmaybe-uninitialized. Initializing
-// `void_` in every constructor that can end in the value state fixes it: the
-// front end folds the constructor to an aggregate, and because an empty
-// member does not fill the union, the gimplifier zero-clears the whole object
-// before storing the fields, which leaves nothing unwritten. libstdc++'s
-// expected<void, E> carries the same member for the same reason.
 
 // =============================================================================
 // \rSec3[expected.void.cons]{Constructors}
@@ -2627,7 +2564,8 @@ constexpr void expected<void, E>::emplace() noexcept {
 //! `std::move(unex)`, destroys `unex`, and leaves `has_value()` `false`
 //! and `rhs.has_value()` `true`. If `rhs.has_value()` is `true` and
 //! `this->has_value()` is `false`, equivalent to `rhs.swap(*this)`.
-//! \throws Any exception thrown by the expressions in the Effects.
+//! \throws Any exception thrown by the expressions in the
+//! \Fundescx{Effects}.
 //! \remarks The exception specification is equivalent to
 //! `is_nothrow_move_constructible_v<E> && (is_reference_v<E> ||
 //! is_nothrow_swappable_v<E>)`.
@@ -3115,7 +3053,7 @@ constexpr auto expected<void, E>::transform_error(F&& f) const&& {
 // (E may be an object type or an lvalue reference to one)
 // =============================================================================
 
-// \rSec2[expected.ref]{Partial specialization of expected for reference types}
+// \rSec2[expected.ref]{Partial specialization of `expected` for reference types}
 // \rSec3[expected.ref.general]{General}
 //! \at expected.ref.general
 //! \mandates A program that instantiates the definition of `expected<T&,
@@ -3153,11 +3091,8 @@ class expected<T&, E> {
     template <class U>
     using rebind = expected<U, error_type>;
 
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
+    // \ref{expected.ref.cons}, constructors
 
-    //! \at expected.ref.cons
     //! \remarks `expected<T&, E>` has no default constructor: a reference
     //! cannot be null, so there is no empty state to default-construct
     //! into.
@@ -3165,7 +3100,6 @@ class expected<T&, E> {
 
     // Copy constructor (trivial path). Unconstrained; see the primary
     // template's copy constructor for why.
-    //! \at expected.ref.cons
     //! \effects If `rhs.has_value()` is `true`, initializes `val` with
     //! `rhs.val`, so that `*this` and `rhs` refer to the same object;
     //! otherwise, initializes `unex` with `rhs.unex`.
@@ -3174,18 +3108,10 @@ class expected<T&, E> {
     constexpr expected(const expected&) = default;
 
     // Copy constructor (non-trivial path)
-    //! \at expected.ref.cons
-    //! \effects If `rhs.has_value()` is `true`, initializes `val` with
-    //! `rhs.val`, so that `*this` and `rhs` refer to the same object;
-    //! otherwise, initializes `unex` with `rhs.unex`.
-    //! \ensures `rhs.has_value() == this->has_value()`.
-    //! \remarks This constructor is defined as deleted unless
-    //! `is_copy_constructible_v<E>` is `true`.
     constexpr expected(const expected& rhs) noexcept(std::is_nothrow_copy_constructible_v<E>)
         requires(std::is_copy_constructible_v<E> && !std::is_trivially_copy_constructible_v<E>);
 
     // Move constructor (trivial path). Unconstrained; no explicit noexcept.
-    //! \at expected.ref.cons
     //! \effects If `rhs.has_value()` is `true`, initializes `val` with
     //! `rhs.val`, so that `*this` and `rhs` refer to the same object;
     //! otherwise, initializes `unex` with `std::move(rhs.unex)`.
@@ -3194,19 +3120,10 @@ class expected<T&, E> {
     constexpr expected(expected&&) = default;
 
     // Move constructor (non-trivial path)
-    //! \at expected.ref.cons
-    //! \effects If `rhs.has_value()` is `true`, initializes `val` with
-    //! `rhs.val`, so that `*this` and `rhs` refer to the same object;
-    //! otherwise, initializes `unex` with `std::move(rhs.unex)`.
-    //! \ensures `rhs.has_value() == this->has_value()`.
-    //! \remarks The exception specification is equivalent to
-    //! `is_nothrow_move_constructible_v<E>`. This constructor is defined as
-    //! deleted unless `is_move_constructible_v<E>` is `true`.
     constexpr expected(expected&& rhs) noexcept(std::is_nothrow_move_constructible_v<E>)
         requires(std::is_move_constructible_v<E> && !std::is_trivially_move_constructible_v<E>);
 
     // Deleted: no in-place value constructor — T& cannot be constructed in-place
-    //! \at expected.ref.cons
     //! \remarks `expected<T&, E>` has no in-place value constructor: `T&`
     //! cannot be constructed in-place. Pass a `U` convertible to `T&`
     //! instead.
@@ -3216,7 +3133,6 @@ class expected<T&, E> {
                                   "in-place — pass a U convertible to T&");
 
     // Value constructor — takes U that can bind to T&
-    //! \at expected.ref.cons
     //! \constraints `remove_cvref_t<U>` is not `in_place_t`, `expected`, or
     //! a specialization of `unexpected`; `is_constructible_v<T&, U>` is
     //! `true`; and `reference_constructs_from_temporary_v<T&, U>` is
@@ -3236,7 +3152,6 @@ class expected<T&, E> {
     }
 
     // Deleted: binding a temporary to T& creates a dangling reference
-    //! \at expected.ref.cons
     //! \remarks A constructor for which
     //! `reference_constructs_from_temporary_v<T&, U>` is `true` — one that
     //! would bind `T&` to a temporary — is defined as deleted.
@@ -3296,7 +3211,6 @@ class expected<T&, E> {
     // Deleted for reference E with value G: the referent lives inside the unexpected<G> object, so
     // binding E& to it would dangle once a temporary source is destroyed. Use (unexpect, lvalue), or
     // an unexpected<E&> holding an external object, instead.
-    //! \at expected.ref.cons
     //! \group ref-cvt-unexpected-ctor-deleted
     //! \remarks When `E` is a reference type, an overload taking
     //! `unexpected<G>` for a non-reference `G` is defined as deleted: the
@@ -3308,7 +3222,6 @@ class expected<T&, E> {
     constexpr expected(const unexpected<G>&) = BEMAN_EXPECTED_DELETE_MSG(
         "expected<T&,E&>: cannot construct from unexpected<value>; the value would dangle — use unexpected<E&>");
 
-    //! \at expected.ref.cons
     //! \also ref-cvt-unexpected-ctor-deleted
     template <class G>
         requires(std::is_reference_v<E> && !std::is_reference_v<G>)
@@ -3321,7 +3234,6 @@ class expected<T&, E> {
     constexpr explicit expected(unexpect_t, Args&&... args);
 
     // Deleted: single argument would bind E& to a temporary — dangling prevention
-    //! \at expected.ref.cons
     //! \group ref-unexpect-ctor-deleted
     //! \remarks When `E` is a reference type, an overload with the same
     //! parameter types is defined as deleted if the single argument would
@@ -3333,7 +3245,6 @@ class expected<T&, E> {
         "expected<T&,E&>: unexpect argument would bind a temporary that dangles; pass an lvalue reference");
 
     // Deleted catch-all: reference E, argument neither constructible nor a dangling case
-    //! \at expected.ref.cons
     //! \also ref-unexpect-ctor-deleted
     template <class... Args>
         requires(std::is_reference_v<E> && !std::is_constructible_v<E, Args...> &&
@@ -3346,7 +3257,6 @@ class expected<T&, E> {
         requires(!std::is_reference_v<E> && std::is_constructible_v<E, std::initializer_list<U>&, Args...>)
     constexpr explicit expected(unexpect_t, std::initializer_list<U> il, Args&&... args);
 
-    //! \at expected.ref.cons
     //! \remarks An overload with the same parameter types is defined as
     //! deleted when `E` is an lvalue reference type. An initializer list
     //! cannot provide the required long-lived error referent.
@@ -3355,11 +3265,8 @@ class expected<T&, E> {
     constexpr expected(unexpect_t, std::initializer_list<U>, Args&&...) = BEMAN_EXPECTED_DELETE_MSG(
         "expected<T&,E&>: initializer-list error construction cannot bind a reference; pass an lvalue reference");
 
-    // -------------------------------------------------------------------------
-    // Destructor
-    // -------------------------------------------------------------------------
+    // \ref{expected.ref.dtor}, destructor
 
-    //! \at expected.ref.dtor
     //! \effects None: `*this` never owns the object it refers to; `T` is
     //! never destroyed.
     //! \remarks This destructor is trivial.
@@ -3367,19 +3274,12 @@ class expected<T&, E> {
         requires std::is_trivially_destructible_v<E>
     = default;
 
-    //! \at expected.ref.dtor
-    //! \effects If `has_value()` is `false`, destroys `unex`. `T` is not
-    //! destroyed; `*this` never owns the object it refers to.
-    //! \remarks This destructor is trivial if `E` is trivially destructible.
     constexpr ~expected()
         requires(!std::is_trivially_destructible_v<E>);
 
-    // -------------------------------------------------------------------------
-    // Assignment (rebind semantics)
-    // -------------------------------------------------------------------------
+    // \ref{expected.ref.assign}, assignment
 
     // Copy assignment (trivial path)
-    //! \at expected.ref.assign
     //! \effects If `rhs.has_value()` is `true`: if `has_value()` is `true`,
     //! assigns `rhs.val` to `val`; otherwise destroys `unex` and
     //! initializes `val` with `rhs.val`. If `rhs.has_value()` is `false`,
@@ -3396,17 +3296,6 @@ class expected<T&, E> {
     = default;
 
     // Copy assignment (non-trivial path)
-    //! \at expected.ref.assign
-    //! \effects If `rhs.has_value()` is `true`: if `has_value()` is `true`,
-    //! assigns `rhs.val` to `val`; otherwise destroys `unex` and
-    //! initializes `val` with `rhs.val`. If `rhs.has_value()` is `false`,
-    //! the error of `rhs` is assigned to or used to initialize `unex`, as
-    //! for the primary template. In every case `*this` comes to refer to
-    //! the object `rhs` refers to, or to hold the error of `rhs`.
-    //! \returns `*this`.
-    //! \remarks This operator is defined as deleted unless
-    //! `is_copy_assignable_v<E>` is `true` and `is_copy_constructible_v<E>`
-    //! is `true`.
     constexpr expected& operator=(const expected& rhs) noexcept(std::is_nothrow_copy_constructible_v<E> &&
                                                                 std::is_nothrow_copy_assignable_v<E>)
         requires((std::is_reference_v<E> || (std::is_copy_constructible_v<E> && std::is_copy_assignable_v<E>)) &&
@@ -3421,7 +3310,6 @@ class expected<T&, E> {
     = delete;
 
     // Move assignment (trivial path)
-    //! \at expected.ref.assign
     //! \effects If `rhs.has_value()` is `true`: if `has_value()` is `true`,
     //! assigns `rhs.val` to `val`; otherwise destroys `unex` and
     //! initializes `val` with `rhs.val`. If `rhs.has_value()` is `false`,
@@ -3435,18 +3323,6 @@ class expected<T&, E> {
     = default;
 
     // Move assignment (non-trivial path)
-    //! \at expected.ref.assign
-    //! \effects If `rhs.has_value()` is `true`: if `has_value()` is `true`,
-    //! assigns `rhs.val` to `val`; otherwise destroys `unex` and
-    //! initializes `val` with `rhs.val`. If `rhs.has_value()` is `false`,
-    //! the error of `rhs` is assigned to or used to initialize `unex`, as
-    //! for the primary template.
-    //! \returns `*this`.
-    //! \remarks The exception specification is equivalent to
-    //! `is_nothrow_move_constructible_v<E> &&
-    //! is_nothrow_move_assignable_v<E>`. This operator is defined as
-    //! deleted unless `is_move_assignable_v<E>` is `true` and
-    //! `is_move_constructible_v<E>` is `true`.
     constexpr expected& operator=(expected&& rhs) noexcept(std::is_nothrow_move_constructible_v<E> &&
                                                            std::is_nothrow_move_assignable_v<E>)
         requires((std::is_reference_v<E> || (std::is_move_constructible_v<E> && std::is_move_assignable_v<E>)) &&
@@ -3454,7 +3330,6 @@ class expected<T&, E> {
                    std::is_trivially_destructible_v<E>));
 
     // Rebind reference from lvalue
-    //! \at expected.ref.assign
     //! \constraints `remove_cvref_t<U>` is neither `expected` nor a
     //! specialization of `unexpected`, `is_constructible_v<T&, U>` is
     //! `true`, and `reference_constructs_from_temporary_v<T&, U>` is
@@ -3503,7 +3378,6 @@ class expected<T&, E> {
     constexpr expected& operator=(unexpected<G>&& e);
 
     // Deleted for reference E with value G: would rebind E& to unexpected<G>'s temporary storage.
-    //! \at expected.ref.assign
     //! \group ref-cvt-unexpected-assign-deleted
     //! \remarks When `E` is a reference type, an overload taking
     //! `unexpected<G>` for a non-reference `G` is defined as deleted: it
@@ -3513,7 +3387,6 @@ class expected<T&, E> {
     constexpr expected& operator=(const unexpected<G>&) = BEMAN_EXPECTED_DELETE_MSG(
         "expected<T&,E&>: cannot assign from unexpected<value>; the value would dangle — use unexpected<E&>");
 
-    //! \at expected.ref.assign
     //! \also ref-cvt-unexpected-assign-deleted
     template <class G>
         requires(std::is_reference_v<E> && !std::is_reference_v<G>)
@@ -3521,34 +3394,16 @@ class expected<T&, E> {
         "expected<T&,E&>: cannot assign from unexpected<value>; the value would dangle — use unexpected<E&>");
 
     // emplace — rebind the reference
-    //! \at expected.ref.assign
-    //! \constraints `is_constructible_v<T&, U>` is `true` and
-    //! `reference_constructs_from_temporary_v<T&, U>` is `false`.
-    //! \effects Rebinds `*this` to refer to the object bound by `T& r =
-    //! std::forward<U>(u);`: if `has_value()` is `false`, destroys `unex`
-    //! first. Sets `val` to `addressof(r)` and `has_val` to `true`.
-    //! \returns `*val`.
     template <class U = T>
         requires(std::is_constructible_v<T&, U> && !detail::reference_constructs_from_temporary_v<T&, U>)
     constexpr T& emplace(U&& u) noexcept(std::is_nothrow_constructible_v<T&, U>);
 
-    // -------------------------------------------------------------------------
-    // Swap
-    // -------------------------------------------------------------------------
+    // \ref{expected.ref.swap}, swap
 
-    //! \at expected.ref.swap
-    //! \effects Exchanges the states of `*this` and `rhs`. When both hold
-    //! values, exchanges `val` and `rhs.val` — the referenced objects are
-    //! not swapped. Otherwise behaves as the primary template's `swap`
-    //! does for the error.
-    //! \remarks The exception specification is equivalent to
-    //! `is_nothrow_move_constructible_v<E> && (is_reference_v<E> ||
-    //! is_nothrow_swappable_v<E>)`.
     constexpr void swap(expected& rhs) noexcept(std::is_nothrow_move_constructible_v<E> &&
                                                 (std::is_reference_v<E> || std::is_nothrow_swappable_v<E>))
         requires((std::is_reference_v<E> || std::is_swappable_v<E>) && std::is_move_constructible_v<E>);
 
-    //! \at expected.ref.swap
     //! \effects Equivalent to `x.swap(y)`.
     friend constexpr void swap(expected& x, expected& y) noexcept(noexcept(x.swap(y)))
         requires((std::is_reference_v<E> || std::is_swappable_v<E>) && std::is_move_constructible_v<E>)
@@ -3556,9 +3411,7 @@ class expected<T&, E> {
         x.swap(y);
     }
 
-    // -------------------------------------------------------------------------
-    // Observers
-    // -------------------------------------------------------------------------
+    // \ref{expected.ref.obs}, observers
 
     constexpr T* operator->() const noexcept;
     constexpr T& operator*() const noexcept;
@@ -3592,9 +3445,7 @@ class expected<T&, E> {
                  std::is_convertible_v<G, std::remove_cv_t<std::remove_reference_t<E>>>)
     constexpr error_value_type error_or(G&& def) &&;
 
-    // -------------------------------------------------------------------------
-    // Monadic operations
-    // -------------------------------------------------------------------------
+    // \ref{expected.ref.monadic}, monadic operations
 
     template <class F>
         requires std::is_constructible_v<E, E&>
@@ -3642,11 +3493,8 @@ class expected<T&, E> {
     template <class F>
     constexpr auto transform_error(F&& f) const&&;
 
-    // -------------------------------------------------------------------------
-    // Equality operators (hidden friends)
-    // -------------------------------------------------------------------------
+    // \ref{expected.ref.eq}, equality operators
 
-    //! \at expected.ref.eq
     //! \mandates `!is_void_v<T2>` is `true`. The expression `*x == *y` is
     //! well-formed and its result is convertible to `bool`. The expression
     //! `x.error() == y.error()` is well-formed and its result is
@@ -3667,7 +3515,6 @@ class expected<T&, E> {
         return x.error() == y.error();
     }
 
-    //! \at expected.ref.eq
     //! \mandates `T2` is not a specialization of `expected`. The expression
     //! `*x == val` is well-formed and its result is convertible to `bool`.
     //! \returns `x.has_value() && static_cast<bool>(*x == val)`.
@@ -3677,7 +3524,6 @@ class expected<T&, E> {
         return x.has_value() && static_cast<bool>(*x == val);
     }
 
-    //! \at expected.ref.eq
     //! \mandates The expression `x.error() == e.error()` is well-formed and
     //! its result is convertible to `bool`.
     //! \returns `!x.has_value() && static_cast<bool>(x.error() ==
@@ -3688,7 +3534,7 @@ class expected<T&, E> {
     }
 
   private:
-    //! \expos
+    //! \expos(has_val)
     bool has_val_;
     union {
         //! \expos
@@ -3705,9 +3551,12 @@ class expected<T&, E> {
 //! `rhs.val`, so that `*this` and `rhs` refer to the same object;
 //! otherwise, initializes `unex` with `rhs.unex`.
 //! \ensures `rhs.has_value() == this->has_value()`.
-//! \remarks This constructor is trivial if the corresponding constructor
-//! of `E` is trivial, and is defined as deleted unless
-//! `is_copy_constructible_v<E>` is `true`.
+//! \remarks The exception specification of the move constructor is
+//! equivalent to `is_nothrow_move_constructible_v<E>`. Each of these
+//! constructors is trivial if the corresponding constructor of `E` is
+//! trivial. The copy constructor is defined as deleted unless
+//! `is_copy_constructible_v<E>` is `true`, and the move constructor unless
+//! `is_move_constructible_v<E>` is `true`.
 template <class T, class E>
 constexpr expected<T&, E>::expected(const expected& rhs) noexcept(std::is_nothrow_copy_constructible_v<E>)
     requires(std::is_copy_constructible_v<E> && !std::is_trivially_copy_constructible_v<E>)
@@ -3895,9 +3744,13 @@ constexpr expected<T&, E>::~expected()
 //! template. In every case `*this` comes to refer to the object `rhs`
 //! refers to, or to hold the error of `rhs`.
 //! \returns `*this`.
-//! \remarks This operator is defined as deleted unless
-//! `is_copy_assignable_v<E>` is `true` and `is_copy_constructible_v<E>`
-//! is `true`.
+//! \remarks The exception specification of the move assignment operator is
+//! equivalent to `is_nothrow_move_constructible_v<E> &&
+//! is_nothrow_move_assignable_v<E>`. The copy assignment operator is defined
+//! as deleted unless `is_copy_assignable_v<E>` is `true` and
+//! `is_copy_constructible_v<E>` is `true`, and the move assignment operator
+//! unless `is_move_assignable_v<E>` is `true` and
+//! `is_move_constructible_v<E>` is `true`.
 template <class T, class E>
 constexpr expected<T&, E>&
 expected<T&, E>::operator=(const expected& rhs) noexcept(std::is_nothrow_copy_constructible_v<E> &&

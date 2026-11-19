@@ -1,4 +1,4 @@
-\rSec2[expected.unexpected]{Class template unexpected}
+\rSec2[expected.unexpected]{Class template \tcode{unexpected}}
 
 \rSec3[expected.un.general]{General}
 
@@ -7,6 +7,7 @@ namespace std {
   template<class E>
   class @\libglobal{unexpected}@ {
   public:
+    // \ref{expected.un.cons}, constructors
     constexpr unexpected(const unexpected&) = default;
     constexpr unexpected(unexpected&&) = default;
 
@@ -40,7 +41,7 @@ namespace std {
                                unexpected& y) noexcept(noexcept(x.swap(y)));
 
   private:
-    E @\exposidnc{unex}@; // exposition only
+    E @\exposid{unex}@; // \expos
   };
 }
 \end{codeblock}
@@ -51,7 +52,7 @@ A program that instantiates the definition of \tcode{unexpected} for a non-objec
 
 \pnum
 \remarks
-Subclause \iref{expected.unexpected} describes the class template \tcode{unexpected} that represents unexpected objects stored in \tcode{expected} objects.
+Subclause \ref{expected.unexpected} describes the class template \tcode{unexpected} that represents unexpected objects stored in \tcode{expected} objects.
 
 \rSec3[expected.un.cons]{Constructors}
 
@@ -196,7 +197,7 @@ The expression \tcode{x.error() == y.error()} is well-formed and its result is c
 \tcode{x.error() == y.error()}.
 \end{itemdescr}
 
-\rSec3[expected.un.ref]{Partial specialization unexpected<E&>}
+\rSec3[expected.un.ref]{Partial specialization \tcode{unexpected<E\&>}}
 
 \begin{codeblock}
 namespace std {
@@ -223,7 +224,7 @@ namespace std {
     friend constexpr void swap(unexpected& x, unexpected& y) noexcept;
 
   private:
-    E* unex;              // exposition only
+    E* unex;              // \expos
   };
 }
 \end{codeblock}

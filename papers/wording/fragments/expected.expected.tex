@@ -1,4 +1,4 @@
-\rSec2[expected.expected]{Class template expected}
+\rSec2[expected.expected]{Class template \tcode{expected}}
 
 \rSec3[expected.object.general]{General}
 
@@ -7,7 +7,7 @@ namespace std {
   template<class T, class E>
   class @\libglobal{expected}@ {
   private:
-    using @\exposidnc{error-value-type}@ = remove_cv_t<remove_reference_t<E>>; // exposition only
+    using @\exposid{error-value-type}@ = remove_cv_t<remove_reference_t<E>>; // \expos
 
   public:
     using @\libmember{value_type}{expected}@ = T;
@@ -15,6 +15,8 @@ namespace std {
     using @\libmember{unexpected_type}{expected}@ = unexpected<E>;
 
     template<class U> using rebind = expected<U, error_type>;
+
+    // \ref{expected.object.cons}, constructors
 
     constexpr expected() noexcept(is_nothrow_default_constructible_v<T>);
 
@@ -77,7 +79,7 @@ namespace std {
 
     template<class... Args>
       requires(is_reference_v<E> && !is_constructible_v<E, Args...> &&
-               !@\exposidnc{unexpect-dangles-v}@<E, Args...>)
+               !@\exposid{unexpect-dangles-v}@<E, Args...>)
     constexpr expected(unexpect_t, Args&&...) = delete;
 
     template<class U, class... Args>
@@ -86,9 +88,13 @@ namespace std {
     template<class U, class... Args>
     constexpr expected(unexpect_t, initializer_list<U>, Args&&...) = delete;
 
+    // \ref{expected.object.dtor}, destructor
+
     constexpr ~expected() = default;
 
     constexpr ~expected();
+
+    // \ref{expected.object.assign}, assignment
 
     constexpr expected& operator=(const expected&) = default;
 
@@ -123,6 +129,8 @@ namespace std {
     template<class U, class... Args>
     constexpr T& emplace(initializer_list<U> il, Args&&... args) noexcept;
 
+    // \ref{expected.object.swap}, swap
+
     constexpr void swap(expected& rhs) noexcept(is_nothrow_move_constructible_v<T> &&
                                                 is_nothrow_swappable_v<T> &&
                                                 is_nothrow_move_constructible_v<E> &&
@@ -130,6 +138,8 @@ namespace std {
                                                  is_nothrow_swappable_v<E>));
 
     friend constexpr void swap(expected& x, expected& y) noexcept(noexcept(x.swap(y)));
+
+    // \ref{expected.object.obs}, observers
 
     constexpr const T* operator->() const noexcept;
     constexpr T* operator->() noexcept;
@@ -156,11 +166,13 @@ namespace std {
 
     template<class U = remove_cv_t<T>> constexpr T value_or(U&& def) &&;
 
-    template<class G = @\exposidnc{error-value-type}@>
-    constexpr @\exposidnc{error-value-type}@ error_or(G&& def) const&;
+    template<class G = @\exposid{error-value-type}@>
+    constexpr @\exposid{error-value-type}@ error_or(G&& def) const&;
 
-    template<class G = @\exposidnc{error-value-type}@>
-    constexpr @\exposidnc{error-value-type}@ error_or(G&& def) &&;
+    template<class G = @\exposid{error-value-type}@>
+    constexpr @\exposid{error-value-type}@ error_or(G&& def) &&;
+
+    // \ref{expected.object.monadic}, monadic operations
 
     template<class F> constexpr auto and_then(F&& f) &;
     template<class F> constexpr auto and_then(F&& f) &&;
@@ -182,6 +194,8 @@ namespace std {
     template<class F> constexpr auto transform_error(F&& f) const&;
     template<class F> constexpr auto transform_error(F&& f) const&&;
 
+    // \ref{expected.object.eq}, equality operators
+
     template<class T2, class E2>
     friend constexpr bool operator==(const expected& x, const expected<T2, E2>& y);
 
@@ -192,10 +206,10 @@ namespace std {
     friend constexpr bool operator==(const expected& x, const unexpected<E2>& e);
 
   private:
-    bool @\exposidnc{has-val}@; // exposition only
+    bool @\exposid{has_val}@; // \expos
     union {
-      T @\exposidnc{val}@;              // exposition only
-      unexpected<E> @\exposidnc{unex}@; // exposition only
+      T @\exposid{val}@;              // \expos
+      unexpected<E> @\exposid{unex}@; // \expos
     };
   };
 }
@@ -207,7 +221,7 @@ A program that instantiates the definition of \tcode{expected<T, E>} with a \tco
 
 \pnum
 \remarks
-Any object of type \tcode{expected<T, E>} either contains a value of type \tcode{T} or a value of type \tcode{E} nested within it. Member \tcode{has_val} indicates whether the \tcode{expected<T, E>} object contains an object of type \tcode{T}. When \tcode{has_value()} is \tcode{false}, the error is \tcode{\exposid{unex}.error()}. The error is held as an \tcode{unexpected<E>}, and not as an \tcode{E}, so that \tcode{E} may be an lvalue reference type: an \tcode{E\&} cannot be a union member, whereas \tcode{unexpected<E\&>} holds a pointer to an external object.
+Any object of type \tcode{expected<T, E>} either contains a value of type \tcode{T} or a value of type \tcode{E} nested within\iref{intro.object} it. Member \exposid{has_val} indicates whether the \tcode{expected<T, E>} object contains an object of type \tcode{T}. When \tcode{has_value()} is \tcode{false}, the error is \tcode{\exposid{unex}.error()}. The error is held as an \tcode{unexpected<E>}, and not as an \tcode{E}, so that \tcode{E} may be an lvalue reference type: an \tcode{E\&} cannot be a union member, whereas \tcode{unexpected<E\&>} holds a pointer to an external object.
 
 \rSec3[expected.object.cons]{Constructors}
 
@@ -339,7 +353,7 @@ template<class U, class G>
 \begin{itemdescr}
 \pnum
 \constraints
-\tcode{is_constructible_v<T, const U\&>} is \tcode{true}; and \tcode{is_constructible_v<E, const G\&>} is \tcode{true}; and if \tcode{T} is not \tcode{bool}, \tcode{converts-from-any-cvref<T, expected<U, G>>} is \tcode{false}; and \tcode{is_constructible_v<unexpected<E>, expected<U, G>\&>} is \tcode{false}; and \tcode{is_constructible_v<unexpected<E>, expected<U, G>>} is \tcode{false}; and \tcode{is_constructible_v<unexpected<E>, const expected<U, G>\&>} is \tcode{false}; and \tcode{is_constructible_v<unexpected<E>, const expected<U, G>>} is \tcode{false}.
+\tcode{is_constructible_v<T, const U\&>} is \tcode{true}; and \tcode{is_constructible_v<E, const G\&>} is \tcode{true}; and if \tcode{T} is not \cv{} \tcode{bool}, \tcode{converts-from-any-cvref<T, expected<U, G>>} is \tcode{false}; and \tcode{is_constructible_v<unexpected<E>, expected<U, G>\&>} is \tcode{false}; and \tcode{is_constructible_v<unexpected<E>, expected<U, G>>} is \tcode{false}; and \tcode{is_constructible_v<unexpected<E>, const expected<U, G>\&>} is \tcode{false}; and \tcode{is_constructible_v<unexpected<E>, const expected<U, G>>} is \tcode{false}.
 
 \pnum
 \effects
@@ -393,7 +407,7 @@ template<class U = remove_cv_t<T>>
 \begin{itemdescr}
 \pnum
 \constraints
-\tcode{is_same_v<remove_cvref_t<U>, in_place_t>} is \tcode{false}; and \tcode{is_same_v<remove_cvref_t<U>, unexpect_t>} is \tcode{false}; and \tcode{is_same_v<remove_cvref_t<U>, expected>} is \tcode{false}; and \tcode{is_constructible_v<T, U>} is \tcode{true}; and \tcode{remove_cvref_t<U>} is not a specialization of \tcode{unexpected}; and if \tcode{T} is \tcode{bool}, \tcode{remove_cvref_t<U>} is not a specialization of \tcode{expected}.
+\tcode{is_same_v<remove_cvref_t<U>, in_place_t>} is \tcode{false}; and \tcode{is_same_v<remove_cvref_t<U>, unexpect_t>} is \tcode{false}; and \tcode{is_same_v<remove_cvref_t<U>, expected>} is \tcode{false}; and \tcode{is_constructible_v<T, U>} is \tcode{true}; and \tcode{remove_cvref_t<U>} is not a specialization of \tcode{unexpected}; and if \tcode{T} is \cv{} \tcode{bool}, \tcode{remove_cvref_t<U>} is not a specialization of \tcode{expected}.
 
 \pnum
 \effects
@@ -697,7 +711,7 @@ constexpr expected& operator=(const expected& rhs) noexcept(is_nothrow_copy_cons
 
 \pnum
 \effects
-If \tcode{this->has_value() \&\& rhs.has_value()}, equivalent to \tcode{\exposid{val} = *rhs}. Otherwise, if \tcode{this->has_value()}, equivalent to \tcode{reinit-expected(\exposid{unex}, \exposid{val}, rhs.error())}. Otherwise, if \tcode{rhs.has_value()}, equivalent to \tcode{reinit-expected(\exposid{val}, \exposid{unex}, *rhs)}. Otherwise, equivalent to \tcode{\exposid{unex} = rhs.\exposid{unex}}. Then, if no exception was thrown, equivalent to: \tcode{has_val = rhs.has_value(); return *this;} When \tcode{E} is an lvalue reference type, each of the cases above that initializes or assigns \exposid{unex} rebinds it: \exposid{unex} comes to refer to the same object as \tcode{rhs}'s error. No previously or subsequently referenced object is assigned through.
+If \tcode{this->has_value() \&\& rhs.has_value()}, equivalent to \tcode{\exposid{val} = *rhs}. Otherwise, if \tcode{this->has_value()}, equivalent to \tcode{reinit-expected(\exposid{unex}, \exposid{val}, rhs.error())}. Otherwise, if \tcode{rhs.has_value()}, equivalent to \tcode{reinit-expected(\exposid{val}, \exposid{unex}, *rhs)}. Otherwise, equivalent to \tcode{\exposid{unex} = rhs.\exposid{unex}}. Then, if no exception was thrown, equivalent to: \tcode{\exposid{has_val} = rhs.has_value(); return *this;} When \tcode{E} is an lvalue reference type, each of the cases above that initializes or assigns \exposid{unex} rebinds it: \exposid{unex} comes to refer to the same object as \tcode{rhs}'s error. No previously or subsequently referenced object is assigned through.
 
 \pnum
 \returns
@@ -759,7 +773,7 @@ constexpr expected& operator=(expected&& rhs) noexcept(is_nothrow_move_construct
 
 \pnum
 \effects
-If \tcode{this->has_value() \&\& rhs.has_value()}, equivalent to \tcode{\exposid{val} = std::move(*rhs)}. Otherwise, if \tcode{this->has_value()}, equivalent to \tcode{reinit-expected(\exposid{unex}, \exposid{val}, std::move(rhs.error()))}. Otherwise, if \tcode{rhs.has_value()}, equivalent to \tcode{reinit-expected(\exposid{val}, \exposid{unex}, std::move(*rhs))}. Otherwise, equivalent to \tcode{\exposid{unex} = std::move(rhs.\exposid{unex})}. Then, if no exception was thrown, equivalent to: \tcode{has_val = rhs.has_value(); return *this;} When \tcode{E} is an lvalue reference type, each of the cases above that initializes or assigns \exposid{unex} rebinds it: \exposid{unex} comes to refer to the same object as \tcode{rhs}'s error. No previously or subsequently referenced object is assigned through.
+If \tcode{this->has_value() \&\& rhs.has_value()}, equivalent to \tcode{\exposid{val} = std::move(*rhs)}. Otherwise, if \tcode{this->has_value()}, equivalent to \tcode{reinit-expected(\exposid{unex}, \exposid{val}, std::move(rhs.error()))}. Otherwise, if \tcode{rhs.has_value()}, equivalent to \tcode{reinit-expected(\exposid{val}, \exposid{unex}, std::move(*rhs))}. Otherwise, equivalent to \tcode{\exposid{unex} = std::move(rhs.\exposid{unex})}. Then, if no exception was thrown, equivalent to: \tcode{\exposid{has_val} = rhs.has_value(); return *this;} When \tcode{E} is an lvalue reference type, each of the cases above that initializes or assigns \exposid{unex} rebinds it: \exposid{unex} comes to refer to the same object as \tcode{rhs}'s error. No previously or subsequently referenced object is assigned through.
 
 \pnum
 \returns
@@ -783,7 +797,7 @@ template<class U = remove_cv_t<T>>
 
 \pnum
 \effects
-If \tcode{has_value()} is \tcode{true}, equivalent to: \tcode{\exposid{val} = std::forward<U>(v);} Otherwise, equivalent to: \tcode{reinit-expected(\exposid{val}, \exposid{unex}, std::forward<U>(v)); has_val = true;}
+If \tcode{has_value()} is \tcode{true}, equivalent to: \tcode{\exposid{val} = std::forward<U>(v);} Otherwise, equivalent to: \tcode{reinit-expected(\exposid{val}, \exposid{unex}, std::forward<U>(v)); \exposid{has_val} = true;}
 
 \pnum
 \returns
@@ -805,7 +819,7 @@ template<class G>
 
 \pnum
 \effects
-If \tcode{has_value()} is \tcode{true}, equivalent to: \tcode{reinit-expected(\exposid{unex}, \exposid{val}, e.error()); has_val = false;} Otherwise, equivalent to: \tcode{\exposid{unex} = unexpected<E>(e.error());}
+If \tcode{has_value()} is \tcode{true}, equivalent to: \tcode{reinit-expected(\exposid{unex}, \exposid{val}, e.error()); \exposid{has_val} = false;} Otherwise, equivalent to: \tcode{\exposid{unex} = unexpected<E>(e.error());}
 
 \pnum
 \returns
@@ -871,7 +885,7 @@ template<class... Args>
 
 \pnum
 \effects
-Equivalent to: \tcode{if (has_value()) \{ destroy_at(addressof(\exposid{val})); \} else \{ destroy_at(addressof(\exposid{unex})); has_val = true; \} return *construct_at(addressof(\exposid{val}), std::forward<Args>(args)...);}
+Equivalent to: \tcode{if (has_value()) \{ destroy_at(addressof(\exposid{val})); \} else \{ destroy_at(addressof(\exposid{unex})); \exposid{has_val} = true; \} return *construct_at(addressof(\exposid{val}), std::forward<Args>(args)...);}
 \end{itemdescr}
 
 \indexlibrarymember{emplace}{expected}%
@@ -887,7 +901,7 @@ template<class U, class... Args>
 
 \pnum
 \effects
-Equivalent to: \tcode{if (has_value()) \{ destroy_at(addressof(\exposid{val})); \} else \{ destroy_at(addressof(\exposid{unex})); has_val = true; \} return *construct_at(addressof(\exposid{val}), il, std::forward<Args>(args)...);}
+Equivalent to: \tcode{if (has_value()) \{ destroy_at(addressof(\exposid{val})); \} else \{ destroy_at(addressof(\exposid{unex})); \exposid{has_val} = true; \} return *construct_at(addressof(\exposid{val}), il, std::forward<Args>(args)...);}
 \end{itemdescr}
 
 \rSec3[expected.object.swap]{Swap}
@@ -916,7 +930,7 @@ If \tcode{this->has_value()} and \tcode{rhs.has_value()}, equivalent to \tcode{u
 
 \pnum
 \throws
-Any exception thrown by the expressions in the Effects.
+Any exception thrown by the expressions in the \Fundescx{Effects}.
 
 \pnum
 \remarks
@@ -1004,7 +1018,7 @@ constexpr bool has_value() const noexcept;
 \begin{itemdescr}
 \pnum
 \returns
-\tcode{has_val}.
+\exposid{has_val}.
 \end{itemdescr}
 
 \indexlibrarymember{value}{expected}%
@@ -1113,8 +1127,8 @@ template<class U = remove_cv_t<T>>
 
 \indexlibrarymember{error_or}{expected}%
 \begin{itemdecl}
-template<class G = @\exposidnc{error-value-type}@>
-  constexpr @\exposidnc{error-value-type}@ error_or(G&& def) const&;
+template<class G = @\exposid{error-value-type}@>
+  constexpr @\exposid{error-value-type}@ error_or(G&& def) const&;
 \end{itemdecl}
 
 \begin{itemdescr}
@@ -1133,8 +1147,8 @@ template<class G = @\exposidnc{error-value-type}@>
 
 \indexlibrarymember{error_or}{expected}%
 \begin{itemdecl}
-template<class G = @\exposidnc{error-value-type}@>
-  constexpr @\exposidnc{error-value-type}@ error_or(G&& def) &&;
+template<class G = @\exposid{error-value-type}@>
+  constexpr @\exposid{error-value-type}@ error_or(G&& def) &&;
 \end{itemdecl}
 
 \begin{itemdescr}
