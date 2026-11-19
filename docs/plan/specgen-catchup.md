@@ -13,6 +13,10 @@ which are the headers on `main`, and the working draft at `65890fab`
 **Earlier rounds:** 0.23.0, then 0.41.1 (`9d1689d`) on 2026-11-16, then
 0.42.3 and 0.43.0 on 2026-11-17 and 18. Where a number moved, the earlier one
 is given beside it.
+**Progress:** stages 1 to 6 are done, 2026-11-19, as seven commits on this
+branch on top of #117's head. Each stage below says what it did. Next is
+[member-routing](#member-routing); [macro-specifiers](#macro-specifiers)
+waits on specgen.
 
 ---
 
@@ -373,6 +377,17 @@ definition's, and delete the in-class copy. Check: no `error:` line from
 `generate`, exit status 0, and the `[expected.ref]` fragment changes only
 where a difference was settled.
 
+Done (`5865daf`, `2bd9439`). Five of the seven pairs said the same thing.
+Deleting all seven left the render byte for byte as it was, and the run
+exits 0. The other two were the move constructor and the move assignment
+operator. Each is the second declaration of a grouped item whose description
+is the copy member's, so its exception specification and the condition under
+which it is deleted were stated only in the docblock that was never read.
+The grouped *Remarks* now state both members' conditions. The paper's
+*Remarks* for the constructors says the same in fewer words ("unless that
+constructor of `E` is available"), and its assignment item has no *Remarks*
+at all; both are [converge-with-paper](#converge-with-paper)'s to settle.
+
 ### Stage 2 — <a id="regenerate"></a>[regenerate](#regenerate)
 
 Regenerate the checked-in wording with the current specgen, with no header
@@ -386,6 +401,9 @@ stage recurs whenever specgen changes its render; see
 [specgen-pin](#specgen-pin). #117 can merge as it is, with this stage's
 commit following it, or take this commit as a fourth.
 
+Done for 0.47.0 (`c9d9569`), with `--warnings-as-errors` in the specgen call
+and a paragraph in `papers/wording/README.md` on what fails the run.
+
 ### Stage 3 — <a id="gap-yardstick"></a>[gap-yardstick](#gap-yardstick)
 
 Add a goal that prints both measures: the token difference from the stripped
@@ -395,17 +413,42 @@ draft. It does not fail the build. It needs a draft checkout
 does to these numbers. The counts in this plan were made by hand each round,
 and the scripts were not kept, which is the reason for the goal.
 
+Done (`2a0102d`): `make wording-gap DRAFT_SOURCE=<draft>/source`, counted by
+`papers/wording-gap.py`. On the 0.41.1 wording it gives the numbers of the
+token table above, and for the paper's marks the last column of the draft
+table. After stage 6, against the draft at `65890fab`:
+
+| | paper | generated | only in the paper | only in the generated |
+|---|---|---|---|---|
+| code | 3290 | 4046 | 828 | 1584 |
+| prose | 5565 | 7301 | 1711 | 3447 |
+
+| clause | generated: inline added / removed, blocks added / removed |
+|---|---|
+| `[expected.unexpected]` | 15 / 8, 2 / 2 |
+| `[expected.bad]` | 6 / 10, 5 / 2 |
+| `[expected.bad.void]` | 12 / 7, 0 / 1 |
+| `[expected.expected]` | 155 / 106, 46 / 68 |
+| `[expected.void]` | 115 / 75, 33 / 44 |
+
 ### Stage 4 — <a id="exposition-names"></a>[exposition-names](#exposition-names)
 
 `\expos(has_val)` on the three `has_val_` members. Check: `\exposid{has_val}`
 goes from 0 to 27 and `\tcode{has_val}` to 0. Move the two `\omit` rationales
 back above their members.
 
+Done (`03f0c92`). 27, and 0. The note on the deleted copy assignment is
+above the primary template's `\omit`ted overload, and the note on `void_` is
+above that member in the union. Neither changed the wording.
+
 ### Stage 5 — <a id="section-titles"></a>[section-titles](#section-titles)
 
 Write the 7 titles that name code with backticks, as prose does:
 ``{Partial specialization `unexpected<E&>`}``. Check: each renders with
 `\tcode{...}` and matches the paper's title.
+
+Done (`7d5214b`). Every heading of the generated wording, title and stable
+name, is now the same as the paper's.
 
 ### Stage 6 — <a id="draft-prose-macros"></a>[draft-prose-macros](#draft-prose-macros)
 
@@ -421,8 +464,26 @@ words or get them slightly wrong:
 - any `\term`, `\defn` or named requirement the draft uses in text the
   docblocks retype, found by reading the draft diff for the marks they leave.
 
-Check: the marks in `[expected.bad]` and `[expected.bad.void]` fall as in the
-scratch column above, and no paragraph of the plain render changes its words.
+Check: the sentences changed read as the draft's do, and no other paragraph
+of the plain render changes.
+
+Done (`8516f2c`). `what()` twice; `\iref{lex.ccon}` twice, written
+`encoding\iref{lex.ccon}` with no space before it, as the draft does, since
+the macro prints its own; `\ref` after "Subclause"; and three sentences the
+docblocks share with the draft: `\cv{}` before `bool` in two *Constraints*,
+`\Fundescx{Effects}` in two *Throws*, `\iref{intro.object}` after "nested
+within" in two class descriptions. The draft's `\term{valid value type for
+\tcode{expected}}` and its `\oldconcept{Destructible}` requirements are in
+paragraphs the docblocks do not have in that form, and go with
+[class-prose](#class-prose).
+
+The check first written here was wrong. It expected the marks in
+`[expected.bad]` and `[expected.bad.void]` to fall as in the scratch column,
+but that fall came from the macro define, which is
+[macro-specifiers](#macro-specifiers). The two `what()` items still show as
+one block removed and one added, because the item does not pair with the
+draft's while it lacks `constexpr` and sits in another place. Their text is
+now the draft's, so they will pair clean when those two are settled.
 
 ### Stage 7 — <a id="macro-specifiers"></a>[macro-specifiers](#macro-specifiers)
 
@@ -430,8 +491,9 @@ Have the wording show `constexpr` where the header writes
 `BEMAN_EXPECTED_CONSTEXPR_EXCEPTION`. Two parts. The run names the expansion
 the wording wants ([macro-expansion-args](#macro-expansion-args)). And the
 macro has to be defined where specgen reads it, which the trailing `#undef`
-prevents: that is a request to specgen, listed below, and the stage waits
-for it. Check: the macro appears 0 times in the wording, and
+prevents: that is
+[specgen#377](https://github.com/steve-downey/specgen/issues/377), and the
+stage waits for it. Check: the macro appears 0 times in the wording, and
 `[expected.bad.void]` is left with the `= default` marks alone.
 
 ### Stage 8 — <a id="member-routing"></a>[member-routing](#member-routing)
@@ -664,6 +726,9 @@ header change can clear.
 - 2026-11-19: specgen 0.44.0 exits 1 on a docblock error (specgen#350), so
   the run fails today, flag or no flag. On the scratch headers
   `--validate --warnings-as-errors` exits 0.
+- 2026-11-19: the flag is in the makefile's specgen call (`c9d9569`), as
+  recommended, and off the draft diff in `wording-gap`. Applied in carrying
+  out [regenerate](#regenerate); not ruled on.
 
 ### header-synopsis-form
 
@@ -819,6 +884,9 @@ holds, and lists the files in the depfile.
   `git archive` of that revision into a scratch directory, since the local
   checkout sits at N5054. `utilities.tex` does not differ between
   `3e3793aa` and `65890fab`.
+- 2026-11-19: `DRAFT_SOURCE` is the variable (`2a0102d`), read only by
+  `wording-gap`, which skips the draft measure when it is unset. Where the
+  revision is recorded is still open.
 
 ### diff-baseline
 
@@ -872,6 +940,11 @@ internal error after listing what it cannot place, so nothing is written.
   and no file. Most of the 23 are
   [overload-partitions](#overload-partitions) and
   [synopsis-shape](#synopsis-shape) seen from the draft's side.
+- 2026-11-19: filed as specgen#378. The offset is directly before `public:`
+  in the synopsis of `expected<T, E>`, where the header adds a private
+  exposition-only alias. A small case of the same shape does not abort, but
+  writes the added tokens on the draft's line, so that `public:` ends up
+  inside the `// \expos` comment.
 
 ### api-site-markup
 
@@ -944,13 +1017,15 @@ rerun on these headers with 0.47.0:
 | [specgen#354](https://github.com/steve-downey/specgen/issues/354) | In a `--baseline-draft` diff, `\libglobal{name}` on a class head reads as a change | 0.44.2 | no mark on the class heads |
 | [specgen#355](https://github.com/steve-downey/specgen/issues/355) | The importer keeps `\impldef`, `\ntbs`, `\term`, `\Fundescx`, `floattable`, and a list item holding a code block as raw LaTeX | 0.46.0, in part | 4 warnings left, carried by [specgen#367](https://github.com/steve-downey/specgen/issues/367), open |
 
-Found 2026-11-19, not filed yet:
+Found 2026-11-19, and filed the same day:
 
-| What | For |
-|---|---|
-| A specifier macro that the header `#undef`s after its last use is printed under its own name, where the same macro left defined is written as its expansion. The expansion wanted is the one in effect where the macro is used. Reproduction below. | [macro-specifiers](#macro-specifiers) |
-| `--apply-to-draft` ends with `an edit of bytes N to N overlaps another or runs past the end` and writes no file, after reporting the changes it cannot place. This belongs on [specgen#346](https://github.com/steve-downey/specgen/issues/346), which is open for placing an added subclause. | [draft-pull-request](#draft-pull-request) |
-| A set of Doxygen `ALIASES` for specgen's markers, once [api-site-markup](#api-site-markup) has one that works. | [api-site](#api-site) |
+| Issue | What | For |
+|---|---|---|
+| [specgen#377](https://github.com/steve-downey/specgen/issues/377) | A specifier macro that the header `#undef`s after its last use is printed under its own name, where the same macro left defined is written as its expansion. The expansion wanted is the one in effect where the macro is used. Reproduction below. | [macro-specifiers](#macro-specifiers) |
+| [specgen#378](https://github.com/steve-downey/specgen/issues/378) | `--apply-to-draft` writes tokens added ahead of an access specifier on that specifier's line, so a `// \expos` comment among them swallows it; and on `expected.hpp` the run ends with `an edit of bytes N to N overlaps another or runs past the end` and writes no file. Related to [specgen#346](https://github.com/steve-downey/specgen/issues/346), open for placing an added subclause. | [draft-pull-request](#draft-pull-request) |
+
+Not filed: a set of Doxygen `ALIASES` for specgen's markers, until
+[api-site-markup](#api-site-markup) has one that works here.
 
 The reproduction for the first. With `-DUSE_CX` the synopsis reads
 `DEMO_CX const char* what() const noexcept;`. Without the `#undef` line it
