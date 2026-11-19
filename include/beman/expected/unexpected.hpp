@@ -180,32 +180,6 @@ unexpected(E) -> unexpected<E>;
 //! \remarks An object of type `unexpected<E&>` holds a pointer to an object
 //! of type `E`. The referenced object is not owned by the `unexpected<E&>`
 //! object. Unlike the primary template, `E` may be a cv-qualified type.
-//! \verbatim-synopsis
-//! template<class E>
-//! class unexpected<E&> {
-//! public:
-//!   constexpr unexpected(const unexpected&) = default;
-//!   constexpr unexpected(unexpected&&) = default;
-//!   template<class G = E>
-//!     constexpr explicit unexpected(G&&) noexcept;
-//!   template<class G = E>
-//!     constexpr explicit unexpected(in_place_t, G&&) noexcept;
-//!
-//!   constexpr unexpected& operator=(const unexpected&) = default;
-//!   constexpr unexpected& operator=(unexpected&&) = default;
-//!
-//!   constexpr E& error() const noexcept;
-//!
-//!   constexpr void swap(unexpected& other) noexcept;
-//!
-//!   template<class E2>
-//!     friend constexpr bool operator==(const unexpected&, const unexpected<E2>&);
-//!
-//!   friend constexpr void swap(unexpected& x, unexpected& y) noexcept;
-//!
-//! private:
-//!   E* unex;              // exposition only
-//! };
 template <class E>
 class unexpected<E&> {
     static_assert(std::is_object_v<E>,

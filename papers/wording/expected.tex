@@ -221,14 +221,14 @@ The expression \tcode{x.error() == y.error()} is well-formed and its result is c
 \begin{codeblock}
 namespace std {
   template<class E>
-  class unexpected<E&> {
+  class @\libglobal{unexpected}@<E&> {
   public:
     constexpr unexpected(const unexpected&) = default;
     constexpr unexpected(unexpected&&) = default;
-    template<class G = E>
-      constexpr explicit unexpected(G&&) noexcept;
-    template<class G = E>
-      constexpr explicit unexpected(in_place_t, G&&) noexcept;
+
+    template<class G = E> constexpr explicit unexpected(G&& e) noexcept;
+
+    template<class G = E> constexpr explicit unexpected(in_place_t, G&& e) noexcept;
 
     constexpr unexpected& operator=(const unexpected&) = default;
     constexpr unexpected& operator=(unexpected&&) = default;
@@ -238,12 +238,12 @@ namespace std {
     constexpr void swap(unexpected& other) noexcept;
 
     template<class E2>
-      friend constexpr bool operator==(const unexpected&, const unexpected<E2>&);
+    friend constexpr bool operator==(const unexpected& x, const unexpected<E2>& y);
 
     friend constexpr void swap(unexpected& x, unexpected& y) noexcept;
 
   private:
-    E* unex;              // \expos
+    E* @\exposid{unex}@; // \expos
   };
 }
 \end{codeblock}
