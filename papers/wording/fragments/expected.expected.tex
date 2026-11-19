@@ -196,12 +196,17 @@ namespace std {
 \end{codeblock}
 
 \pnum
-\mandates
-A program that instantiates the definition of \tcode{expected<T, E>} with a \tcode{T} that is not a valid value type for \tcode{expected} (that is, \tcode{remove_cv_t<T>} is \tcode{void}, or a complete non-array object type other than \tcode{in_place_t}, \tcode{unexpect_t}, or a specialization of \tcode{unexpected}) is ill-formed. A program that instantiates the definition of \tcode{expected<T, E>} with an \tcode{E} that is not a valid template argument for \tcode{unexpected} is ill-formed.
+Any object of type \tcode{expected<T, E>} either contains a value of type \tcode{T} or a value of type \tcode{E} nested within\iref{intro.object} it. Member \exposid{has_val} indicates whether the \tcode{expected<T, E>} object contains an object of type \tcode{T}.
 
 \pnum
-\remarks
-Any object of type \tcode{expected<T, E>} either contains a value of type \tcode{T} or a value of type \tcode{E} nested within\iref{intro.object} it. Member \exposid{has_val} indicates whether the \tcode{expected<T, E>} object contains an object of type \tcode{T}. When \tcode{has_value()} is \tcode{false}, the error is \tcode{\exposid{unex}.error()}. The error is held as an \tcode{unexpected<E>}, and not as an \tcode{E}, so that \tcode{E} may be an lvalue reference type: an \tcode{E\&} cannot be a union member, whereas \tcode{unexpected<E\&>} holds a pointer to an external object.
+When \tcode{has_value()} is \tcode{false}, the error is \tcode{\exposid{unex}.error()}. The error is held as an \tcode{unexpected<E>}, and not as an \tcode{E}, so that \tcode{E} may be an lvalue reference type: an \tcode{E\&} cannot be a union member, whereas \tcode{unexpected<E\&>} holds a pointer to an external object\iref{expected.un.ref}.
+
+\pnum
+A type \tcode{T} is a \term{valid value type for \tcode{expected}}, if \tcode{remove_cv_t<T>} is \tcode{void} or a complete non-array object type that is not \tcode{in_place_t}, \tcode{unexpect_t}, or a specialization of \tcode{unexpected}. A program which instantiates class template \tcode{expected<T, E>} with an argument \tcode{T} that is not a valid value type for \tcode{expected} is ill-formed. A program that instantiates the definition of the template \tcode{expected<T, E>} with a type for the \tcode{E} parameter that is not a valid template argument for \tcode{unexpected} is ill-formed.
+
+\pnum
+When \tcode{T} is not \cv{} \tcode{void}, it shall meet the \oldconcept{Destructible} requirements (\tref{cpp17.destructible}). If \tcode{E} is not an lvalue reference type, \tcode{E} shall meet the \oldconcept{Destructible} requirements.
+
 
 \rSec3[expected.object.cons]{Constructors}
 

@@ -86,10 +86,10 @@ inline BEMAN_EXPECTED_CONSTEXPR_EXCEPTION const char* bad_expected_access<void>:
 }
 
 // \rSec2[expected.bad]{Class template `bad_expected_access`}
-//! \remarks The class template `bad_expected_access` defines the type of
-//! objects thrown as exceptions to report the situation where an attempt is
-//! made to access the value of an `expected<T, E>` object for which
-//! `has_value()` is `false`.
+//! The class template `bad_expected_access` defines the type of objects
+//! thrown as exceptions to report the situation where an attempt is made to
+//! access the value of an `expected<T, E>` object for which `has_value()` is
+//! `false`.
 template <class E>
 class bad_expected_access : public bad_expected_access<void> {
   public:

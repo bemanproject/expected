@@ -122,20 +122,36 @@ constexpr bool converts_from_any_cvref = std::disjunction_v<std::is_constructibl
 
 // \rSec2[expected.expected]{Class template `expected`}
 // \rSec3[expected.object.general]{General}
-//! \mandates A program that instantiates the definition of `expected<T, E>`
-//! with a `T` that is not a valid value type for `expected` (that is,
-//! `remove_cv_t<T>` is `void`, or a complete non-array object type other
-//! than `in_place_t`, `unexpect_t`, or a specialization of `unexpected`) is
-//! ill-formed. A program that instantiates the definition of `expected<T,
-//! E>` with an `E` that is not a valid template argument for `unexpected`
-//! is ill-formed.
-//! \remarks Any object of type `expected<T, E>` either contains a value of
-//! type `T` or a value of type `E` nested within\iref{intro.object} it. Member
-//! `has_val` indicates whether the `expected<T, E>` object contains an object
-//! of type `T`. When `has_value()` is `false`, the error is `unex.error()`.
-//! The error is held as an `unexpected<E>`, and not as an `E`, so that `E` may
-//! be an lvalue reference type: an `E&` cannot be a union member, whereas
-//! `unexpected<E&>` holds a pointer to an external object.
+//! Any object of type `expected<T, E>` either contains a value of type `T` or
+//! a value of type `E` nested within\iref{intro.object} it. Member `has_val`
+//! indicates whether the `expected<T, E>` object contains an object of type
+//! `T`.
+//!
+//! When `has_value()` is `false`, the error is `unex.error()`. The error is
+//! held as an `unexpected<E>`, and not as an `E`, so that `E` may be an lvalue
+//! reference type: an `E&` cannot be a union member, whereas `unexpected<E&>`
+//! holds a pointer to an external object\iref{expected.un.ref}.
+//!
+//! A type `T` is a \term{valid value type for `expected`}, if
+//! `remove_cv_t<T>` is `void` or a complete non-array object type that is not
+//! `in_place_t`, `unexpect_t`, or a specialization of `unexpected`. A program
+//! which instantiates class template `expected<T, E>` with an argument `T`
+//! that is not a valid value type for `expected` is ill-formed. A program that
+//! instantiates the definition of the template `expected<T, E>` with a type
+//! for the `E` parameter that is not a valid template argument for
+//! `unexpected` is ill-formed.
+//! \covers mandates !is_reference_v<T>
+//! \covers mandates !is_rvalue_reference_v<E>
+//! \covers mandates !is_void_v<remove_reference_t<E>>
+//! \covers mandates !is_same_v<remove_cv_t<T>, in_place_t>
+//! \covers mandates !is_same_v<remove_cv_t<T>, unexpect_t>
+//! \covers mandates !is_array_v<T>
+//! \covers mandates !is-unexpected-specialization<remove_cv_t<T>>::value
+//! \covers mandates !is_array_v<remove_reference_t<E>>
+//!
+//! When `T` is not \cv{} `void`, it shall meet the \oldconcept{Destructible}
+//! requirements (\tref{cpp17.destructible}). If `E` is not an lvalue reference
+//! type, `E` shall meet the \oldconcept{Destructible} requirements.
 template <class T, class E>
 class expected {
     static_assert(!std::is_reference_v<T>, "T must not be a reference (use expected<T&,E> specialization)");
@@ -1829,14 +1845,27 @@ constexpr auto expected<T, E>::transform_error(F&& f) const&& {
 // \rSec2[expected.void]{Partial specialization of `expected` for `void` types}
 // \rSec3[expected.void.general]{General}
 //! \at expected.void.general
-//! \mandates A program that instantiates the definition of `expected<T, E>`
-//! with an `E` that is not a valid template argument for `unexpected` is
-//! ill-formed.
-//! \remarks Any object of type `expected<T, E>` either represents a value of
-//! type `T`, or contains a value of type `E` nested within\iref{intro.object}
-//! it. Member `has_val` indicates whether the `expected<T, E>` object
-//! represents a value of type `T`. When `has_value()` is `false`, the error is
-//! `unex.error()`.
+//! Any object of type `expected<T, E>` either represents a value of type `T`,
+//! or contains a value of type `E` nested within\iref{intro.object} it. Member
+//! `has_val` indicates whether the `expected<T, E>` object represents a value
+//! of type `T`.
+//!
+//! When `has_value()` is `false`, the error is `unex.error()`. The error is
+//! held as an `unexpected<E>`, and not as an `E`, so that `E` may be an lvalue
+//! reference type: an `E&` cannot be a union member, whereas `unexpected<E&>`
+//! holds a pointer to an external object\iref{expected.un.ref}.
+//!
+//! A program that instantiates the definition of the template `expected<T, E>`
+//! with a type for the `E` parameter that is not a valid template argument for
+//! `unexpected` is ill-formed.
+//! \covers mandates !is_rvalue_reference_v<E>
+//! \covers mandates !is_void_v<remove_reference_t<E>>
+//! \covers mandates !is_array_v<remove_reference_t<E>>
+//! \covers mandates is_reference_v<E> || is_same_v<remove_cv_t<E>, E>
+//! \covers mandates !is-unexpected-specialization<remove_cv_t<remove_reference_t<E>>>::value
+//!
+//! If `E` is not an lvalue reference type, `E` shall meet the requirements of
+//! \oldconcept{Destructible} (\tref{cpp17.destructible}).
 template <class E>
 class expected<void, E> {
     static_assert(!std::is_rvalue_reference_v<E>, "E must not be an rvalue reference");
@@ -3088,15 +3117,35 @@ constexpr auto expected<void, E>::transform_error(F&& f) const&& {
 // \rSec2[expected.ref]{Partial specialization of `expected` for reference types}
 // \rSec3[expected.ref.general]{General}
 //! \at expected.ref.general
-//! \mandates A program that instantiates the definition of `expected<T&,
-//! E>` with an `E` that is not a valid template argument for `unexpected`
-//! is ill-formed. `T` shall be an object type that is not an array type,
-//! `in_place_t`, `unexpect_t`, or a specialization of `unexpected`.
-//! \remarks An object of type `expected<T&, E>` either represents a
-//! reference to an object of type `T`, or holds an error. Member `has_val`
-//! indicates whether the object represents a reference. When it represents
-//! a reference, member `val` points to the referenced object, which is not
-//! owned by the `expected` object. Otherwise, the error is `unex.error()`.
+//! An object of type `expected<T&, E>` either represents a reference to an
+//! object of type `T`, or holds an error. Member `has_val` indicates whether
+//! the object represents a reference. When it represents a reference, member
+//! `val` points to the referenced object, which is not owned by the `expected`
+//! object. Otherwise, the error is `unex.error()`.
+//!
+//! The error is held as an `unexpected<E>`, and not as an `E`, so that `E` can
+//! be an lvalue reference type: an `E&` cannot be a union member, whereas
+//! `unexpected<E&>` holds a pointer to an external
+//! object\iref{expected.un.ref}.
+//!
+//! A program that instantiates the definition of `expected<T&, E>` with a type
+//! for the `E` parameter that is not a valid template argument for
+//! `unexpected` is ill-formed.
+//! \covers mandates !is_rvalue_reference_v<E>
+//! \covers mandates !is_void_v<remove_reference_t<E>>
+//! \covers mandates !is_array_v<remove_reference_t<E>>
+//! \covers mandates is_object_v<remove_reference_t<E>>
+//! \covers mandates is_reference_v<E> || is_same_v<remove_cv_t<E>, E>
+//!
+//! `T` shall be an object type that is not an array type, `in_place_t`,
+//! `unexpect_t`, or a specialization of `unexpected`. If `E` is not an lvalue
+//! reference type, `E` shall meet the \oldconcept{Destructible} requirements
+//! (\tref{cpp17.destructible}).
+//! \covers mandates !is_array_v<T>
+//! \covers mandates is_object_v<T>
+//! \covers mandates !is_same_v<remove_cv_t<T>, in_place_t>
+//! \covers mandates !is_same_v<remove_cv_t<T>, unexpect_t>
+//! \covers mandates !is-unexpected-specialization<remove_cv_t<T>>::value
 template <class T, class E>
 class expected<T&, E> {
     static_assert(!std::is_array_v<T>, "T must not be an array type");
