@@ -384,6 +384,20 @@ class expected {
                    std::is_trivially_destructible_v<T> && std::is_trivially_copy_constructible_v<E> &&
                    std::is_trivially_copy_assignable_v<E> && std::is_trivially_destructible_v<E>));
 
+    // This deleted copy assignment is satisfied exactly when neither the
+    // trivial nor the non-trivial path above is, so some candidate always is.
+    // It is here for clang. Clang (17 through at least 24) treats a class
+    // whose copy-assignment candidates all have unsatisfied constraints as not
+    // trivially copyable, although none of them is eligible ([special]) and
+    // [class.prop] counts only eligible ones; gcc gets it right. Without it,
+    // expected<int, MoveOnly> is trivially copyable under gcc and not under
+    // clang, while libstdc++'s std::expected is under both. A deleted
+    // candidate is not eligible either, so the triviality it restores is the
+    // one the standard gives. It is copy assignment only: a satisfied deleted
+    // move assignment would win overload resolution for an rvalue and stop it
+    // falling back to copy assignment. expected<void, E> and expected<T&, E>
+    // carry the same overload for the same reason. It is not wording, so it
+    // is `\omit`ted.
     //! \omit
     constexpr expected& operator=(const expected&)
         requires(!(std::is_trivially_copy_constructible_v<T> && std::is_trivially_copy_assignable_v<T> &&
@@ -639,7 +653,7 @@ class expected {
     }
 
   private:
-    //! \expos
+    //! \expos(has_val)
     bool has_val_;
     union {
         //! \expos
@@ -648,22 +662,6 @@ class expected {
         unexpected<E> unex_;
     };
 };
-
-// The deleted copy assignment, the `\omit`ted one after the trivial and
-// non-trivial paths, is satisfied exactly when neither of them is, so some
-// candidate always is. It is here for clang. Clang (17 through at least 24)
-// treats a class whose copy-assignment candidates all have unsatisfied
-// constraints as not trivially copyable, although none of them is eligible
-// ([special]) and [class.prop] counts only eligible ones; gcc gets it right.
-// Without it, expected<int, MoveOnly> is trivially copyable under gcc and not
-// under clang, while libstdc++'s std::expected is under both. A deleted
-// candidate is not eligible either, so the triviality it restores is the one
-// the standard gives. It is copy assignment only: a satisfied deleted move
-// assignment would win overload resolution for an rvalue and stop it falling
-// back to copy assignment. expected<void, E> and expected<T&, E> carry the
-// same overload for the same reason. It is not wording, so it is `\omit`ted,
-// and a comment on it would be carried into the synopsis, which is why this
-// one sits here.
 
 // \rSec3[expected.object.cons]{Constructors}
 
@@ -2248,30 +2246,29 @@ class expected<void, E> {
     }
 
   private:
-    //! \expos
+    //! \expos(has_val)
     bool has_val_;
     union {
+        // `void_` is the value state's active union member. It is not
+        // exposition-only: the draft's union holds `unex` alone, and specgen
+        // drops an unmarked alternative from the synopsis.
+        //
+        // It is here for gcc. Under -fsanitize=address the use-after-scope
+        // markers stop gcc forwarding a just-stored `has_val_` to the load
+        // that guards a later read of `unex_`, so a value-state object whose
+        // union was never written gets that read reported as
+        // -Wmaybe-uninitialized. Initializing `void_` in every constructor
+        // that can end in the value state fixes it: the front end folds the
+        // constructor to an aggregate, and because an empty member does not
+        // fill the union, the gimplifier zero-clears the whole object before
+        // storing the fields, which leaves nothing unwritten. libstdc++'s
+        // expected<void, E> carries the same member for the same reason.
         struct {
         } void_;
         //! \expos
         unexpected<E> unex_;
     };
 };
-
-// `void_` is the value state's active union member. It is not exposition-only
-// -- the draft's union holds `unex` alone, and specgen drops an unmarked
-// alternative from the synopsis -- and a comment on it would be carried into
-// the synopsis, which is why this one sits here.
-//
-// It is here for gcc. Under -fsanitize=address the use-after-scope markers
-// stop gcc forwarding a just-stored `has_val_` to the load that guards a
-// later read of `unex_`, so a value-state object whose union was never
-// written gets that read reported as -Wmaybe-uninitialized. Initializing
-// `void_` in every constructor that can end in the value state fixes it: the
-// front end folds the constructor to an aggregate, and because an empty
-// member does not fill the union, the gimplifier zero-clears the whole object
-// before storing the fields, which leaves nothing unwritten. libstdc++'s
-// expected<void, E> carries the same member for the same reason.
 
 // =============================================================================
 // \rSec3[expected.void.cons]{Constructors}
@@ -3631,7 +3628,7 @@ class expected<T&, E> {
     }
 
   private:
-    //! \expos
+    //! \expos(has_val)
     bool has_val_;
     union {
         //! \expos

@@ -151,7 +151,7 @@ namespace std {
     friend constexpr bool operator==(const expected& x, const unexpected<E2>& e);
 
   private:
-    bool @\exposid{has-val}@; // \expos
+    bool @\exposid{has_val}@; // \expos
     union {
       unexpected<E> @\exposid{unex}@; // \expos
     };
@@ -165,7 +165,7 @@ A program that instantiates the definition of \tcode{expected<T, E>} with an \tc
 
 \pnum
 \remarks
-Any object of type \tcode{expected<T, E>} either represents a value of type \tcode{T}, or contains a value of type \tcode{E} nested within it. Member \tcode{has_val} indicates whether the \tcode{expected<T, E>} object represents a value of type \tcode{T}. When \tcode{has_value()} is \tcode{false}, the error is \tcode{\exposid{unex}.error()}.
+Any object of type \tcode{expected<T, E>} either represents a value of type \tcode{T}, or contains a value of type \tcode{E} nested within it. Member \exposid{has_val} indicates whether the \tcode{expected<T, E>} object represents a value of type \tcode{T}. When \tcode{has_value()} is \tcode{false}, the error is \tcode{\exposid{unex}.error()}.
 
 \rSec3[expected.void.cons]{Constructors}
 
@@ -481,7 +481,7 @@ constexpr expected& operator=(const expected& rhs) noexcept(is_nothrow_copy_cons
 
 \pnum
 \effects
-If \tcode{this->has_value() \&\& rhs.has_value()}, no effects. Otherwise, if \tcode{this->has_value()}, equivalent to: \tcode{construct_at(addressof(\exposid{unex}), rhs.\exposid{unex}); has_val = false;} Otherwise, if \tcode{rhs.has_value()}, destroys \exposid{unex} and sets \tcode{has_val} to \tcode{true}. Otherwise, equivalent to \tcode{\exposid{unex} = rhs.\exposid{unex}}.
+If \tcode{this->has_value() \&\& rhs.has_value()}, no effects. Otherwise, if \tcode{this->has_value()}, equivalent to: \tcode{construct_at(addressof(\exposid{unex}), rhs.\exposid{unex}); \exposid{has_val} = false;} Otherwise, if \tcode{rhs.has_value()}, destroys \exposid{unex} and sets \exposid{has_val} to \tcode{true}. Otherwise, equivalent to \tcode{\exposid{unex} = rhs.\exposid{unex}}.
 
 \pnum
 \returns
@@ -505,7 +505,7 @@ constexpr expected& operator=(expected&& rhs) noexcept(is_nothrow_move_construct
 
 \pnum
 \effects
-If \tcode{this->has_value() \&\& rhs.has_value()}, no effects. Otherwise, if \tcode{this->has_value()}, equivalent to: \tcode{construct_at(addressof(\exposid{unex}), std::move(rhs.\exposid{unex})); has_val = false;} Otherwise, if \tcode{rhs.has_value()}, destroys \exposid{unex} and sets \tcode{has_val} to \tcode{true}. Otherwise, equivalent to \tcode{\exposid{unex} = std::move(rhs.\exposid{unex})}.
+If \tcode{this->has_value() \&\& rhs.has_value()}, no effects. Otherwise, if \tcode{this->has_value()}, equivalent to: \tcode{construct_at(addressof(\exposid{unex}), std::move(rhs.\exposid{unex})); \exposid{has_val} = false;} Otherwise, if \tcode{rhs.has_value()}, destroys \exposid{unex} and sets \exposid{has_val} to \tcode{true}. Otherwise, equivalent to \tcode{\exposid{unex} = std::move(rhs.\exposid{unex})}.
 
 \pnum
 \returns
@@ -531,7 +531,7 @@ template<class G>
 
 \pnum
 \effects
-If \tcode{has_value()} is \tcode{true}, equivalent to: \tcode{construct_at(addressof(\exposid{unex}), e.error()); has_val = false;} Otherwise, equivalent to: \tcode{\exposid{unex} = unexpected<E>(e.error());}
+If \tcode{has_value()} is \tcode{true}, equivalent to: \tcode{construct_at(addressof(\exposid{unex}), e.error()); \exposid{has_val} = false;} Otherwise, equivalent to: \tcode{\exposid{unex} = unexpected<E>(e.error());}
 
 \pnum
 \returns
@@ -592,7 +592,7 @@ constexpr void emplace() noexcept;
 \begin{itemdescr}
 \pnum
 \effects
-If \tcode{has_value()} is \tcode{false}, destroys \exposid{unex} and sets \tcode{has_val} to \tcode{true}.
+If \tcode{has_value()} is \tcode{false}, destroys \exposid{unex} and sets \exposid{has_val} to \tcode{true}.
 \end{itemdescr}
 
 \rSec3[expected.void.swap]{Swap}
@@ -648,7 +648,7 @@ constexpr bool has_value() const noexcept;
 \begin{itemdescr}
 \pnum
 \returns
-\tcode{has_val}.
+\exposid{has_val}.
 \end{itemdescr}
 
 \indexlibrarymember{operator*}{expected}%
@@ -881,7 +881,7 @@ template<class F>
 
 \pnum
 \effects
-If \tcode{has_value()} is \tcode{false}, returns \tcode{expected<U, E>(unexpect, error())}. Otherwise, if \tcode{is_void_v<U>} is \tcode{false}, returns an \tcode{expected<U, E>} object whose \tcode{has_val} member is \tcode{true} and \tcode{val} member is direct-non-list-initialized with \tcode{invoke(std::forward<F>(f))}. Otherwise, evaluates \tcode{invoke(std::forward<F>(f))} and then returns \tcode{expected<U, E>()}.
+If \tcode{has_value()} is \tcode{false}, returns \tcode{expected<U, E>(unexpect, error())}. Otherwise, if \tcode{is_void_v<U>} is \tcode{false}, returns an \tcode{expected<U, E>} object whose \exposid{has_val} member is \tcode{true} and \tcode{val} member is direct-non-list-initialized with \tcode{invoke(std::forward<F>(f))}. Otherwise, evaluates \tcode{invoke(std::forward<F>(f))} and then returns \tcode{expected<U, E>()}.
 \end{itemdescr}
 
 \indexlibrarymember{transform}{expected}%
@@ -903,7 +903,7 @@ template<class F>
 
 \pnum
 \effects
-If \tcode{has_value()} is \tcode{false}, returns \tcode{expected<U, E>(unexpect, std::move(error()))}. Otherwise, if \tcode{is_void_v<U>} is \tcode{false}, returns an \tcode{expected<U, E>} object whose \tcode{has_val} member is \tcode{true} and \tcode{val} member is direct-non-list-initialized with \tcode{invoke(std::forward<F>(f))}. Otherwise, evaluates \tcode{invoke(std::forward<F>(f))} and then returns \tcode{expected<U, E>()}.
+If \tcode{has_value()} is \tcode{false}, returns \tcode{expected<U, E>(unexpect, std::move(error()))}. Otherwise, if \tcode{is_void_v<U>} is \tcode{false}, returns an \tcode{expected<U, E>} object whose \exposid{has_val} member is \tcode{true} and \tcode{val} member is direct-non-list-initialized with \tcode{invoke(std::forward<F>(f))}. Otherwise, evaluates \tcode{invoke(std::forward<F>(f))} and then returns \tcode{expected<U, E>()}.
 \end{itemdescr}
 
 \indexlibrarymember{transform_error}{expected}%
@@ -921,7 +921,7 @@ template<class F>
 
 \pnum
 \returns
-If \tcode{has_value()} is \tcode{true}, \tcode{expected<T, G>()}; otherwise, an \tcode{expected<T, G>} object whose \tcode{has_val} member is \tcode{false} and \exposid{unex} member is direct-non-list-initialized with \tcode{invoke(std::forward<F>(f), error())}.
+If \tcode{has_value()} is \tcode{true}, \tcode{expected<T, G>()}; otherwise, an \tcode{expected<T, G>} object whose \exposid{has_val} member is \tcode{false} and \exposid{unex} member is direct-non-list-initialized with \tcode{invoke(std::forward<F>(f), error())}.
 \end{itemdescr}
 
 \indexlibrarymember{transform_error}{expected}%
@@ -939,7 +939,7 @@ template<class F>
 
 \pnum
 \returns
-If \tcode{has_value()} is \tcode{true}, \tcode{expected<T, G>()}; otherwise, an \tcode{expected<T, G>} object whose \tcode{has_val} member is \tcode{false} and \exposid{unex} member is direct-non-list-initialized with \tcode{invoke(std::forward<F>(f), std::move(error()))}.
+If \tcode{has_value()} is \tcode{true}, \tcode{expected<T, G>()}; otherwise, an \tcode{expected<T, G>} object whose \exposid{has_val} member is \tcode{false} and \exposid{unex} member is direct-non-list-initialized with \tcode{invoke(std::forward<F>(f), std::move(error()))}.
 \end{itemdescr}
 
 \rSec3[expected.void.eq]{Equality operators}

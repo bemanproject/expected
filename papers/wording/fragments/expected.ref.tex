@@ -176,7 +176,7 @@ namespace std {
     friend constexpr bool operator==(const expected& x, const unexpected<E2>& e);
 
   private:
-    bool @\exposid{has-val}@; // \expos
+    bool @\exposid{has_val}@; // \expos
     union {
       T* @\exposid{val}@;             // \expos
       unexpected<E> @\exposid{unex}@; // \expos
@@ -191,7 +191,7 @@ A program that instantiates the definition of \tcode{expected<T\&, E>} with an \
 
 \pnum
 \remarks
-An object of type \tcode{expected<T\&, E>} either represents a reference to an object of type \tcode{T}, or holds an error. Member \tcode{has_val} indicates whether the object represents a reference. When it represents a reference, member \exposid{val} points to the referenced object, which is not owned by the \tcode{expected} object. Otherwise, the error is \tcode{\exposid{unex}.error()}.
+An object of type \tcode{expected<T\&, E>} either represents a reference to an object of type \tcode{T}, or holds an error. Member \exposid{has_val} indicates whether the object represents a reference. When it represents a reference, member \exposid{val} points to the referenced object, which is not owned by the \tcode{expected} object. Otherwise, the error is \tcode{\exposid{unex}.error()}.
 
 \rSec3[expected.ref.cons]{Constructors}
 
@@ -623,7 +623,7 @@ template<class U = T>
 
 \pnum
 \effects
-Let \tcode{r} be the lvalue result of \tcode{T\& r = std::forward<U>(u);}. If \tcode{has_value()} is \tcode{true}, assigns \tcode{addressof(r)} to \exposid{val}. Otherwise, destroys \exposid{unex}, initializes \exposid{val} with \tcode{addressof(r)}, and sets \tcode{has_val} to \tcode{true}; if binding \tcode{r} throws, \tcode{*this} is left unchanged.
+Let \tcode{r} be the lvalue result of \tcode{T\& r = std::forward<U>(u);}. If \tcode{has_value()} is \tcode{true}, assigns \tcode{addressof(r)} to \exposid{val}. Otherwise, destroys \exposid{unex}, initializes \exposid{val} with \tcode{addressof(r)}, and sets \exposid{has_val} to \tcode{true}; if binding \tcode{r} throws, \tcode{*this} is left unchanged.
 
 \pnum
 \returns
@@ -707,7 +707,7 @@ template<class U = T>
 
 \pnum
 \effects
-Rebinds \tcode{*this} to refer to the object bound by \tcode{T\& r = std::forward<U>(u);}: if \tcode{has_value()} is \tcode{false}, destroys \exposid{unex} first. Sets \exposid{val} to \tcode{addressof(r)} and \tcode{has_val} to \tcode{true}.
+Rebinds \tcode{*this} to refer to the object bound by \tcode{T\& r = std::forward<U>(u);}: if \tcode{has_value()} is \tcode{false}, destroys \exposid{unex} first. Sets \exposid{val} to \tcode{addressof(r)} and \exposid{has_val} to \tcode{true}.
 
 \pnum
 \returns
@@ -801,7 +801,7 @@ constexpr bool has_value() const noexcept;
 \begin{itemdescr}
 \pnum
 \returns
-\tcode{has_val}.
+\exposid{has_val}.
 \end{itemdescr}
 
 \indexlibrarymember{value}{expected}%
