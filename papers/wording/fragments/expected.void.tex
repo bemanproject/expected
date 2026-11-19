@@ -165,7 +165,7 @@ A program that instantiates the definition of \tcode{expected<T, E>} with an \tc
 
 \pnum
 \remarks
-Any object of type \tcode{expected<T, E>} either represents a value of type \tcode{T}, or contains a value of type \tcode{E} nested within it. Member \exposid{has_val} indicates whether the \tcode{expected<T, E>} object represents a value of type \tcode{T}. When \tcode{has_value()} is \tcode{false}, the error is \tcode{\exposid{unex}.error()}.
+Any object of type \tcode{expected<T, E>} either represents a value of type \tcode{T}, or contains a value of type \tcode{E} nested within\iref{intro.object} it. Member \exposid{has_val} indicates whether the \tcode{expected<T, E>} object represents a value of type \tcode{T}. When \tcode{has_value()} is \tcode{false}, the error is \tcode{\exposid{unex}.error()}.
 
 \rSec3[expected.void.cons]{Constructors}
 
@@ -614,7 +614,7 @@ If \tcode{this->has_value()} and \tcode{rhs.has_value()}, no effects. If neither
 
 \pnum
 \throws
-Any exception thrown by the expressions in the Effects.
+Any exception thrown by the expressions in the \Fundescx{Effects}.
 
 \pnum
 \remarks

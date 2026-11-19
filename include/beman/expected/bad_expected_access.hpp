@@ -97,8 +97,10 @@ class bad_expected_access : public bad_expected_access<void> {
 
 // bad_expected_access<void> out-of-line definitions
 
-//! \returns An implementation-defined ntbs, which during constant evaluation
-//! is encoded with the ordinary literal encoding (\iref{lex.ccon}).
+//! \returns An
+//! \impldef{return value of \tcode{bad_expected_access<void>::what}}
+//! \ntbs{}, which during constant evaluation is encoded with the ordinary
+//! literal encoding\iref{lex.ccon}.
 inline BEMAN_EXPECTED_CONSTEXPR_EXCEPTION const char* bad_expected_access<void>::what() const noexcept {
     return "bad expected access";
 }
@@ -109,8 +111,10 @@ inline BEMAN_EXPECTED_CONSTEXPR_EXCEPTION const char* bad_expected_access<void>:
 template <class E>
 BEMAN_EXPECTED_CONSTEXPR_EXCEPTION bad_expected_access<E>::bad_expected_access(E e) : unex(std::move(e)) {}
 
-//! \returns An implementation-defined ntbs, which during constant evaluation
-//! is encoded with the ordinary literal encoding (\iref{lex.ccon}).
+//! \returns An
+//! \impldef{return value of \tcode{bad_expected_access<E>::what}}
+//! \ntbs{}, which during constant evaluation is encoded with the ordinary
+//! literal encoding\iref{lex.ccon}.
 template <class E>
 BEMAN_EXPECTED_CONSTEXPR_EXCEPTION const char* bad_expected_access<E>::what() const noexcept {
     return "bad expected access";

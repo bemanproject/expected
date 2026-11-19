@@ -70,7 +70,7 @@ A program that instantiates the definition of \tcode{unexpected} for a non-objec
 
 \pnum
 \remarks
-Subclause \iref{expected.unexpected} describes the class template \tcode{unexpected} that represents unexpected objects stored in \tcode{expected} objects.
+Subclause \ref{expected.unexpected} describes the class template \tcode{unexpected} that represents unexpected objects stored in \tcode{expected} objects.
 
 \rSec3[expected.un.cons]{Constructors}
 
@@ -359,7 +359,7 @@ const char* what() const noexcept override;
 \begin{itemdescr}
 \pnum
 \returns
-An implementation-defined ntbs, which during constant evaluation is encoded with the ordinary literal encoding (\iref{lex.ccon}).
+An \impldef{return value of \tcode{bad_expected_access<void>::what}} \ntbs{}, which during constant evaluation is encoded with the ordinary literal encoding\iref{lex.ccon}.
 \end{itemdescr}
 
 \begin{codeblock}
@@ -403,7 +403,7 @@ const char* what() const noexcept override;
 \begin{itemdescr}
 \pnum
 \returns
-An implementation-defined ntbs, which during constant evaluation is encoded with the ordinary literal encoding (\iref{lex.ccon}).
+An \impldef{return value of \tcode{bad_expected_access<E>::what}} \ntbs{}, which during constant evaluation is encoded with the ordinary literal encoding\iref{lex.ccon}.
 \end{itemdescr}
 
 \indexlibrarymember{error}{bad_expected_access}%
@@ -683,7 +683,7 @@ A program that instantiates the definition of \tcode{expected<T, E>} with a \tco
 
 \pnum
 \remarks
-Any object of type \tcode{expected<T, E>} either contains a value of type \tcode{T} or a value of type \tcode{E} nested within it. Member \exposid{has_val} indicates whether the \tcode{expected<T, E>} object contains an object of type \tcode{T}. When \tcode{has_value()} is \tcode{false}, the error is \tcode{\exposid{unex}.error()}. The error is held as an \tcode{unexpected<E>}, and not as an \tcode{E}, so that \tcode{E} may be an lvalue reference type: an \tcode{E\&} cannot be a union member, whereas \tcode{unexpected<E\&>} holds a pointer to an external object.
+Any object of type \tcode{expected<T, E>} either contains a value of type \tcode{T} or a value of type \tcode{E} nested within\iref{intro.object} it. Member \exposid{has_val} indicates whether the \tcode{expected<T, E>} object contains an object of type \tcode{T}. When \tcode{has_value()} is \tcode{false}, the error is \tcode{\exposid{unex}.error()}. The error is held as an \tcode{unexpected<E>}, and not as an \tcode{E}, so that \tcode{E} may be an lvalue reference type: an \tcode{E\&} cannot be a union member, whereas \tcode{unexpected<E\&>} holds a pointer to an external object.
 
 \rSec3[expected.object.cons]{Constructors}
 
@@ -815,7 +815,7 @@ template<class U, class G>
 \begin{itemdescr}
 \pnum
 \constraints
-\tcode{is_constructible_v<T, const U\&>} is \tcode{true}; and \tcode{is_constructible_v<E, const G\&>} is \tcode{true}; and if \tcode{T} is not \tcode{bool}, \tcode{converts-from-any-cvref<T, expected<U, G>>} is \tcode{false}; and \tcode{is_constructible_v<unexpected<E>, expected<U, G>\&>} is \tcode{false}; and \tcode{is_constructible_v<unexpected<E>, expected<U, G>>} is \tcode{false}; and \tcode{is_constructible_v<unexpected<E>, const expected<U, G>\&>} is \tcode{false}; and \tcode{is_constructible_v<unexpected<E>, const expected<U, G>>} is \tcode{false}.
+\tcode{is_constructible_v<T, const U\&>} is \tcode{true}; and \tcode{is_constructible_v<E, const G\&>} is \tcode{true}; and if \tcode{T} is not \cv{} \tcode{bool}, \tcode{converts-from-any-cvref<T, expected<U, G>>} is \tcode{false}; and \tcode{is_constructible_v<unexpected<E>, expected<U, G>\&>} is \tcode{false}; and \tcode{is_constructible_v<unexpected<E>, expected<U, G>>} is \tcode{false}; and \tcode{is_constructible_v<unexpected<E>, const expected<U, G>\&>} is \tcode{false}; and \tcode{is_constructible_v<unexpected<E>, const expected<U, G>>} is \tcode{false}.
 
 \pnum
 \effects
@@ -869,7 +869,7 @@ template<class U = remove_cv_t<T>>
 \begin{itemdescr}
 \pnum
 \constraints
-\tcode{is_same_v<remove_cvref_t<U>, in_place_t>} is \tcode{false}; and \tcode{is_same_v<remove_cvref_t<U>, unexpect_t>} is \tcode{false}; and \tcode{is_same_v<remove_cvref_t<U>, expected>} is \tcode{false}; and \tcode{is_constructible_v<T, U>} is \tcode{true}; and \tcode{remove_cvref_t<U>} is not a specialization of \tcode{unexpected}; and if \tcode{T} is \tcode{bool}, \tcode{remove_cvref_t<U>} is not a specialization of \tcode{expected}.
+\tcode{is_same_v<remove_cvref_t<U>, in_place_t>} is \tcode{false}; and \tcode{is_same_v<remove_cvref_t<U>, unexpect_t>} is \tcode{false}; and \tcode{is_same_v<remove_cvref_t<U>, expected>} is \tcode{false}; and \tcode{is_constructible_v<T, U>} is \tcode{true}; and \tcode{remove_cvref_t<U>} is not a specialization of \tcode{unexpected}; and if \tcode{T} is \cv{} \tcode{bool}, \tcode{remove_cvref_t<U>} is not a specialization of \tcode{expected}.
 
 \pnum
 \effects
@@ -1392,7 +1392,7 @@ If \tcode{this->has_value()} and \tcode{rhs.has_value()}, equivalent to \tcode{u
 
 \pnum
 \throws
-Any exception thrown by the expressions in the Effects.
+Any exception thrown by the expressions in the \Fundescx{Effects}.
 
 \pnum
 \remarks
@@ -2032,7 +2032,7 @@ A program that instantiates the definition of \tcode{expected<T, E>} with an \tc
 
 \pnum
 \remarks
-Any object of type \tcode{expected<T, E>} either represents a value of type \tcode{T}, or contains a value of type \tcode{E} nested within it. Member \exposid{has_val} indicates whether the \tcode{expected<T, E>} object represents a value of type \tcode{T}. When \tcode{has_value()} is \tcode{false}, the error is \tcode{\exposid{unex}.error()}.
+Any object of type \tcode{expected<T, E>} either represents a value of type \tcode{T}, or contains a value of type \tcode{E} nested within\iref{intro.object} it. Member \exposid{has_val} indicates whether the \tcode{expected<T, E>} object represents a value of type \tcode{T}. When \tcode{has_value()} is \tcode{false}, the error is \tcode{\exposid{unex}.error()}.
 
 \rSec3[expected.void.cons]{Constructors}
 
@@ -2481,7 +2481,7 @@ If \tcode{this->has_value()} and \tcode{rhs.has_value()}, no effects. If neither
 
 \pnum
 \throws
-Any exception thrown by the expressions in the Effects.
+Any exception thrown by the expressions in the \Fundescx{Effects}.
 
 \pnum
 \remarks

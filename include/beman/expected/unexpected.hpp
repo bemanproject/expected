@@ -63,7 +63,7 @@ inline constexpr bool reference_constructs_from_temporary_v = __reference_constr
 //! \mandates A program that instantiates the definition of `unexpected` for
 //! a non-object type other than an lvalue reference type, an array type, a
 //! specialization of `unexpected`, or a cv-qualified type is ill-formed.
-//! \remarks Subclause \iref{expected.unexpected} describes the class
+//! \remarks Subclause \ref{expected.unexpected} describes the class
 //! template `unexpected` that represents unexpected objects stored in
 //! `expected` objects.
 template <class E>

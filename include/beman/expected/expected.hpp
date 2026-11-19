@@ -130,10 +130,10 @@ constexpr bool converts_from_any_cvref = std::disjunction_v<std::is_constructibl
 //! E>` with an `E` that is not a valid template argument for `unexpected`
 //! is ill-formed.
 //! \remarks Any object of type `expected<T, E>` either contains a value of
-//! type `T` or a value of type `E` nested within it. Member `has_val`
-//! indicates whether the `expected<T, E>` object contains an object of type
-//! `T`. When `has_value()` is `false`, the error is `unex.error()`. The
-//! error is held as an `unexpected<E>`, and not as an `E`, so that `E` may
+//! type `T` or a value of type `E` nested within\iref{intro.object} it. Member
+//! `has_val` indicates whether the `expected<T, E>` object contains an object
+//! of type `T`. When `has_value()` is `false`, the error is `unex.error()`.
+//! The error is held as an `unexpected<E>`, and not as an `E`, so that `E` may
 //! be an lvalue reference type: an `E&` cannot be a union member, whereas
 //! `unexpected<E&>` holds a pointer to an external object.
 template <class T, class E>
@@ -720,13 +720,12 @@ constexpr expected<T, E>::expected(expected&& rhs) noexcept(std::is_nothrow_move
 
 //! \group cvt-copy-ctor
 //! \constraints `is_constructible_v<T, const U&>` is `true`; and
-//! `is_constructible_v<E, const G&>` is `true`; and if `T` is not `bool`,
-//! `converts-from-any-cvref<T, expected<U, G>>` is `false`; and
+//! `is_constructible_v<E, const G&>` is `true`; and if `T` is not \cv{}
+//! `bool`, `converts-from-any-cvref<T, expected<U, G>>` is `false`; and
 //! `is_constructible_v<unexpected<E>, expected<U, G>&>` is `false`; and
 //! `is_constructible_v<unexpected<E>, expected<U, G>>` is `false`; and
-//! `is_constructible_v<unexpected<E>, const expected<U, G>&>` is `false`;
-//! and `is_constructible_v<unexpected<E>, const expected<U, G>>` is
-//! `false`.
+//! `is_constructible_v<unexpected<E>, const expected<U, G>&>` is `false`; and
+//! `is_constructible_v<unexpected<E>, const expected<U, G>>` is `false`.
 //! \effects If `rhs.has_value()`, direct-non-list-initializes `val` with
 //! `*rhs`. Otherwise, direct-non-list-initializes `unex` with
 //! `rhs.error()`.
@@ -803,7 +802,7 @@ constexpr expected<T, E>::expected(expected<U, G>&& rhs) : has_val_(rhs.has_valu
 //! `is_same_v<remove_cvref_t<U>, unexpect_t>` is `false`; and
 //! `is_same_v<remove_cvref_t<U>, expected>` is `false`; and
 //! `is_constructible_v<T, U>` is `true`; and `remove_cvref_t<U>` is not a
-//! specialization of `unexpected`; and if `T` is `bool`,
+//! specialization of `unexpected`; and if `T` is \cv{} `bool`,
 //! `remove_cvref_t<U>` is not a specialization of `expected`.
 //! \effects Direct-non-list-initializes `val` with `std::forward<U>(v)`.
 //! \ensures `has_value()` is `true`.
@@ -1195,7 +1194,8 @@ constexpr T& expected<T, E>::emplace(std::initializer_list<U> il, Args&&... args
 //! unchanged), leaving `has_value()` `false` and `rhs.has_value()` `true`.
 //! If `rhs.has_value()` is `true` and `this->has_value()` is `false`,
 //! equivalent to `rhs.swap(*this)`.
-//! \throws Any exception thrown by the expressions in the Effects.
+//! \throws Any exception thrown by the expressions in the
+//! \Fundescx{Effects}.
 //! \remarks The exception specification is equivalent to
 //! `is_nothrow_move_constructible_v<T> && is_nothrow_swappable_v<T> &&
 //! is_nothrow_move_constructible_v<E> && (is_reference_v<E> ||
@@ -1844,10 +1844,10 @@ constexpr auto expected<T, E>::transform_error(F&& f) const&& {
 //! \mandates A program that instantiates the definition of `expected<T, E>`
 //! with an `E` that is not a valid template argument for `unexpected` is
 //! ill-formed.
-//! \remarks Any object of type `expected<T, E>` either represents a value
-//! of type `T`, or contains a value of type `E` nested within it. Member
-//! `has_val` indicates whether the `expected<T, E>` object represents a
-//! value of type `T`. When `has_value()` is `false`, the error is
+//! \remarks Any object of type `expected<T, E>` either represents a value of
+//! type `T`, or contains a value of type `E` nested within\iref{intro.object}
+//! it. Member `has_val` indicates whether the `expected<T, E>` object
+//! represents a value of type `T`. When `has_value()` is `false`, the error is
 //! `unex.error()`.
 template <class E>
 class expected<void, E> {
@@ -2624,7 +2624,8 @@ constexpr void expected<void, E>::emplace() noexcept {
 //! `std::move(unex)`, destroys `unex`, and leaves `has_value()` `false`
 //! and `rhs.has_value()` `true`. If `rhs.has_value()` is `true` and
 //! `this->has_value()` is `false`, equivalent to `rhs.swap(*this)`.
-//! \throws Any exception thrown by the expressions in the Effects.
+//! \throws Any exception thrown by the expressions in the
+//! \Fundescx{Effects}.
 //! \remarks The exception specification is equivalent to
 //! `is_nothrow_move_constructible_v<E> && (is_reference_v<E> ||
 //! is_nothrow_swappable_v<E>)`.
