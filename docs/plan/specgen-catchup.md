@@ -13,10 +13,13 @@ which are the headers on `main`, and the working draft at `65890fab`
 **Earlier rounds:** 0.23.0, then 0.41.1 (`9d1689d`) on 2026-11-16, then
 0.42.3 and 0.43.0 on 2026-11-17 and 18. Where a number moved, the earlier one
 is given beside it.
-**Progress:** stages 1 to 6 are done, 2026-11-19, as seven commits on this
-branch on top of #117's head. Each stage below says what it did. Next is
-[member-routing](#member-routing); [macro-specifiers](#macro-specifiers)
-waits on specgen.
+**Progress:** stages 1 to 6 and 8 are done, 2026-11-19, as commits on this
+branch on top of #117's head. Each stage below says what it did.
+[macro-specifiers](#macro-specifiers) waits on specgen#377. Next is
+[synopsis-shape](#synopsis-shape), which needs
+[overload-partitions](#overload-partitions) and
+[implementation-extras](#implementation-extras) ruled on first;
+[api-site](#api-site) is independent of both.
 
 ---
 
@@ -504,6 +507,19 @@ implies. `\at` stays where a member sits outside its group, and one is
 added: `bad_expected_access<void>::what()` is routed to
 `[expected.bad.void]`. Check: item placement is unchanged but for that one,
 and the synopses gain the paper's 22 group headers.
+
+Done (`65eab56`). 21 banners in the three `expected` classes became group
+comments and `unexpected` gained its one, 22 in all; 56 `\at` markers went,
+and 16 remain: 14 in `unexpected.hpp`, whose members after the constructors
+sit outside any group in the draft's synopsis, and the two that place a
+class's own wording in its `.general` subclause. The wording gained the 22
+comment lines and lost nothing. `\at` does not route an out-of-line
+definition, so `bad_expected_access<void>::what()` was moved instead: its
+definition now follows its class, ahead of the section comment for the
+primary template. `[expected.bad]` opens with its synopsis and
+`[expected.bad.void]` has its item, and the removed block in that clause's
+draft diff is gone. Code only in the generated wording is 1576 tokens, and
+only in the paper 748.
 
 ### Stage 9 — <a id="synopsis-shape"></a>[synopsis-shape](#synopsis-shape)
 
