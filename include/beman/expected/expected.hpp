@@ -667,6 +667,7 @@ constexpr expected<T, E>::expected(const expected& rhs) noexcept(std::is_nothrow
         std::construct_at(std::addressof(unex_), rhs.unex_);
 }
 
+//! \seebelow noexcept
 //! \effects If `rhs.has_value()` is `true`, direct-non-list-initializes
 //! `val` with `std::move(*rhs)`. Otherwise, direct-non-list-initializes
 //! `unex` with `std::move(rhs.error())`.
@@ -688,6 +689,7 @@ constexpr expected<T, E>::expected(expected&& rhs) noexcept(std::is_nothrow_move
         std::construct_at(std::addressof(unex_), std::move(rhs.unex_));
 }
 
+//! \seebelow explicit
 //! \group cvt-copy-ctor
 //! \constraints `is_constructible_v<T, const U&>` is `true`; and
 //! `is_constructible_v<E, const G&>` is `true`; and if `T` is not \cv{}
@@ -717,6 +719,7 @@ constexpr expected<T, E>::expected(const expected<U, G>& rhs) : has_val_(rhs.has
         std::construct_at(std::addressof(unex_), rhs.error());
 }
 
+//! \seebelow explicit
 //! \also cvt-copy-ctor
 template <class T, class E>
 template <class U, class G>
@@ -733,6 +736,7 @@ constexpr expected<T, E>::expected(expected<U, G>&& rhs) : has_val_(rhs.has_valu
         std::construct_at(std::addressof(unex_), std::move(rhs).error());
 }
 
+//! \seebelow explicit
 //! \group cvt-copy-ctor-ref
 //! \constraints `is_constructible_v<T, const U&>` is `true`; and
 //! `is_reference_v<G>` is `true`; and `is_convertible_v<G, E>` is `true`.
@@ -756,6 +760,7 @@ constexpr expected<T, E>::expected(const expected<U, G>& rhs) : has_val_(rhs.has
         std::construct_at(std::addressof(unex_), rhs.error());
 }
 
+//! \seebelow explicit
 //! \also cvt-copy-ctor-ref
 template <class T, class E>
 template <class U, class G>
@@ -954,6 +959,7 @@ constexpr expected<T, E>& expected<T, E>::operator=(const expected& rhs) noexcep
     return *this;
 }
 
+//! \seebelow noexcept
 //! \effects If `this->has_value() && rhs.has_value()`, equivalent to `val
 //! = std::move(*rhs)`. Otherwise, if `this->has_value()`, equivalent to
 //! `reinit-expected(unex, val, std::move(rhs.error()))`. Otherwise, if
@@ -1155,6 +1161,7 @@ constexpr T& expected<T, E>::emplace(std::initializer_list<U> il, Args&&... args
 
 // \rSec3[expected.object.swap]{Swap}
 
+//! \seebelow noexcept
 //! \effects If `this->has_value()` and `rhs.has_value()`, equivalent to
 //! `using std::swap; swap(val, rhs.val);`. If neither `*this` nor `rhs`
 //! contains a value, equivalent to `using std::swap; swap(unex,
@@ -2444,6 +2451,7 @@ expected<void, E>::operator=(const expected& rhs) noexcept(std::is_nothrow_copy_
     return *this;
 }
 
+//! \seebelow noexcept
 //! \effects If `this->has_value() && rhs.has_value()`, no effects.
 //! Otherwise, if `this->has_value()`, equivalent to:
 //! `construct_at(addressof(unex), std::move(rhs.unex)); has_val = false;`
@@ -2557,6 +2565,7 @@ constexpr void expected<void, E>::emplace() noexcept {
 // =============================================================================
 // \rSec3[expected.void.swap]{Swap}
 
+//! \seebelow noexcept
 //! \effects If `this->has_value()` and `rhs.has_value()`, no effects. If
 //! neither `*this` nor `rhs` contains a value, equivalent to `using
 //! std::swap; swap(unex, rhs.unex);`. If `rhs.has_value()` is `false`
@@ -3133,6 +3142,7 @@ class expected<T&, E> {
                                   "in-place — pass a U convertible to T&");
 
     // Value constructor — takes U that can bind to T&
+    //! \seebelow explicit
     //! \constraints `remove_cvref_t<U>` is not `in_place_t`, `expected`, or
     //! a specialization of `unexpected`; `is_constructible_v<T&, U>` is
     //! `true`; and `reference_constructs_from_temporary_v<T&, U>` is
@@ -3567,6 +3577,7 @@ constexpr expected<T&, E>::expected(const expected& rhs) noexcept(std::is_nothro
         std::construct_at(std::addressof(unex_), rhs.unex_);
 }
 
+//! \seebelow noexcept
 //! \also ref-copy-move-ctor
 template <class T, class E>
 constexpr expected<T&, E>::expected(expected&& rhs) noexcept(std::is_nothrow_move_constructible_v<E>)
@@ -3578,6 +3589,7 @@ constexpr expected<T&, E>::expected(expected&& rhs) noexcept(std::is_nothrow_mov
         std::construct_at(std::addressof(unex_), std::move(rhs.unex_));
 }
 
+//! \seebelow explicit
 //! \group ref-cvt-copy-ctor
 //! \constraints `is_constructible_v<T&, U&>` is `true`;
 //! `reference_constructs_from_temporary_v<T&, U&>` is `false`; and
@@ -3599,6 +3611,7 @@ constexpr expected<T&, E>::expected(const expected<U&, G>& rhs) : has_val_(rhs.h
     }
 }
 
+//! \seebelow explicit
 //! \also ref-cvt-copy-ctor
 template <class T, class E>
 template <class U, class G>
@@ -3613,6 +3626,7 @@ constexpr expected<T&, E>::expected(expected<U&, G>&& rhs) : has_val_(rhs.has_va
     }
 }
 
+//! \seebelow explicit
 //! \group ref-cvt-copy-ctor-ref
 //! \constraints `is_constructible_v<T&, U&>` is `true`;
 //! `reference_constructs_from_temporary_v<T&, U&>` is `false`; `G` is a
@@ -3637,6 +3651,7 @@ constexpr expected<T&, E>::expected(const expected<U&, G>& rhs) : has_val_(rhs.h
     }
 }
 
+//! \seebelow explicit
 //! \also ref-cvt-copy-ctor-ref
 template <class T, class E>
 template <class U, class G>
@@ -3651,6 +3666,7 @@ constexpr expected<T&, E>::expected(expected<U&, G>&& rhs) : has_val_(rhs.has_va
     }
 }
 
+//! \seebelow explicit
 //! \group ref-cvt-unexpected-ctor
 //! \constraints `is_constructible_v<E, const G&>` is `true`.
 //! \effects Initializes `unex` with the error of `e`.
@@ -3662,6 +3678,7 @@ constexpr expected<T&, E>::expected(const unexpected<G>& e) : has_val_(false) {
     std::construct_at(std::addressof(unex_), e.error());
 }
 
+//! \seebelow explicit
 //! \also ref-cvt-unexpected-ctor
 template <class T, class E>
 template <class G>
@@ -3670,6 +3687,7 @@ constexpr expected<T&, E>::expected(unexpected<G>&& e) : has_val_(false) {
     std::construct_at(std::addressof(unex_), std::move(e).error());
 }
 
+//! \seebelow explicit
 //! \group ref-cvt-unexpected-ctor-ref
 //! \constraints `is_reference_v<G>` is `true`; `is_constructible_v<E, G>`
 //! is `true`; and `reference_constructs_from_temporary_v<E, G>` is
@@ -3686,6 +3704,7 @@ constexpr expected<T&, E>::expected(const unexpected<G>& e) noexcept : has_val_(
     std::construct_at(std::addressof(unex_), e.error());
 }
 
+//! \seebelow explicit
 //! \also ref-cvt-unexpected-ctor-ref
 template <class T, class E>
 template <class G>
@@ -3774,6 +3793,7 @@ expected<T&, E>::operator=(const expected& rhs) noexcept(std::is_nothrow_copy_co
     return *this;
 }
 
+//! \seebelow noexcept
 //! \also ref-copy-move-assign
 template <class T, class E>
 constexpr expected<T&, E>&
@@ -3865,6 +3885,7 @@ constexpr expected<T&, E>& expected<T&, E>::operator=(unexpected<G>&& e) {
     return *this;
 }
 
+//! \seebelow noexcept
 //! \constraints `is_constructible_v<T&, U>` is `true` and
 //! `reference_constructs_from_temporary_v<T&, U>` is `false`.
 //! \effects Rebinds `*this` to refer to the object bound by `T& r =
@@ -3886,6 +3907,7 @@ constexpr T& expected<T&, E>::emplace(U&& u) noexcept(std::is_nothrow_constructi
 
 // \rSec3[expected.ref.swap]{Swap}
 
+//! \seebelow noexcept
 //! \effects Exchanges the states of `*this` and `rhs`. When both hold
 //! values, exchanges `val` and `rhs.val` — the referenced objects are not
 //! swapped. Otherwise behaves as the primary template's `swap` does for

@@ -504,24 +504,19 @@ namespace std {
 
     constexpr expected(expected&&) = default;
 
-    constexpr expected(expected&& rhs) noexcept(is_nothrow_move_constructible_v<T> &&
-                                                is_nothrow_move_constructible_v<E>);
+    constexpr expected(expected&& rhs) noexcept(@\seebelow@);
 
     template<class U, class G>
-    constexpr explicit(!is_convertible_v<const U&, T> || !is_convertible_v<const G&, E>)
-        expected(const expected<U, G>& rhs);
+    constexpr explicit(@\seebelow@) expected(const expected<U, G>& rhs);
 
     template<class U, class G>
-    constexpr explicit(!is_convertible_v<U, T> || !is_convertible_v<G, E>)
-        expected(expected<U, G>&& rhs);
+    constexpr explicit(@\seebelow@) expected(expected<U, G>&& rhs);
 
     template<class U, class G>
-    constexpr explicit(!is_convertible_v<const U&, T> || !is_convertible_v<G, E>)
-        expected(const expected<U, G>& rhs);
+    constexpr explicit(@\seebelow@) expected(const expected<U, G>& rhs);
 
     template<class U, class G>
-    constexpr explicit(!is_convertible_v<U&&, T> || !is_convertible_v<G, E>)
-        expected(expected<U, G>&& rhs);
+    constexpr explicit(@\seebelow@) expected(expected<U, G>&& rhs);
 
     template<class U = remove_cv_t<T>>
     constexpr explicit(!is_convertible_v<U, T>) expected(U&& v);
@@ -581,9 +576,7 @@ namespace std {
 
     constexpr expected& operator=(expected&&) noexcept = default;
 
-    constexpr expected& operator=(expected&& rhs) noexcept(
-        is_nothrow_move_constructible_v<T> && is_nothrow_move_assignable_v<T> &&
-        is_nothrow_move_constructible_v<E> && is_nothrow_move_assignable_v<E>);
+    constexpr expected& operator=(expected&& rhs) noexcept(@\seebelow@);
 
     template<class U = remove_cv_t<T>> constexpr expected& operator=(U&& v);
 
@@ -608,11 +601,7 @@ namespace std {
 
     // \ref{expected.object.swap}, swap
 
-    constexpr void swap(expected& rhs) noexcept(is_nothrow_move_constructible_v<T> &&
-                                                is_nothrow_swappable_v<T> &&
-                                                is_nothrow_move_constructible_v<E> &&
-                                                (is_reference_v<E> ||
-                                                 is_nothrow_swappable_v<E>));
+    constexpr void swap(expected& rhs) noexcept(@\seebelow@);
 
     friend constexpr void swap(expected& x, expected& y) noexcept(noexcept(x.swap(y)));
 
@@ -793,7 +782,7 @@ This constructor is trivial.
 
 \indexlibraryctor{expected}%
 \begin{itemdecl}
-constexpr expected(expected&& rhs) noexcept(is_nothrow_move_constructible_v<T> && is_nothrow_move_constructible_v<E>);
+constexpr expected(expected&& rhs) noexcept(@\seebelow@);
 \end{itemdecl}
 
 \begin{itemdescr}
@@ -821,10 +810,9 @@ This constructor is trivial if \tcode{is_trivially_move_constructible_v<T>} is \
 \indexlibraryctor{expected}%
 \begin{itemdecl}
 template<class U, class G>
-  constexpr explicit(!is_convertible_v<const U&, T> || !is_convertible_v<const G&, E>)
-      expected(const expected<U, G>& rhs);
+  constexpr explicit(@\seebelow@) expected(const expected<U, G>& rhs);
 template<class U, class G>
-  constexpr explicit(!is_convertible_v<U, T> || !is_convertible_v<G, E>) expected(expected<U, G>&& rhs);
+  constexpr explicit(@\seebelow@) expected(expected<U, G>&& rhs);
 \end{itemdecl}
 
 \begin{itemdescr}
@@ -848,9 +836,9 @@ Any exception thrown by the initialization of \exposid{val} or \exposid{unex}.
 \indexlibraryctor{expected}%
 \begin{itemdecl}
 template<class U, class G>
-  constexpr explicit(!is_convertible_v<const U&, T> || !is_convertible_v<G, E>) expected(const expected<U, G>& rhs);
+  constexpr explicit(@\seebelow@) expected(const expected<U, G>& rhs);
 template<class U, class G>
-  constexpr explicit(!is_convertible_v<U&&, T> || !is_convertible_v<G, E>) expected(expected<U, G>&& rhs);
+  constexpr explicit(@\seebelow@) expected(expected<U, G>&& rhs);
 \end{itemdecl}
 
 \begin{itemdescr}
@@ -1231,10 +1219,7 @@ This operator is trivial.
 
 \indexlibrarymember{operator=}{expected}%
 \begin{itemdecl}
-constexpr expected& operator=(expected&& rhs) noexcept(is_nothrow_move_constructible_v<T> &&
-                                                       is_nothrow_move_assignable_v<T> &&
-                                                       is_nothrow_move_constructible_v<E> &&
-                                                       is_nothrow_move_assignable_v<E>);
+constexpr expected& operator=(expected&& rhs) noexcept(@\seebelow@);
 \end{itemdecl}
 
 \begin{itemdescr}
@@ -1385,9 +1370,7 @@ Equivalent to: \tcode{if (has_value()) \{ destroy_at(addressof(\exposid{val})); 
 
 \indexlibrarymember{swap}{expected}%
 \begin{itemdecl}
-constexpr void swap(expected& rhs) noexcept(is_nothrow_move_constructible_v<T> && is_nothrow_swappable_v<T> &&
-                                            is_nothrow_move_constructible_v<E> &&
-                                            (is_reference_v<E> || is_nothrow_swappable_v<E>));
+constexpr void swap(expected& rhs) noexcept(@\seebelow@);
 \end{itemdecl}
 
 \begin{itemdescr}
@@ -1966,8 +1949,7 @@ namespace std {
     constexpr expected& operator=(const expected& rhs) noexcept(
         is_nothrow_copy_constructible_v<E> && is_nothrow_copy_assignable_v<E>);
 
-    constexpr expected& operator=(expected&& rhs) noexcept(
-        is_nothrow_move_constructible_v<E> && is_nothrow_move_assignable_v<E>);
+    constexpr expected& operator=(expected&& rhs) noexcept(@\seebelow@);
 
     template<class G> constexpr expected& operator=(const unexpected<G>& e);
 
@@ -1987,9 +1969,7 @@ namespace std {
 
     // \ref{expected.void.swap}, swap
 
-    constexpr void swap(expected& rhs) noexcept(is_nothrow_move_constructible_v<E> &&
-                                                (is_reference_v<E> ||
-                                                 is_nothrow_swappable_v<E>));
+    constexpr void swap(expected& rhs) noexcept(@\seebelow@);
 
     friend constexpr void swap(expected& x, expected& y) noexcept(noexcept(x.swap(y)));
 
@@ -2390,8 +2370,7 @@ This operator is defined as deleted unless \tcode{is_copy_assignable_v<E>} is \t
 
 \indexlibrarymember{operator=}{expected}%
 \begin{itemdecl}
-constexpr expected& operator=(expected&& rhs) noexcept(is_nothrow_move_constructible_v<E> &&
-                                                       is_nothrow_move_assignable_v<E>);
+constexpr expected& operator=(expected&& rhs) noexcept(@\seebelow@);
 \end{itemdecl}
 
 \begin{itemdescr}
@@ -2495,8 +2474,7 @@ If \tcode{has_value()} is \tcode{false}, destroys \exposid{unex} and sets \expos
 
 \indexlibrarymember{swap}{expected}%
 \begin{itemdecl}
-constexpr void swap(expected& rhs) noexcept(is_nothrow_move_constructible_v<E> &&
-                                            (is_reference_v<E> || is_nothrow_swappable_v<E>));
+constexpr void swap(expected& rhs) noexcept(@\seebelow@);
 \end{itemdecl}
 
 \begin{itemdescr}
@@ -2905,44 +2883,36 @@ namespace std {
 
     constexpr expected(expected&&) = default;
 
-    constexpr expected(expected&& rhs) noexcept(is_nothrow_move_constructible_v<E>);
+    constexpr expected(expected&& rhs) noexcept(@\seebelow@);
 
     template<class... Args> constexpr expected(in_place_t, Args&&...) = delete;
 
     template<class U = T>
-    constexpr explicit(!is_convertible_v<U, T&>)
+    constexpr explicit(@\seebelow@)
         expected(U&& u) noexcept(is_nothrow_constructible_v<T&, U>);
 
     template<class U> constexpr expected(U&&) = delete;
 
     template<class U, class G>
-    constexpr explicit(!is_convertible_v<U&, T&> || !is_convertible_v<const G&, E>)
-        expected(const expected<U&, G>& rhs);
+    constexpr explicit(@\seebelow@) expected(const expected<U&, G>& rhs);
 
     template<class U, class G>
-    constexpr explicit(!is_convertible_v<U&, T&> || !is_convertible_v<G, E>)
-        expected(expected<U&, G>&& rhs);
+    constexpr explicit(@\seebelow@) expected(expected<U&, G>&& rhs);
 
     template<class U, class G>
-    constexpr explicit(!is_convertible_v<U&, T&> || !is_convertible_v<G, E>)
-        expected(const expected<U&, G>& rhs);
+    constexpr explicit(@\seebelow@) expected(const expected<U&, G>& rhs);
 
     template<class U, class G>
-    constexpr explicit(!is_convertible_v<U&, T&> || !is_convertible_v<G, E>)
-        expected(expected<U&, G>&& rhs);
+    constexpr explicit(@\seebelow@) expected(expected<U&, G>&& rhs);
+
+    template<class G> constexpr explicit(@\seebelow@) expected(const unexpected<G>& e);
+
+    template<class G> constexpr explicit(@\seebelow@) expected(unexpected<G>&& e);
 
     template<class G>
-    constexpr explicit(!is_convertible_v<const G&, E>) expected(const unexpected<G>& e);
+    constexpr explicit(@\seebelow@) expected(const unexpected<G>& e) noexcept;
 
-    template<class G>
-    constexpr explicit(!is_convertible_v<G, E>) expected(unexpected<G>&& e);
-
-    template<class G>
-    constexpr explicit(!is_convertible_v<G, E>)
-        expected(const unexpected<G>& e) noexcept;
-
-    template<class G>
-    constexpr explicit(!is_convertible_v<G, E>) expected(unexpected<G>&& e) noexcept;
+    template<class G> constexpr explicit(@\seebelow@) expected(unexpected<G>&& e) noexcept;
 
     template<class G> constexpr expected(const unexpected<G>&) = delete;
 
@@ -2980,8 +2950,7 @@ namespace std {
 
     constexpr expected& operator=(expected&&) noexcept = default;
 
-    constexpr expected& operator=(expected&& rhs) noexcept(
-        is_nothrow_move_constructible_v<E> && is_nothrow_move_assignable_v<E>);
+    constexpr expected& operator=(expected&& rhs) noexcept(@\seebelow@);
 
     template<class U = T> constexpr expected& operator=(U&& u);
 
@@ -2999,14 +2968,11 @@ namespace std {
       requires(is_reference_v<E> && !is_reference_v<G>)
     constexpr expected& operator=(unexpected<G>&&) = delete;
 
-    template<class U = T>
-    constexpr T& emplace(U&& u) noexcept(is_nothrow_constructible_v<T&, U>);
+    template<class U = T> constexpr T& emplace(U&& u) noexcept(@\seebelow@);
 
     // \ref{expected.ref.swap}, swap
 
-    constexpr void swap(expected& rhs) noexcept(is_nothrow_move_constructible_v<E> &&
-                                                (is_reference_v<E> ||
-                                                 is_nothrow_swappable_v<E>));
+    constexpr void swap(expected& rhs) noexcept(@\seebelow@);
 
     friend constexpr void swap(expected& x, expected& y) noexcept(noexcept(x.swap(y)));
 
@@ -3120,7 +3086,7 @@ This constructor is trivial.
 \indexlibraryctor{expected}%
 \begin{itemdecl}
 constexpr expected(const expected& rhs) noexcept(is_nothrow_copy_constructible_v<E>);
-constexpr expected(expected&& rhs) noexcept(is_nothrow_move_constructible_v<E>);
+constexpr expected(expected&& rhs) noexcept(@\seebelow@);
 \end{itemdecl}
 
 \begin{itemdescr}
@@ -3175,7 +3141,7 @@ template<class... Args>
 \indexlibraryctor{expected}%
 \begin{itemdecl}
 template<class U = T>
-  constexpr explicit(!is_convertible_v<U, T&>) expected(U&& u) noexcept(is_nothrow_constructible_v<T&, U>);
+  constexpr explicit(@\seebelow@) expected(U&& u) noexcept(is_nothrow_constructible_v<T&, U>);
 \end{itemdecl}
 
 \begin{itemdescr}
@@ -3211,9 +3177,9 @@ A constructor for which \tcode{reference_constructs_from_temporary_v<T\&, U>} is
 \indexlibraryctor{expected}%
 \begin{itemdecl}
 template<class U, class G>
-  constexpr explicit(!is_convertible_v<U&, T&> || !is_convertible_v<const G&, E>) expected(const expected<U&, G>& rhs);
+  constexpr explicit(@\seebelow@) expected(const expected<U&, G>& rhs);
 template<class U, class G>
-  constexpr explicit(!is_convertible_v<U&, T&> || !is_convertible_v<G, E>) expected(expected<U&, G>&& rhs);
+  constexpr explicit(@\seebelow@) expected(expected<U&, G>&& rhs);
 \end{itemdecl}
 
 \begin{itemdescr}
@@ -3229,9 +3195,9 @@ If \tcode{rhs.has_value()} is \tcode{true}, initializes \exposid{val} with \tcod
 \indexlibraryctor{expected}%
 \begin{itemdecl}
 template<class U, class G>
-  constexpr explicit(!is_convertible_v<U&, T&> || !is_convertible_v<G, E>) expected(const expected<U&, G>& rhs);
+  constexpr explicit(@\seebelow@) expected(const expected<U&, G>& rhs);
 template<class U, class G>
-  constexpr explicit(!is_convertible_v<U&, T&> || !is_convertible_v<G, E>) expected(expected<U&, G>&& rhs);
+  constexpr explicit(@\seebelow@) expected(expected<U&, G>&& rhs);
 \end{itemdecl}
 
 \begin{itemdescr}
@@ -3251,9 +3217,9 @@ Unlike the value-\tcode{E} overload above, this overload participates in overloa
 \indexlibraryctor{expected}%
 \begin{itemdecl}
 template<class G>
-  constexpr explicit(!is_convertible_v<const G&, E>) expected(const unexpected<G>& e);
+  constexpr explicit(@\seebelow@) expected(const unexpected<G>& e);
 template<class G>
-  constexpr explicit(!is_convertible_v<G, E>) expected(unexpected<G>&& e);
+  constexpr explicit(@\seebelow@) expected(unexpected<G>&& e);
 \end{itemdecl}
 
 \begin{itemdescr}
@@ -3273,9 +3239,9 @@ Initializes \exposid{unex} with the error of \tcode{e}.
 \indexlibraryctor{expected}%
 \begin{itemdecl}
 template<class G>
-  constexpr explicit(!is_convertible_v<G, E>) expected(const unexpected<G>& e) noexcept;
+  constexpr explicit(@\seebelow@) expected(const unexpected<G>& e) noexcept;
 template<class G>
-  constexpr explicit(!is_convertible_v<G, E>) expected(unexpected<G>&& e) noexcept;
+  constexpr explicit(@\seebelow@) expected(unexpected<G>&& e) noexcept;
 \end{itemdecl}
 
 \begin{itemdescr}
@@ -3457,8 +3423,7 @@ Assignment rebinds: assigning to an \tcode{expected<T\&, E>} that holds a value 
 \begin{itemdecl}
 constexpr expected& operator=(const expected& rhs) noexcept(is_nothrow_copy_constructible_v<E> &&
                                                             is_nothrow_copy_assignable_v<E>);
-constexpr expected& operator=(expected&& rhs) noexcept(is_nothrow_move_constructible_v<E> &&
-                                                       is_nothrow_move_assignable_v<E>);
+constexpr expected& operator=(expected&& rhs) noexcept(@\seebelow@);
 \end{itemdecl}
 
 \begin{itemdescr}
@@ -3589,7 +3554,7 @@ When \tcode{E} is a reference type, an overload taking \tcode{unexpected<G>} for
 \indexlibrarymember{emplace}{expected}%
 \begin{itemdecl}
 template<class U = T>
-  constexpr T& emplace(U&& u) noexcept(is_nothrow_constructible_v<T&, U>);
+  constexpr T& emplace(U&& u) noexcept(@\seebelow@);
 \end{itemdecl}
 
 \begin{itemdescr}
@@ -3610,8 +3575,7 @@ Rebinds \tcode{*this} to refer to the object bound by \tcode{T\& r = std::forwar
 
 \indexlibrarymember{swap}{expected}%
 \begin{itemdecl}
-constexpr void swap(expected& rhs) noexcept(is_nothrow_move_constructible_v<E> &&
-                                            (is_reference_v<E> || is_nothrow_swappable_v<E>));
+constexpr void swap(expected& rhs) noexcept(@\seebelow@);
 \end{itemdecl}
 
 \begin{itemdescr}
