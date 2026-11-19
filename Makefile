@@ -262,6 +262,47 @@ wording-check: ## Check the checked-in wording matches what the headers generate
 	    diff $(WORDING_DIR)/fragments/$$fragment $(BUILD_DIR)/wording-check/fragments/$$fragment || exit 1; \
 	done
 
+# Two measures of how far the generated wording is from where it is going.
+# Neither fails the build; they are for judging a change to the docblocks.
+#
+# The first counts tokens against the paper's hand-written wording, with its
+# change markup stripped. The second counts the change marks specgen makes
+# when it diffs the generated wording against the working draft, beside the
+# marks the paper makes by hand. It needs the draft: DRAFT_SOURCE names the
+# `source` directory of a cplusplus/draft checkout, and is skipped when unset.
+# specgen reads whatever revision that directory holds and records none, so
+# say which it was when quoting the numbers.
+#
+# The draft diff is run without --validate. Reading the draft raises warnings
+# no header can clear, and they must not stop a measurement.
+DRAFT_SOURCE ?=
+WORDING_GAP_DIR := $(BUILD_DIR)/wording-gap
+
+.PHONY: wording-gap
+wording-gap: $(WORDING_DIR)/expected.tex ## Print how far the generated wording is from the paper's and from the working draft's (DRAFT_SOURCE=<draft>/source)
+	@rm -rf $(WORDING_GAP_DIR)
+	@mkdir -p $(WORDING_GAP_DIR)/fragments
+	@sed -n '/\\rSec2\[expected\.unexpected\]/,$$p' papers/expected-new.tex \
+	    | python3 papers/strip-wording.py > $(WORDING_GAP_DIR)/paper.tex
+	@python3 papers/wording-gap.py tokens \
+	    $(WORDING_GAP_DIR)/paper.tex $(WORDING_DIR)/expected.tex
+ifeq ($(DRAFT_SOURCE),)
+	@echo "Change marks against the working draft: skipped, DRAFT_SOURCE is not set"
+else
+	@$(SPECGEN) generate $(WORDING_HEADERS) \
+	    --backend latex --base-section-depth 2 \
+	    --baseline-draft $(DRAFT_SOURCE) --diff-context all \
+	    --split $(WORDING_GAP_DIR)/fragments \
+	    --root expected.unexpected.root \
+	    --root expected.bad.root \
+	    --root expected.root \
+	    --no-compile-commands -- $(SPECGEN_CLANG_ARGS) \
+	    > /dev/null 2> $(WORDING_GAP_DIR)/specgen.log \
+	    || echo "specgen exited $$?; see $(WORDING_GAP_DIR)/specgen.log"
+	@python3 papers/wording-gap.py marks papers/expected-new.tex \
+	    $(WORDING_GAP_DIR)/fragments $(WORDING_CLAUSES)
+endif
+
 # Deletes everything specgen and the assembly wrote, so that the next `make
 # wording` writes all of it again. This is for a change in specgen itself: the
 # rules above compare the wording with the headers, a new specgen changes the
