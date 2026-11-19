@@ -1,12 +1,12 @@
 # Plan: specgen-catchup
 
-**Branch:** `specgen-catchup` (from `upstream/main` at `396d94d`)
+**Branch:** `specgen-catchup` (from `upstream/main` at `669166b`)
 **Read first:** the specgen user guide (`~/src/specgen/main/docs/user-guide.md`,
 specgen 0.47.0) and `papers/wording/README.md`.
-**Depends on:** [#117](https://github.com/bemanproject/expected/pull/117),
-which adds `make clean-wording` and regenerates the checked-in wording, with
-specgen 0.23.0 and then with 0.41.1 (`b796f6c`). It is open and mergeable.
-This plan's stages start from that wording.
+**Builds on:** [#117](https://github.com/bemanproject/expected/pull/117),
+which added `make clean-wording` and regenerated the checked-in wording, with
+specgen 0.23.0 and then with 0.41.1 (`b796f6c`). It merged on 2026-11-19 as
+`669166b`. This plan's stages start from that wording.
 **Measured with:** specgen 0.47.0 (`6c50a01`) on the headers at `396d94d`,
 which are the headers on `main`, and the working draft at `65890fab`
 (2026-11-17), whose `[expected]` is the same as at `3e3793aa` and `2594eff0`.
@@ -14,7 +14,7 @@ which are the headers on `main`, and the working draft at `65890fab`
 0.42.3 and 0.43.0 on 2026-11-17 and 18. Where a number moved, the earlier one
 is given beside it.
 **Progress:** stages 1 to 6 and 8 are done, 2026-11-19, as commits on this
-branch on top of #117's head. Each stage below says what it did.
+branch, rebased onto `upstream/main` once #117 had merged. Each stage below says what it did.
 [macro-specifiers](#macro-specifiers) waits on specgen#377. Next is
 [synopsis-shape](#synopsis-shape), which needs
 [overload-partitions](#overload-partitions) and
@@ -124,7 +124,7 @@ builds `expected-clean.tex` by splicing the hand-written head of
 `strip-wording.py`) onto that file. The paper itself `\include`s
 `expected-new.tex` and uses no generated text.
 
-The checked-in wording on `main` is specgen 0.4.0's. #117 carries 0.41.1's.
+The checked-in wording on `main` is specgen 0.41.1's, from #117.
 
 ### The gap to the paper, measured
 
@@ -380,7 +380,7 @@ definition's, and delete the in-class copy. Check: no `error:` line from
 `generate`, exit status 0, and the `[expected.ref]` fragment changes only
 where a difference was settled.
 
-Done (`5865daf`, `2bd9439`). Five of the seven pairs said the same thing.
+Done (`1846970`, `0034e47`). Five of the seven pairs said the same thing.
 Deleting all seven left the render byte for byte as it was, and the run
 exits 0. The other two were the move constructor and the move assignment
 operator. Each is the second declaration of a grouped item whose description
@@ -402,9 +402,9 @@ it.
 Done once already, for 0.41.1, as the third commit of #117 (`b796f6c`). The
 stage recurs whenever specgen changes its render; see
 [specgen-pin](#specgen-pin). #117 can merge as it is, with this stage's
-commit following it, or take this commit as a fourth.
+commit following it, or take this commit as a fourth. It merged as it was.
 
-Done for 0.47.0 (`c9d9569`), with `--warnings-as-errors` in the specgen call
+Done for 0.47.0 (`3882f08`), with `--warnings-as-errors` in the specgen call
 and a paragraph in `papers/wording/README.md` on what fails the run.
 
 ### Stage 3 — <a id="gap-yardstick"></a>[gap-yardstick](#gap-yardstick)
@@ -416,7 +416,7 @@ draft. It does not fail the build. It needs a draft checkout
 does to these numbers. The counts in this plan were made by hand each round,
 and the scripts were not kept, which is the reason for the goal.
 
-Done (`2a0102d`): `make wording-gap DRAFT_SOURCE=<draft>/source`, counted by
+Done (`23188c3`): `make wording-gap DRAFT_SOURCE=<draft>/source`, counted by
 `papers/wording-gap.py`. On the 0.41.1 wording it gives the numbers of the
 token table above, and for the paper's marks the last column of the draft
 table. After stage 6, against the draft at `65890fab`:
@@ -440,7 +440,7 @@ table. After stage 6, against the draft at `65890fab`:
 goes from 0 to 27 and `\tcode{has_val}` to 0. Move the two `\omit` rationales
 back above their members.
 
-Done (`03f0c92`). 27, and 0. The note on the deleted copy assignment is
+Done (`cf465bd`). 27, and 0. The note on the deleted copy assignment is
 above the primary template's `\omit`ted overload, and the note on `void_` is
 above that member in the union. Neither changed the wording.
 
@@ -450,7 +450,7 @@ Write the 7 titles that name code with backticks, as prose does:
 ``{Partial specialization `unexpected<E&>`}``. Check: each renders with
 `\tcode{...}` and matches the paper's title.
 
-Done (`7d5214b`). Every heading of the generated wording, title and stable
+Done (`54989d4`). Every heading of the generated wording, title and stable
 name, is now the same as the paper's.
 
 ### Stage 6 — <a id="draft-prose-macros"></a>[draft-prose-macros](#draft-prose-macros)
@@ -470,7 +470,7 @@ words or get them slightly wrong:
 Check: the sentences changed read as the draft's do, and no other paragraph
 of the plain render changes.
 
-Done (`8516f2c`). `what()` twice; `\iref{lex.ccon}` twice, written
+Done (`f22e465`). `what()` twice; `\iref{lex.ccon}` twice, written
 `encoding\iref{lex.ccon}` with no space before it, as the draft does, since
 the macro prints its own; `\ref` after "Subclause"; and three sentences the
 docblocks share with the draft: `\cv{}` before `bool` in two *Constraints*,
@@ -508,7 +508,7 @@ added: `bad_expected_access<void>::what()` is routed to
 `[expected.bad.void]`. Check: item placement is unchanged but for that one,
 and the synopses gain the paper's 22 group headers.
 
-Done (`65eab56`). 21 banners in the three `expected` classes became group
+Done (`081b893`). 21 banners in the three `expected` classes became group
 comments and `unexpected` gained its one, 22 in all; 56 `\at` markers went,
 and 16 remain: 14 in `unexpected.hpp`, whose members after the constructors
 sit outside any group in the draft's synopsis, and the two that place a
@@ -742,7 +742,7 @@ header change can clear.
 - 2026-11-19: specgen 0.44.0 exits 1 on a docblock error (specgen#350), so
   the run fails today, flag or no flag. On the scratch headers
   `--validate --warnings-as-errors` exits 0.
-- 2026-11-19: the flag is in the makefile's specgen call (`c9d9569`), as
+- 2026-11-19: the flag is in the makefile's specgen call (`3882f08`), as
   recommended, and off the draft diff in `wording-gap`. Applied in carrying
   out [regenerate](#regenerate); not ruled on.
 
@@ -900,7 +900,7 @@ holds, and lists the files in the depfile.
   `git archive` of that revision into a scratch directory, since the local
   checkout sits at N5054. `utilities.tex` does not differ between
   `3e3793aa` and `65890fab`.
-- 2026-11-19: `DRAFT_SOURCE` is the variable (`2a0102d`), read only by
+- 2026-11-19: `DRAFT_SOURCE` is the variable (`23188c3`), read only by
   `wording-gap`, which skips the draft measure when it is unset. Where the
   revision is recorded is still open.
 
