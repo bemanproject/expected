@@ -6,24 +6,18 @@
 namespace std {
   template<class E>
   class @\libglobal{unexpected}@ {
-    // [expected.un.general] para 2: ill-formed instantiations
-
   public:
     constexpr unexpected(const unexpected&) = default;
     constexpr unexpected(unexpected&&) = default;
 
     template<class Err = E>
-      requires(!is_same_v<remove_cvref_t<Err>, unexpected> &&
-               !is_same_v<remove_cvref_t<Err>, in_place_t> && is_constructible_v<E, Err>)
     constexpr explicit unexpected(Err&& e) noexcept(is_nothrow_constructible_v<E, Err>);
 
     template<class... Args>
-      requires is_constructible_v<E, Args...>
     constexpr explicit unexpected(in_place_t, Args&&... args) noexcept(
         is_nothrow_constructible_v<E, Args...>);
 
     template<class U, class... Args>
-      requires is_constructible_v<E, initializer_list<U>&, Args...>
     constexpr explicit unexpected(
         in_place_t, initializer_list<U> il,
         Args&&... args) noexcept(is_nothrow_constructible_v<E, initializer_list<U>&,
@@ -42,8 +36,8 @@ namespace std {
     template<class E2>
     friend constexpr bool operator==(const unexpected& x, const unexpected<E2>& y);
 
-    friend constexpr void swap(unexpected& x, unexpected& y) noexcept(noexcept(x.swap(y)))
-      requires is_swappable_v<E>;
+    friend constexpr void swap(unexpected& x,
+                               unexpected& y) noexcept(noexcept(x.swap(y)));
 
   private:
     E @\exposidnc{unex}@; // exposition only
@@ -51,7 +45,6 @@ namespace std {
 }
 \end{codeblock}
 
-\begin{itemdescr}
 \pnum
 \mandates
 A program that instantiates the definition of \tcode{unexpected} for a non-object type other than an lvalue reference type, an array type, a specialization of \tcode{unexpected}, or a cv-qualified type is ill-formed.
@@ -59,14 +52,13 @@ A program that instantiates the definition of \tcode{unexpected} for a non-objec
 \pnum
 \remarks
 Subclause \iref{expected.unexpected} describes the class template \tcode{unexpected} that represents unexpected objects stored in \tcode{expected} objects.
-\end{itemdescr}
 
 \rSec3[expected.un.cons]{Constructors}
 
 \indexlibraryctor{unexpected}%
 \begin{itemdecl}
 template<class Err = E>
-constexpr explicit unexpected(Err&& e) noexcept(is_nothrow_constructible_v<E, Err>);
+  constexpr explicit unexpected(Err&& e) noexcept(is_nothrow_constructible_v<E, Err>);
 \end{itemdecl}
 
 \begin{itemdescr}
@@ -80,18 +72,17 @@ constexpr explicit unexpected(Err&& e) noexcept(is_nothrow_constructible_v<E, Er
 
 \pnum
 \effects
-Direct-non-list-initializes \tcode{unex} with \tcode{std::forward<Err>(e)}.
+Direct-non-list-initializes \exposid{unex} with \tcode{std::forward<Err>(e)}.
 
 \pnum
 \throws
-Any exception thrown by the initialization of \tcode{unex}.
+Any exception thrown by the initialization of \exposid{unex}.
 \end{itemdescr}
 
 \indexlibraryctor{unexpected}%
 \begin{itemdecl}
 template<class... Args>
-constexpr explicit unexpected(in_place_t, Args&&... args) noexcept(
-    is_nothrow_constructible_v<E, Args...>);
+  constexpr explicit unexpected(in_place_t, Args&&... args) noexcept(is_nothrow_constructible_v<E, Args...>);
 \end{itemdecl}
 
 \begin{itemdescr}
@@ -101,34 +92,32 @@ constexpr explicit unexpected(in_place_t, Args&&... args) noexcept(
 
 \pnum
 \effects
-Direct-non-list-initializes \tcode{unex} with \tcode{std::forward<Args>(args)...}.
+Direct-non-list-initializes \exposid{unex} with \tcode{std::forward<Args>(args)...}.
 
 \pnum
 \throws
-Any exception thrown by the initialization of \tcode{unex}.
+Any exception thrown by the initialization of \exposid{unex}.
 \end{itemdescr}
 
 \indexlibraryctor{unexpected}%
 \begin{itemdecl}
 template<class U, class... Args>
-constexpr explicit unexpected(
-    in_place_t, initializer_list<U> il,
-    Args&&... args) noexcept(is_nothrow_constructible_v<E, initializer_list<U>&,
-                                                        Args...>);
+  constexpr explicit unexpected(in_place_t, initializer_list<U> il,
+                                Args&&... args) noexcept(is_nothrow_constructible_v<E, initializer_list<U>&, Args...>);
 \end{itemdecl}
 
 \begin{itemdescr}
 \pnum
 \constraints
-\tcode{is_constructible_v<E, initializer_list<U>&, Args...>} is \tcode{true}.
+\tcode{is_constructible_v<E, initializer_list<U>\&, Args...>} is \tcode{true}.
 
 \pnum
 \effects
-Direct-non-list-initializes \tcode{unex} with \tcode{il, std::forward<Args>(args)...}.
+Direct-non-list-initializes \exposid{unex} with \tcode{il, std::forward<Args>(args)...}.
 
 \pnum
 \throws
-Any exception thrown by the initialization of \tcode{unex}.
+Any exception thrown by the initialization of \exposid{unex}.
 \end{itemdescr}
 
 \rSec3[expected.un.obs]{Observers}
@@ -136,34 +125,26 @@ Any exception thrown by the initialization of \tcode{unex}.
 \indexlibrarymember{error}{unexpected}%
 \begin{itemdecl}
 constexpr const E& error() const& noexcept;
+constexpr E& error() & noexcept;
 \end{itemdecl}
 
 \begin{itemdescr}
 \pnum
 \returns
-\tcode{unex}.
+\exposid{unex}.
 \end{itemdescr}
-
-\indexlibrarymember{error}{unexpected}%
-\begin{itemdecl}
-constexpr E& error() & noexcept;
-\end{itemdecl}
 
 \indexlibrarymember{error}{unexpected}%
 \begin{itemdecl}
 constexpr const E&& error() const&& noexcept;
+constexpr E&& error() && noexcept;
 \end{itemdecl}
 
 \begin{itemdescr}
 \pnum
 \returns
-\tcode{std::move(unex)}.
+\tcode{std::move(\exposid{unex})}.
 \end{itemdescr}
-
-\indexlibrarymember{error}{unexpected}%
-\begin{itemdecl}
-constexpr E&& error() && noexcept;
-\end{itemdecl}
 
 \rSec3[expected.un.swap]{Swap}
 
@@ -179,7 +160,7 @@ constexpr void swap(unexpected& other) noexcept(is_nothrow_swappable_v<E>);
 
 \pnum
 \effects
-Equivalent to: \tcode{using std::swap; swap(unex, other.unex);}
+Equivalent to: \tcode{using std::swap; swap(\exposid{unex}, other.\exposid{unex});}
 \end{itemdescr}
 
 \indexlibraryglobal{swap}%
@@ -202,7 +183,7 @@ Equivalent to \tcode{x.swap(y)}.
 \indexlibraryglobal{operator==}%
 \begin{itemdecl}
 template<class E2>
-friend constexpr bool operator==(const unexpected& x, const unexpected<E2>& y);
+  friend constexpr bool operator==(const unexpected& x, const unexpected<E2>& y);
 \end{itemdecl}
 
 \begin{itemdescr}
@@ -247,19 +228,18 @@ namespace std {
 }
 \end{codeblock}
 
-\begin{itemdescr}
 \pnum
 \mandates
-A program that instantiates the definition of \tcode{unexpected<E&>} for a referenced type that is not an object type, an array type, or a specialization of \tcode{unexpected} is ill-formed.
+A program that instantiates the definition of \tcode{unexpected<E\&>} for a referenced type that is not an object type, an array type, or a specialization of \tcode{unexpected} is ill-formed.
 
 \pnum
 \remarks
-An object of type \tcode{unexpected<E&>} holds a pointer to an object of type \tcode{E}. The referenced object is not owned by the \tcode{unexpected<E&>} object. Unlike the primary template, \tcode{E} may be a cv-qualified type.
-\end{itemdescr}
+An object of type \tcode{unexpected<E\&>} holds a pointer to an object of type \tcode{E}. The referenced object is not owned by the \tcode{unexpected<E\&>} object. Unlike the primary template, \tcode{E} may be a cv-qualified type.
 
 \indexlibraryctor{unexpected}%
 \begin{itemdecl}
-template<class G = E> constexpr explicit unexpected(G&& e) noexcept;
+template<class G = E>
+  constexpr explicit unexpected(G&& e) noexcept;
 \end{itemdecl}
 
 \begin{itemdescr}
@@ -268,32 +248,33 @@ template<class G = E> constexpr explicit unexpected(G&& e) noexcept;
 \begin{itemize}
 \item \tcode{is_same_v<remove_cvref_t<G>, unexpected>} is \tcode{false},
 \item \tcode{is_same_v<remove_cvref_t<G>, in_place_t>} is \tcode{false},
-\item \tcode{is_constructible_v<E&, G>} is \tcode{true}, and
-\item \tcode{reference_constructs_from_temporary_v<E&, G>} is \tcode{false}.
+\item \tcode{is_constructible_v<E\&, G>} is \tcode{true}, and
+\item \tcode{reference_constructs_from_temporary_v<E\&, G>} is \tcode{false}.
 \end{itemize}
 
 \pnum
 \effects
-Initializes \tcode{unex} with \tcode{addressof(static_cast<E&>(std::forward<G>(e)))}.
+Initializes \exposid{unex} with \tcode{addressof(static_cast<E\&>(std::forward<G>(e)))}.
 
 \pnum
 \remarks
-A constructor for which \tcode{reference_constructs_from_temporary_v<E&, G>} is \tcode{true} — one that would bind \tcode{E&} to a temporary — is defined as deleted.
+A constructor for which \tcode{reference_constructs_from_temporary_v<E\&, G>} is \tcode{true} — one that would bind \tcode{E\&} to a temporary — is defined as deleted.
 \end{itemdescr}
 
 \indexlibraryctor{unexpected}%
 \begin{itemdecl}
-template<class G = E> constexpr explicit unexpected(in_place_t, G&& e) noexcept;
+template<class G = E>
+  constexpr explicit unexpected(in_place_t, G&& e) noexcept;
 \end{itemdecl}
 
 \begin{itemdescr}
 \pnum
 \constraints
-\tcode{is_constructible_v<E&, G>} is \tcode{true} and \tcode{reference_constructs_from_temporary_v<E&, G>} is \tcode{false}.
+\tcode{is_constructible_v<E\&, G>} is \tcode{true} and \tcode{reference_constructs_from_temporary_v<E\&, G>} is \tcode{false}.
 
 \pnum
 \effects
-Initializes \tcode{unex} with \tcode{addressof(static_cast<E&>(std::forward<G>(e)))}.
+Initializes \exposid{unex} with \tcode{addressof(static_cast<E\&>(std::forward<G>(e)))}.
 \end{itemdescr}
 
 \indexlibrarymember{error}{unexpected}%
@@ -304,11 +285,11 @@ constexpr E& error() const noexcept;
 \begin{itemdescr}
 \pnum
 \returns
-\tcode{*unex}.
+\tcode{*\exposid{unex}}.
 
 \pnum
 \remarks
-The reference returned is not \tcode{const}-qualified even when \tcode{*this} is \tcode{const}; the constness of the \tcode{unexpected<E&>} object does not propagate to the referenced object.
+The reference returned is not \tcode{const}-qualified even when \tcode{*this} is \tcode{const}; the constness of the \tcode{unexpected<E\&>} object does not propagate to the referenced object.
 \end{itemdescr}
 
 \indexlibrarymember{swap}{unexpected}%
@@ -319,13 +300,13 @@ constexpr void swap(unexpected& other) noexcept;
 \begin{itemdescr}
 \pnum
 \effects
-Exchanges \tcode{unex} and \tcode{other.unex}.
+Exchanges \exposid{unex} and \tcode{other.\exposid{unex}}.
 \end{itemdescr}
 
 \indexlibraryglobal{operator==}%
 \begin{itemdecl}
 template<class E2>
-friend constexpr bool operator==(const unexpected& x, const unexpected<E2>& y);
+  friend constexpr bool operator==(const unexpected& x, const unexpected<E2>& y);
 \end{itemdecl}
 
 \begin{itemdescr}

@@ -16,6 +16,17 @@ has real prerequisites, so it does nothing when nothing changed, and `make
 papers` regenerates the wording before building the PDF — a paper can no longer
 be built from stale clauses.
 
+Those prerequisites are the headers, so a new specgen that renders the same
+headers differently leaves make with nothing to do. For that case:
+
+```sh
+make clean-wording wording
+```
+
+`clean-wording` deletes the fragments, `expected.tex`, and the depfile, and
+`wording` writes them all again. It deletes checked-in files, so it refuses to
+run when `specgen` is not found, and `make clean` does not reach it.
+
 GNU Make 4.3 or newer. One specgen invocation writes all six fragments, which
 the makefile states as a grouped target (`&:`) — a rule 4.2 parses as something
 else entirely, and would then run specgen once per fragment.

@@ -29,11 +29,9 @@ namespace std {
 }
 \end{codeblock}
 
-\begin{itemdescr}
 \pnum
 \remarks
 The class template \tcode{bad_expected_access} defines the type of objects thrown as exceptions to report the situation where an attempt is made to access the value of an \tcode{expected<T, E>} object for which \tcode{has_value()} is \tcode{false}.
-\end{itemdescr}
 
 \indexlibraryctor{bad_expected_access}%
 \begin{itemdecl}
@@ -87,7 +85,7 @@ constexpr E&& error() && noexcept;
 \begin{itemdescr}
 \pnum
 \returns
-\tcode{std::move(unex)}.
+\tcode{std::move(\exposid{unex})}.
 \end{itemdescr}
 
 \indexlibrarymember{error}{bad_expected_access}%
@@ -98,5 +96,5 @@ constexpr const E&& error() const&& noexcept;
 \begin{itemdescr}
 \pnum
 \returns
-\tcode{std::move(unex)}.
+\tcode{std::move(\exposid{unex})}.
 \end{itemdescr}

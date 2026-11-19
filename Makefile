@@ -261,6 +261,25 @@ wording-check: ## Check the checked-in wording matches what the headers generate
 	    diff $(WORDING_DIR)/fragments/$$fragment $(BUILD_DIR)/wording-check/fragments/$$fragment || exit 1; \
 	done
 
+# Deletes everything specgen and the assembly wrote, so that the next `make
+# wording` writes all of it again. This is for a change in specgen itself: the
+# rules above compare the wording with the headers, a new specgen changes the
+# output without touching one, and so make sees nothing to do. `make -B
+# wording` is no substitute, because .DEFAULT below then hands every
+# prerequisite that has no rule of its own, the headers and this makefile among
+# them, to cmake as a target.
+#
+# The fragments and expected.tex are checked in. So this refuses to run when
+# there is no specgen to put them back, and neither clean nor realclean
+# depends on it.
+.PHONY: clean-wording
+clean-wording: ## Delete the generated wording, so that 'make wording' regenerates all of it
+	@command -v $(SPECGEN) > /dev/null 2>&1 || { \
+	    echo "error: '$(SPECGEN)' not found; nothing could regenerate the checked-in wording" >&2; \
+	    exit 1; }
+	rm -f $(WORDING_DIR)/expected.tex $(WORDING_FRAGMENTS) \
+	    $(WORDING_DIR)/fragments/*.root.tex papers/.deps/wording.d
+
 # What specgen read to produce the fragments -- including headers reached only
 # through an #include, which is the edge a hand-written prerequisite list
 # forgets. Written by --depfile above; absent until the first run, hence
