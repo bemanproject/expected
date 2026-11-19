@@ -3174,13 +3174,6 @@ class expected<T&, E> {
     constexpr expected(const expected&) = default;
 
     // Copy constructor (non-trivial path)
-    //! \at expected.ref.cons
-    //! \effects If `rhs.has_value()` is `true`, initializes `val` with
-    //! `rhs.val`, so that `*this` and `rhs` refer to the same object;
-    //! otherwise, initializes `unex` with `rhs.unex`.
-    //! \ensures `rhs.has_value() == this->has_value()`.
-    //! \remarks This constructor is defined as deleted unless
-    //! `is_copy_constructible_v<E>` is `true`.
     constexpr expected(const expected& rhs) noexcept(std::is_nothrow_copy_constructible_v<E>)
         requires(std::is_copy_constructible_v<E> && !std::is_trivially_copy_constructible_v<E>);
 
@@ -3194,14 +3187,6 @@ class expected<T&, E> {
     constexpr expected(expected&&) = default;
 
     // Move constructor (non-trivial path)
-    //! \at expected.ref.cons
-    //! \effects If `rhs.has_value()` is `true`, initializes `val` with
-    //! `rhs.val`, so that `*this` and `rhs` refer to the same object;
-    //! otherwise, initializes `unex` with `std::move(rhs.unex)`.
-    //! \ensures `rhs.has_value() == this->has_value()`.
-    //! \remarks The exception specification is equivalent to
-    //! `is_nothrow_move_constructible_v<E>`. This constructor is defined as
-    //! deleted unless `is_move_constructible_v<E>` is `true`.
     constexpr expected(expected&& rhs) noexcept(std::is_nothrow_move_constructible_v<E>)
         requires(std::is_move_constructible_v<E> && !std::is_trivially_move_constructible_v<E>);
 
@@ -3367,10 +3352,6 @@ class expected<T&, E> {
         requires std::is_trivially_destructible_v<E>
     = default;
 
-    //! \at expected.ref.dtor
-    //! \effects If `has_value()` is `false`, destroys `unex`. `T` is not
-    //! destroyed; `*this` never owns the object it refers to.
-    //! \remarks This destructor is trivial if `E` is trivially destructible.
     constexpr ~expected()
         requires(!std::is_trivially_destructible_v<E>);
 
@@ -3396,17 +3377,6 @@ class expected<T&, E> {
     = default;
 
     // Copy assignment (non-trivial path)
-    //! \at expected.ref.assign
-    //! \effects If `rhs.has_value()` is `true`: if `has_value()` is `true`,
-    //! assigns `rhs.val` to `val`; otherwise destroys `unex` and
-    //! initializes `val` with `rhs.val`. If `rhs.has_value()` is `false`,
-    //! the error of `rhs` is assigned to or used to initialize `unex`, as
-    //! for the primary template. In every case `*this` comes to refer to
-    //! the object `rhs` refers to, or to hold the error of `rhs`.
-    //! \returns `*this`.
-    //! \remarks This operator is defined as deleted unless
-    //! `is_copy_assignable_v<E>` is `true` and `is_copy_constructible_v<E>`
-    //! is `true`.
     constexpr expected& operator=(const expected& rhs) noexcept(std::is_nothrow_copy_constructible_v<E> &&
                                                                 std::is_nothrow_copy_assignable_v<E>)
         requires((std::is_reference_v<E> || (std::is_copy_constructible_v<E> && std::is_copy_assignable_v<E>)) &&
@@ -3435,18 +3405,6 @@ class expected<T&, E> {
     = default;
 
     // Move assignment (non-trivial path)
-    //! \at expected.ref.assign
-    //! \effects If `rhs.has_value()` is `true`: if `has_value()` is `true`,
-    //! assigns `rhs.val` to `val`; otherwise destroys `unex` and
-    //! initializes `val` with `rhs.val`. If `rhs.has_value()` is `false`,
-    //! the error of `rhs` is assigned to or used to initialize `unex`, as
-    //! for the primary template.
-    //! \returns `*this`.
-    //! \remarks The exception specification is equivalent to
-    //! `is_nothrow_move_constructible_v<E> &&
-    //! is_nothrow_move_assignable_v<E>`. This operator is defined as
-    //! deleted unless `is_move_assignable_v<E>` is `true` and
-    //! `is_move_constructible_v<E>` is `true`.
     constexpr expected& operator=(expected&& rhs) noexcept(std::is_nothrow_move_constructible_v<E> &&
                                                            std::is_nothrow_move_assignable_v<E>)
         requires((std::is_reference_v<E> || (std::is_move_constructible_v<E> && std::is_move_assignable_v<E>)) &&
@@ -3521,13 +3479,6 @@ class expected<T&, E> {
         "expected<T&,E&>: cannot assign from unexpected<value>; the value would dangle — use unexpected<E&>");
 
     // emplace — rebind the reference
-    //! \at expected.ref.assign
-    //! \constraints `is_constructible_v<T&, U>` is `true` and
-    //! `reference_constructs_from_temporary_v<T&, U>` is `false`.
-    //! \effects Rebinds `*this` to refer to the object bound by `T& r =
-    //! std::forward<U>(u);`: if `has_value()` is `false`, destroys `unex`
-    //! first. Sets `val` to `addressof(r)` and `has_val` to `true`.
-    //! \returns `*val`.
     template <class U = T>
         requires(std::is_constructible_v<T&, U> && !detail::reference_constructs_from_temporary_v<T&, U>)
     constexpr T& emplace(U&& u) noexcept(std::is_nothrow_constructible_v<T&, U>);
@@ -3536,14 +3487,6 @@ class expected<T&, E> {
     // Swap
     // -------------------------------------------------------------------------
 
-    //! \at expected.ref.swap
-    //! \effects Exchanges the states of `*this` and `rhs`. When both hold
-    //! values, exchanges `val` and `rhs.val` — the referenced objects are
-    //! not swapped. Otherwise behaves as the primary template's `swap`
-    //! does for the error.
-    //! \remarks The exception specification is equivalent to
-    //! `is_nothrow_move_constructible_v<E> && (is_reference_v<E> ||
-    //! is_nothrow_swappable_v<E>)`.
     constexpr void swap(expected& rhs) noexcept(std::is_nothrow_move_constructible_v<E> &&
                                                 (std::is_reference_v<E> || std::is_nothrow_swappable_v<E>))
         requires((std::is_reference_v<E> || std::is_swappable_v<E>) && std::is_move_constructible_v<E>);
