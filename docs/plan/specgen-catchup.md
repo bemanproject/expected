@@ -15,9 +15,13 @@ which are the headers on `main`, and the working draft at `65890fab`
 is given beside it.
 **Progress:** stages 1 to 6 and 8 are done and are
 [#121](https://github.com/bemanproject/expected/pull/121), from the branch
-`specgen-catchup`. [synopsis-shape](#synopsis-shape) is under way on the
-branch `synopsis-shape`, stacked on that one; what is left of it waits on
-[reference-error-overloads](#reference-error-overloads) and on specgen.
+`specgen-catchup`. On the branch `synopsis-shape`, stacked on that one:
+[class-prose](#class-prose), [front-matter](#front-matter) and
+[api-site](#api-site) are done, and [synopsis-shape](#synopsis-shape) is
+done as far as it can go. What is left of it waits on
+[reference-error-overloads](#reference-error-overloads) and on specgen, and
+[validation-findings](#validation-findings) and
+[exposition-helpers](#exposition-helpers) wait with it.
 [macro-specifiers](#macro-specifiers) waits on specgen#377.
 
 ---
@@ -585,6 +589,19 @@ in the draft's order, split around the synopsis with `\synopsis-here`, in
 place of the `\remarks` and `\mandates` stand-ins. See
 [class-ill-formed-paragraph](#class-ill-formed-paragraph).
 
+Done (`a27005c`). The six class docblocks are the paper's paragraphs in the
+paper's order. `unexpected` opens its subclause ahead of the synopsis; the
+others have all their prose after it, as the paper does. Each ill-formed
+sentence has a `\covers mandates` claim for every `static_assert` of its
+class, 30 in all, and the notes fell from 138 to 108. Three paragraphs came
+in from the paper that the docblocks lacked: the definition of a valid value
+type for `expected`, and the *Cpp17Destructible* requirements in the three
+`expected` classes. Two sentences keep what the assertions enforce where the
+paper says less, and are [converge-with-paper](#converge-with-paper)'s:
+`unexpected<E&>` names a non-object referenced type, and `expected<T&, E>`
+lists `in_place_t`, `unexpect_t` and specializations of `unexpected` for
+`T`. Prose only in the paper fell from 1690 tokens to 1369.
+
 ### Stage 11 — <a id="validation-findings"></a>[validation-findings](#validation-findings)
 
 Read the 124 notes and answer each. The three kinds have different answers:
@@ -597,12 +614,29 @@ Read the 124 notes and answer each. The three kinds have different answers:
 - anything left is a real difference between the code and the authored
   wording, and is fixed in whichever is wrong.
 
+Not started. 108 notes after [class-prose](#class-prose). By kind: 18 are
+`is_reference_v<E>`, the conjunct that separates a reference-`E` twin, and go
+with [reference-error-overloads](#reference-error-overloads); about ten are
+the trivial traits of a merged special member, or a condition its *Remarks*
+state, which need specgen#386; the rest are opaque predicates and the
+monadic operations' requirements, each of which wants its item read. The
+stage keeps its place after [synopsis-shape](#synopsis-shape).
+
 ### Stage 12 — <a id="front-matter"></a>[front-matter](#front-matter)
 
 Generate `[expected.general]` and `[expected.syn]`, add them to
 `$(WORDING_CLAUSES)`, and retire the head splice in `papers/Makefile` and
 `strip-wording.py`'s part in it. See
 [header-synopsis-form](#header-synopsis-form).
+
+Done (`2c1c551`). `expected.hpp` opens with the general paragraph as section
+prose and the header synopsis under `\verbatim-synopsis`, in place of the
+block comment that held a copy of the draft's text. The two fragments are in
+`$(WORDING_CLAUSES)`, and the generated text is the paper's token for token,
+less the three `\index...` lines the paper has ahead of the synopsis.
+`expected-clean.tex` is the clause heading and the generated wording.
+`strip-wording.py` stays for `wording-gap`, which strips the paper's markup
+to compare with, until [generated-diff](#generated-diff) retires both.
 
 ### Stage 13 — <a id="exposition-helpers"></a>[exposition-helpers](#exposition-helpers)
 
@@ -613,12 +647,29 @@ whether the wording defines it in the clause that uses it or stops naming it.
 `--apply-to-draft` counts these too: it leaves out eight declarations that
 are in no subclause, with a warning each.
 
+Not started. Two of the helpers cannot be settled yet.
+*unexpect-dangles-v* is named only by the overloads that
+[reference-error-overloads](#reference-error-overloads) asks about. And
+*reinit-expected* has to be defined in a paragraph that opens
+`[expected.object.assign]`, which is where specgen#383 puts section prose
+last. Moving its definition under that subclause's section comment is also a
+change to where code is, the first in this plan that is more than one inline
+function.
+
 ### Stage 14 — <a id="api-site"></a>[api-site](#api-site)
 
 Make the Doxygen build read the docblocks. Independent of the other stages,
 and can go any time after stage 2. See
 [api-site-markup](#api-site-markup). Check: no "unknown command" warning
 from `make docs`, and an *Effects* paragraph on the page carries its title.
+
+Done (`35a6724`). Warnings from the headers went from 592 to 93, all of
+them members with no documentation, and none is an unknown command. A
+member's page shows *Constraints*, *Effects* and the rest as titled
+paragraphs, a `\item` list as a list, and an overload joined with `\also` as
+an overload of the one before it. Tried with Doxygen 1.15.0 writing to a
+scratch directory. The workflow that publishes the site runs on merge and
+has not run with it.
 
 ### Stage 15 — <a id="converge-with-paper"></a>[converge-with-paper](#converge-with-paper)
 
@@ -769,6 +820,8 @@ the sentence does not cover stays a note.
   paragraph, with a label.
 - 2026-11-16: specgen 0.41.1 has `\covers mandates` on a class (specgen#283)
   and `\synopsis-here`. Recommendation changed from keeping `\mandates`.
+- 2026-11-19: applied as recommended in [class-prose](#class-prose)
+  (`a27005c`), to all six classes. Not ruled on.
 
 ### warning-gate
 
@@ -814,6 +867,10 @@ content is classes.
 **Log.**
 - 2026-11-16: opened, with two defects in the way.
 - 2026-11-16: both fixed in specgen 0.41.1 (specgen#284).
+- 2026-11-19: applied as recommended in [front-matter](#front-matter)
+  (`2c1c551`). Not ruled on. A `// \ref{...}` comment and a `\tcode{...}` in
+  the typed synopsis are written out as they stand, which is what the
+  draft's source has.
 
 ### draft-text-copies
 
@@ -833,6 +890,9 @@ draft diff is the check that the class agrees with the standard.
 **Log.**
 - 2026-11-19: opened. Three blocks: `bad_expected_access.hpp` lines 18 and
   38, `expected.hpp` line 26.
+- 2026-11-19: the one in `expected.hpp` is gone, replaced by the source of
+  `[expected.syn]` (`2c1c551`). The two in `bad_expected_access.hpp` stay
+  until the generated synopses there match the draft's.
 
 ### clause-order
 
@@ -1046,6 +1106,16 @@ it, and is worth asking for once it is known to work here.
 **Log.**
 - 2026-11-19: opened. 506 unknown-command warnings from `make docs`, by
   marker in the table above.
+- 2026-11-19: both, each for what it can do (`35a6724`). `ALIASES` for the
+  six element tags and `\item`. An input filter for the headers,
+  `docs/specgen-doxygen-filter.py`, for the markers that take the rest of
+  the line, for `\verbatim-synopsis`, and for the draft's braced macros,
+  whose arguments nest and hold commas. Aliases alone were not tried
+  further once the markers had to be filtered anyway. Not ruled on.
+  Separately, Doxygen's input includes `docs/`, so it reads this plan too
+  and warns 54 times about its slug links; `docs/plan/extract-xfail-compile.md`
+  draws ten of the same. Whether plans belong on the site is not this
+  stage's question.
 
 ### reference-error-overloads
 
