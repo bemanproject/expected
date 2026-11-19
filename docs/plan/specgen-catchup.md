@@ -13,13 +13,12 @@ which are the headers on `main`, and the working draft at `65890fab`
 **Earlier rounds:** 0.23.0, then 0.41.1 (`9d1689d`) on 2026-11-16, then
 0.42.3 and 0.43.0 on 2026-11-17 and 18. Where a number moved, the earlier one
 is given beside it.
-**Progress:** stages 1 to 6 and 8 are done, 2026-11-19, as commits on this
-branch, rebased onto `upstream/main` once #117 had merged. Each stage below says what it did.
-[macro-specifiers](#macro-specifiers) waits on specgen#377. Next is
-[synopsis-shape](#synopsis-shape), which needs
-[overload-partitions](#overload-partitions) and
-[implementation-extras](#implementation-extras) ruled on first;
-[api-site](#api-site) is independent of both.
+**Progress:** stages 1 to 6 and 8 are done and are
+[#121](https://github.com/bemanproject/expected/pull/121), from the branch
+`specgen-catchup`. [synopsis-shape](#synopsis-shape) is under way on the
+branch `synopsis-shape`, stacked on that one; what is left of it waits on
+[reference-error-overloads](#reference-error-overloads) and on specgen.
+[macro-specifiers](#macro-specifiers) waits on specgen#377.
 
 ---
 
@@ -539,6 +538,46 @@ Bring the class synopses to the draft's shape. What is left of it:
 
 Then [draft-text-copies](#draft-text-copies).
 
+Under way, on the branch `synopsis-shape`. Done so far:
+
+- *see below* on the sixteen members whose item declaration has it in the
+  paper (`05f014c`). Where the draft's synopsis says *see below* and its item
+  declaration spells the condition out, as for `expected(U&& v)`, the
+  condition stays: one marker masks both places.
+- The trivial twins of the special members, in the primary template and in
+  `expected<T&, E>`, are `\merge` (`ab56679`), as they were in
+  `expected<void, E>`. The survivors' *Constraints* are the paper's in all
+  three classes: an authored list for the move members, and an empty
+  `\constraints` for the copy members and the destructors, which the paper
+  states in *Remarks*. Item declarations fall from 165 to 153.
+- `\constraints-in-decl` on the first `operator==` of each class, and
+  `\freestanding-deleted` on `value()` (`cae7873`).
+- `bad_expected_access<E>::error()` is two items of two overloads. Its draft
+  marks are 3 / 3, 2 / 2, from 6 / 10, 4 / 2.
+- `unexpected<E&>` has its synopsis extracted (`994273f`), and it declares
+  what the typed one did.
+
+Against the draft at `65890fab` after these: `[expected.expected]` 124 / 71,
+43 / 69 and `[expected.void]` 99 / 57, 34 / 46. Code only in the generated
+wording is 1303 tokens, from 1576, and prose 2870, from 3428.
+
+Not done, and why:
+
+- The reference-`E` twins and the deleted overloads are not merged. The
+  paper says nothing about them, so there is no survivor wording to carry
+  what they say: [reference-error-overloads](#reference-error-overloads).
+- What the implementation declares beyond the draft, a strengthened
+  `noexcept`, `= default`, a parameter name in the synopsis, has no markup:
+  specgen#385.
+- The deduction guide is not in `unexpected`'s synopsis: specgen#384.
+- The item for `bad_expected_access<E>::what()` follows the order of the
+  class's declarations and is second, where the draft has it last.
+- "Assignment rebinds", the paragraph that opens `[expected.ref.assign]`, is
+  section prose now and renders after the subclause's items: specgen#383.
+- [draft-text-copies](#draft-text-copies), until the synopses of
+  `bad_expected_access` match the draft's, which waits on specgen#377 and
+  specgen#385.
+
 ### Stage 10 — <a id="class-prose"></a>[class-prose](#class-prose)
 
 Rewrite the general subclauses as the draft has them: unlabelled paragraphs
@@ -643,9 +682,11 @@ changes, and none of the three large classes is one.
 **Question.** Where the implementation splits one specified overload into
 several (trivial and non-trivial, value-`E` and reference-`E`), what does the
 wording show?
-**Status.** OPEN
-**Recommendation.** One overload, as the paper has it: the survivor carries
+**Status.** DECIDED
+**Decision.** One overload, as the paper has it: the survivor carries
 the wording and each twin is `\merge`d.
+**Decided by.** Steve Downey, 2026-11-19: take the recommendation for
+[synopsis-shape](#synopsis-shape).
 **Why.** The paper's synopsis is the specification, and the split is how this
 library implements it. specgen's `\merge` drops the conjunct that only
 separates a survivor from its twin, but only when the twin states the
@@ -660,6 +701,14 @@ on purpose, so the survivor's `!(A && B)` has nothing to pair with and its
   removed in `[expected.bad]`, and fourteen items added in
   `[expected.void.cons]` and `[expected.void.dtor]`, where the draft groups
   what the docblocks state one by one.
+- 2026-11-19: decided. Applied to the trivial twins of the primary template
+  and `expected<T&, E>` (`ab56679`). The survivor's `requires`-clause still
+  names the split, so its *Constraints* are authored; where the paper has no
+  *Constraints* element the docblock has an empty `\constraints`, which
+  removes the derived one (specgen#386 asks that this be documented, and
+  that *Remarks* be able to cover a derived conjunct: the notes went from
+  124 to 138). Not applied to the reference-`E` twins:
+  [reference-error-overloads](#reference-error-overloads).
 
 ### implementation-comments
 
@@ -697,6 +746,10 @@ the wording declares at all, and that follows the paper.
 **Log.**
 - 2026-11-16: opened. The macro appeared 25 times.
 - 2026-11-16: specgen 0.41.1 renders `= delete;` (specgen#282). 0 times.
+- 2026-11-19: not applied yet. The paper neither declares these members
+  nor states their deletion in a *Remarks* on the enabled overload, so
+  neither half of the recommendation has anything to follow:
+  [reference-error-overloads](#reference-error-overloads).
 - 2026-11-19: three of the fourteen items `--apply-to-draft` reports as added
   in `[expected.void.cons]` are deleted overloads, which the draft does not
   declare.
@@ -819,8 +872,8 @@ under its C++ name, as an indexed library function, while the draft shows
 
 **Question.** Where the implementation declares more than the draft
 specifies, what does the wording show?
-**Status.** OPEN
-**Recommendation.** The draft's declaration. How, case by case:
+**Status.** DECIDED
+**Decision.** The draft's declaration. How, case by case:
 `\seebelow` cannot do it, since the draft has no *see below* there, so it is
 `\verbatim-itemdecl` and the synopsis's counterpart, or a request to specgen.
 **Why.** The diff against the draft shows three cases in clauses the paper
@@ -829,6 +882,8 @@ does not change: a conditional `noexcept` on `unexpected`'s constructors,
 `BEMAN_EXPECTED_CONSTEXPR_EXCEPTION` where the draft has `constexpr`. The
 first two are permitted strengthenings that are not wording. The third is a
 spelling, of the kind specgen#282 settled for `= delete`.
+**Decided by.** Steve Downey, 2026-11-19: take the recommendation for
+[synopsis-shape](#synopsis-shape).
 **Log.**
 - 2026-11-16: opened, from the first `--baseline-draft` run.
 - 2026-11-19: the third case has its own stage,
@@ -837,6 +892,13 @@ spelling, of the kind specgen#282 settled for `= delete`.
   is small enough to settle with them: the constructor of
   `bad_expected_access<E>` names its parameter in the synopsis, and the
   draft does not.
+- 2026-11-19: decided, and it is a request to specgen in all three cases
+  (specgen#385). `\verbatim-itemdecl` would fix an item declaration and leave
+  the synopsis as it is, and `\verbatim-synopsis` for a whole class to drop
+  one `noexcept` gives up more than it gains. The same holds for the copy
+  constructors and copy assignment operators of the three `expected`
+  classes, which the library declares `noexcept(...)` and the draft does
+  not. Nothing is changed in the headers until specgen has a marker.
 
 ### macro-expansion-args
 
@@ -985,6 +1047,44 @@ it, and is worth asking for once it is known to work here.
 - 2026-11-19: opened. 506 unknown-command warnings from `make docs`, by
   marker in the table above.
 
+### reference-error-overloads
+
+**Question.** The headers specify overloads for a reference `E` that the
+paper's wording for `expected<T, E>` and `expected<void, E>` does not
+mention. Which is wrong?
+**Status.** OPEN
+**Recommendation.** The paper. It should state them, in the item of the
+overload each one qualifies, and then the twins merge into that item as
+[overload-partitions](#overload-partitions) decides.
+**Why.** These are what keeps an `expected<T, E&>` from holding a dangling
+reference, which is the paper's own design, and the library implements and
+tests them. The paper changes `[expected.object.cons]` and
+`[expected.object.assign]` only to add "or `is_reference_v<E>` is `true`" to
+the conditions of the copy and move members and a paragraph on rebinding.
+The headers also have, each as an item with its own *Constraints* and
+*Remarks*:
+
+- the converting constructors from `expected<U, G>` when `E` and `G` are
+  both references, which take part only then and do not copy the error;
+- the constructors and assignment operators from `unexpected<G>` when `E`
+  and `G` are both references, which are `noexcept`;
+- the same from `unexpected<G>` for a non-reference `G`, defined as deleted,
+  because the referent would be inside the source object;
+- the `unexpect_t` constructors defined as deleted when the argument would
+  bind `E&` to a temporary, or is an initializer list.
+
+Merging them now would take all of that out of the generated wording and
+leave it nowhere but in comments. Leaving them is why `[expected.object.cons]`
+has 15 items against the paper's 10, `[expected.object.assign]` 8 against 6,
+`[expected.void.cons]` 13 against 8 and `[expected.void.assign]` 6 against 4.
+Changing what the paper proposes is outside this plan, so the question is
+recorded here and the overloads stay as they are until it is answered.
+`[expected.ref]` is a different case: there the paper is shorter than the
+headers by design, deferring to the primary template, and that belongs to
+[converge-with-paper](#converge-with-paper).
+**Log.**
+- 2026-11-19: opened, in carrying out [synopsis-shape](#synopsis-shape).
+
 ### specgen-pin
 
 **Question.** How is the specgen version fixed and recorded?
@@ -1039,6 +1139,15 @@ Found 2026-11-19, and filed the same day:
 |---|---|---|
 | [specgen#377](https://github.com/steve-downey/specgen/issues/377) | A specifier macro that the header `#undef`s after its last use is printed under its own name, where the same macro left defined is written as its expansion. The expansion wanted is the one in effect where the macro is used. Reproduction below. | [macro-specifiers](#macro-specifiers) |
 | [specgen#378](https://github.com/steve-downey/specgen/issues/378) | `--apply-to-draft` writes tokens added ahead of an access specifier on that specifier's line, so a `// \expos` comment among them swallows it; and on `expected.hpp` the run ends with `an edit of bytes N to N overlaps another or runs past the end` and writes no file. Related to [specgen#346](https://github.com/steve-downey/specgen/issues/346), open for placing an added subclause. | [draft-pull-request](#draft-pull-request) |
+
+Filed 2026-11-19, from [synopsis-shape](#synopsis-shape):
+
+| Issue | What | For |
+|---|---|---|
+| [specgen#383](https://github.com/steve-downey/specgen/issues/383) | Section prose written ahead of a section's first item is rendered after its items. | `[expected.ref.assign]`, and [class-prose](#class-prose) |
+| [specgen#384](https://github.com/steve-downey/specgen/issues/384) | A deduction guide after its class is left out of the class synopsis, without a message. | [synopsis-shape](#synopsis-shape) |
+| [specgen#385](https://github.com/steve-downey/specgen/issues/385) | No markup leaves out of the wording what an implementation declares beyond the standard: a strengthened `noexcept`, `= default`, a parameter name. | [implementation-extras](#implementation-extras) |
+| [specgen#386](https://github.com/steve-downey/specgen/issues/386) | An empty `\constraints` removes the derived element, which the guide does not say; and a *Remarks* cannot cover a derived conjunct. | [overload-partitions](#overload-partitions), [validation-findings](#validation-findings) |
 
 Not filed: a set of Doxygen `ALIASES` for specgen's markers, until
 [api-site-markup](#api-site-markup) has one that works here.
