@@ -46,6 +46,7 @@ An \impldef{return value of \tcode{bad_expected_access<E>::what}} \ntbs{}, which
 
 \indexlibrarymember{error}{bad_expected_access}%
 \begin{itemdecl}
+constexpr const E& error() const& noexcept;
 constexpr E& error() & noexcept;
 \end{itemdecl}
 
@@ -57,28 +58,7 @@ constexpr E& error() & noexcept;
 
 \indexlibrarymember{error}{bad_expected_access}%
 \begin{itemdecl}
-constexpr const E& error() const& noexcept;
-\end{itemdecl}
-
-\begin{itemdescr}
-\pnum
-\returns
-\exposid{unex}.
-\end{itemdescr}
-
-\indexlibrarymember{error}{bad_expected_access}%
-\begin{itemdecl}
 constexpr E&& error() && noexcept;
-\end{itemdecl}
-
-\begin{itemdescr}
-\pnum
-\returns
-\tcode{std::move(\exposid{unex})}.
-\end{itemdescr}
-
-\indexlibrarymember{error}{bad_expected_access}%
-\begin{itemdecl}
 constexpr const E&& error() const&& noexcept;
 \end{itemdecl}
 

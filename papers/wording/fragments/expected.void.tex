@@ -115,8 +115,8 @@ namespace std {
 
     constexpr void operator*() const noexcept;
 
-    constexpr void value() const&;
-    constexpr void value() &&;
+    constexpr void value() const&; // freestanding-deleted
+    constexpr void value() &&;     // freestanding-deleted
 
     constexpr const E& error() const& noexcept;
     constexpr E& error() & noexcept;
@@ -156,6 +156,7 @@ namespace std {
     // \ref{expected.void.eq}, equality operators
 
     template<class T2, class E2>
+      requires is_void_v<T2>
     friend constexpr bool operator==(const expected& x, const expected<T2, E2>& y);
 
     template<class E2>
@@ -953,17 +954,14 @@ If \tcode{has_value()} is \tcode{true}, \tcode{expected<T, G>()}; otherwise, an 
 \indexlibraryglobal{operator==}%
 \begin{itemdecl}
 template<class T2, class E2>
+  requires is_void_v<T2>
   friend constexpr bool operator==(const expected& x, const expected<T2, E2>& y);
 \end{itemdecl}
 
 \begin{itemdescr}
 \pnum
-\constraints
-\tcode{is_void_v<T2>} is \tcode{true}.
-
-\pnum
 \mandates
-\tcode{is_void_v<T2>} is \tcode{true}. The expression \tcode{x.error() == y.error()} is well-formed and its result is convertible to \tcode{bool}.
+The expression \tcode{x.error() == y.error()} is well-formed and its result is convertible to \tcode{bool}.
 
 \pnum
 \returns

@@ -398,6 +398,7 @@ An \impldef{return value of \tcode{bad_expected_access<E>::what}} \ntbs{}, which
 
 \indexlibrarymember{error}{bad_expected_access}%
 \begin{itemdecl}
+constexpr const E& error() const& noexcept;
 constexpr E& error() & noexcept;
 \end{itemdecl}
 
@@ -409,28 +410,7 @@ constexpr E& error() & noexcept;
 
 \indexlibrarymember{error}{bad_expected_access}%
 \begin{itemdecl}
-constexpr const E& error() const& noexcept;
-\end{itemdecl}
-
-\begin{itemdescr}
-\pnum
-\returns
-\exposid{unex}.
-\end{itemdescr}
-
-\indexlibrarymember{error}{bad_expected_access}%
-\begin{itemdecl}
 constexpr E&& error() && noexcept;
-\end{itemdecl}
-
-\begin{itemdescr}
-\pnum
-\returns
-\tcode{std::move(\exposid{unex})}.
-\end{itemdescr}
-
-\indexlibrarymember{error}{bad_expected_access}%
-\begin{itemdecl}
 constexpr const E&& error() const&& noexcept;
 \end{itemdecl}
 
@@ -608,10 +588,10 @@ namespace std {
     constexpr explicit operator bool() const noexcept;
     constexpr bool has_value() const noexcept;
 
-    constexpr const T& value() const&;
-    constexpr T& value() &;
-    constexpr const T&& value() const&&;
-    constexpr T&& value() &&;
+    constexpr const T& value() const&;   // freestanding-deleted
+    constexpr T& value() &;              // freestanding-deleted
+    constexpr const T&& value() const&&; // freestanding-deleted
+    constexpr T&& value() &&;            // freestanding-deleted
 
     constexpr const E& error() const& noexcept;
     constexpr E& error() & noexcept;
@@ -653,6 +633,7 @@ namespace std {
     // \ref{expected.object.eq}, equality operators
 
     template<class T2, class E2>
+      requires(!is_void_v<T2>)
     friend constexpr bool operator==(const expected& x, const expected<T2, E2>& y);
 
     template<class T2>
@@ -1675,17 +1656,14 @@ Equivalent to: \tcode{if (has_value()) return G(in_place, std::move(\exposid{val
 \indexlibraryglobal{operator==}%
 \begin{itemdecl}
 template<class T2, class E2>
+  requires(!is_void_v<T2>)
   friend constexpr bool operator==(const expected& x, const expected<T2, E2>& y);
 \end{itemdecl}
 
 \begin{itemdescr}
 \pnum
-\constraints
-\tcode{is_void_v<T2>} is \tcode{false}.
-
-\pnum
 \mandates
-\tcode{!is_void_v<T2>} is \tcode{true}. The expression \tcode{*x == *y} is well-formed and its result is convertible to \tcode{bool}. The expression \tcode{x.error() == y.error()} is well-formed and its result is convertible to \tcode{bool}.
+The expression \tcode{*x == *y} is well-formed and its result is convertible to \tcode{bool}. The expression \tcode{x.error() == y.error()} is well-formed and its result is convertible to \tcode{bool}.
 
 \pnum
 \returns
@@ -1845,8 +1823,8 @@ namespace std {
 
     constexpr void operator*() const noexcept;
 
-    constexpr void value() const&;
-    constexpr void value() &&;
+    constexpr void value() const&; // freestanding-deleted
+    constexpr void value() &&;     // freestanding-deleted
 
     constexpr const E& error() const& noexcept;
     constexpr E& error() & noexcept;
@@ -1886,6 +1864,7 @@ namespace std {
     // \ref{expected.void.eq}, equality operators
 
     template<class T2, class E2>
+      requires is_void_v<T2>
     friend constexpr bool operator==(const expected& x, const expected<T2, E2>& y);
 
     template<class E2>
@@ -2683,17 +2662,14 @@ If \tcode{has_value()} is \tcode{true}, \tcode{expected<T, G>()}; otherwise, an 
 \indexlibraryglobal{operator==}%
 \begin{itemdecl}
 template<class T2, class E2>
+  requires is_void_v<T2>
   friend constexpr bool operator==(const expected& x, const expected<T2, E2>& y);
 \end{itemdecl}
 
 \begin{itemdescr}
 \pnum
-\constraints
-\tcode{is_void_v<T2>} is \tcode{true}.
-
-\pnum
 \mandates
-\tcode{is_void_v<T2>} is \tcode{true}. The expression \tcode{x.error() == y.error()} is well-formed and its result is convertible to \tcode{bool}.
+The expression \tcode{x.error() == y.error()} is well-formed and its result is convertible to \tcode{bool}.
 
 \pnum
 \returns
@@ -2877,6 +2853,7 @@ namespace std {
     // \ref{expected.ref.eq}, equality operators
 
     template<class T2, class E2>
+      requires(!is_void_v<T2>)
     friend constexpr bool operator==(const expected& x, const expected<T2, E2>& y);
 
     template<class T2>
@@ -3693,17 +3670,14 @@ Equivalent to: \tcode{if (has_value()) return G(*\exposid{val}); else return exp
 \indexlibraryglobal{operator==}%
 \begin{itemdecl}
 template<class T2, class E2>
+  requires(!is_void_v<T2>)
   friend constexpr bool operator==(const expected& x, const expected<T2, E2>& y);
 \end{itemdecl}
 
 \begin{itemdescr}
 \pnum
-\constraints
-\tcode{is_void_v<T2>} is \tcode{false}.
-
-\pnum
 \mandates
-\tcode{!is_void_v<T2>} is \tcode{true}. The expression \tcode{*x == *y} is well-formed and its result is convertible to \tcode{bool}. The expression \tcode{x.error() == y.error()} is well-formed and its result is convertible to \tcode{bool}.
+The expression \tcode{*x == *y} is well-formed and its result is convertible to \tcode{bool}. The expression \tcode{x.error() == y.error()} is well-formed and its result is convertible to \tcode{bool}.
 
 \pnum
 \returns

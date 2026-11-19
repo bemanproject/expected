@@ -575,10 +575,10 @@ class expected {
 
     // \ref{expected.object.eq}, equality operators
 
-    //! \mandates `!is_void_v<T2>` is `true`. The expression `*x == *y` is
-    //! well-formed and its result is convertible to `bool`. The expression
-    //! `x.error() == y.error()` is well-formed and its result is
-    //! convertible to `bool`.
+    //! \constraints-in-decl
+    //! \mandates The expression `*x == *y` is well-formed and its result is
+    //! convertible to `bool`. The expression `x.error() == y.error()` is
+    //! well-formed and its result is convertible to `bool`.
     //! \returns If `x.has_value() != y.has_value()`, `false`; otherwise, if
     //! `x.has_value()` is `true`, `*x == *y`; otherwise `x.error() ==
     //! y.error()`.
@@ -1320,6 +1320,7 @@ constexpr bool expected<T, E>::has_value() const noexcept {
     return has_val_;
 }
 
+//! \freestanding-deleted
 //! \group obs-value-lval
 //! \mandates `is_copy_constructible_v<E>` is `true`.
 //! \returns `val`, if `has_value()` is `true`.
@@ -1333,6 +1334,7 @@ constexpr const T& expected<T, E>::value() const& {
     return val_;
 }
 
+//! \freestanding-deleted
 //! \also obs-value-lval
 template <class T, class E>
 constexpr T& expected<T, E>::value() & {
@@ -1342,6 +1344,7 @@ constexpr T& expected<T, E>::value() & {
     return val_;
 }
 
+//! \freestanding-deleted
 //! \group obs-value-rval
 //! \mandates `is_copy_constructible_v<E>` is `true` and
 //! `is_constructible_v<E, decltype(std::move(error()))>` is `true`.
@@ -1362,6 +1365,7 @@ constexpr const T&& expected<T, E>::value() const&& {
     return std::move(val_);
 }
 
+//! \freestanding-deleted
 //! \also obs-value-rval
 template <class T, class E>
 constexpr T&& expected<T, E>::value() && {
@@ -2175,8 +2179,9 @@ class expected<void, E> {
 
     // \ref{expected.void.eq}, equality operators
 
-    //! \mandates `is_void_v<T2>` is `true`. The expression `x.error() ==
-    //! y.error()` is well-formed and its result is convertible to `bool`.
+    //! \constraints-in-decl
+    //! \mandates The expression `x.error() == y.error()` is well-formed and
+    //! its result is convertible to `bool`.
     //! \returns If `x.has_value() != y.has_value()`, `false`; otherwise, if
     //! `x.has_value()` is `true`, `true`; otherwise `x.error() ==
     //! y.error()`.
@@ -2640,6 +2645,7 @@ constexpr void expected<void, E>::operator*() const noexcept {
 #endif
 }
 
+//! \freestanding-deleted
 //! \mandates `is_copy_constructible_v<E>` is `true`.
 //! \throws `bad_expected_access(error())` if `has_value()` is `false`.
 template <class E>
@@ -2649,6 +2655,7 @@ constexpr void expected<void, E>::value() const& {
         throw bad_expected_access<error_value_type>(unex_.error());
 }
 
+//! \freestanding-deleted
 //! \mandates `is_copy_constructible_v<E>` is `true` and
 //! `is_move_constructible_v<E>` is `true`.
 //! \throws `bad_expected_access(std::move(error()))` if `has_value()` is
@@ -3496,10 +3503,10 @@ class expected<T&, E> {
 
     // \ref{expected.ref.eq}, equality operators
 
-    //! \mandates `!is_void_v<T2>` is `true`. The expression `*x == *y` is
-    //! well-formed and its result is convertible to `bool`. The expression
-    //! `x.error() == y.error()` is well-formed and its result is
-    //! convertible to `bool`.
+    //! \constraints-in-decl
+    //! \mandates The expression `*x == *y` is well-formed and its result is
+    //! convertible to `bool`. The expression `x.error() == y.error()` is
+    //! well-formed and its result is convertible to `bool`.
     //! \returns If `x.has_value() != y.has_value()`, `false`; otherwise, if
     //! `x.has_value()` is `true`, `*x == *y`; otherwise `x.error() ==
     //! y.error()`.
