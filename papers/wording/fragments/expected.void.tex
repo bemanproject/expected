@@ -197,9 +197,6 @@ constexpr expected(const expected& rhs) noexcept(is_nothrow_copy_constructible_v
 \end{itemdecl}
 
 \begin{itemdescr}
-\pnum
-\constraints
-\tcode{is_copy_constructible_v<E>} is \tcode{true} and \tcode{is_trivially_copy_constructible_v<E>} is \tcode{false}.
 
 \pnum
 \effects
@@ -226,7 +223,7 @@ constexpr expected(expected&& rhs) noexcept(is_nothrow_move_constructible_v<E>);
 \begin{itemdescr}
 \pnum
 \constraints
-\tcode{is_move_constructible_v<E>} is \tcode{true} and \tcode{is_trivially_move_constructible_v<E>} is \tcode{false}.
+\tcode{is_move_constructible_v<E>} is \tcode{true} or \tcode{is_reference_v<E>} is \tcode{true}.
 
 \pnum
 \effects
@@ -486,9 +483,6 @@ constexpr expected& operator=(const expected& rhs) noexcept(is_nothrow_copy_cons
 \end{itemdecl}
 
 \begin{itemdescr}
-\pnum
-\constraints
-\tcode{is_reference_v<E> || (is_copy_constructible_v<E> \&\& is_copy_assignable_v<E>)} is \tcode{true} and \tcode{(is_trivially_copy_constructible_v<E> \&\& is_trivially_copy_assignable_v<E> \&\& is_trivially_destructible_v<E>)} is \tcode{false}.
 
 \pnum
 \effects
@@ -511,7 +505,10 @@ constexpr expected& operator=(expected&& rhs) noexcept(@\seebelow@);
 \begin{itemdescr}
 \pnum
 \constraints
-\tcode{is_reference_v<E> || (is_move_constructible_v<E> \&\& is_move_assignable_v<E>)} is \tcode{true} and \tcode{(is_trivially_move_constructible_v<E> \&\& is_trivially_move_assignable_v<E> \&\& is_trivially_destructible_v<E>)} is \tcode{false}.
+\begin{itemize}
+\item \tcode{is_move_constructible_v<E>} is \tcode{true} or \tcode{is_reference_v<E>} is \tcode{true} and
+\item \tcode{is_move_assignable_v<E>} is \tcode{true} or \tcode{is_reference_v<E>} is \tcode{true}.
+\end{itemize}
 
 \pnum
 \effects

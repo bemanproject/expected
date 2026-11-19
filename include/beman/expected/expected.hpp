@@ -171,10 +171,7 @@ class expected {
     // then implicitly defined as deleted), and the more-constrained
     // non-trivial-path overload below is selected over it by constraint
     // subsumption whenever it is viable.
-    //! \effects Direct-non-list-initializes `val` or `unex` (matching
-    //! `rhs`'s active member) by trivial copy construction.
-    //! \ensures `rhs.has_value() == this->has_value()`.
-    //! \remarks This constructor is trivial.
+    //! \merge
     constexpr expected(const expected&) = default;
 
     // Copy constructor (non-trivial path)
@@ -186,10 +183,7 @@ class expected {
     // Move constructor (trivial path). Unconstrained; see the copy
     // constructor above for why. No explicit noexcept: let the compiler
     // deduce it, so a non-movable-at-all E deletes rather than mismatches.
-    //! \effects Direct-non-list-initializes `val` or `unex` (matching
-    //! `rhs`'s active member) by trivial move construction.
-    //! \ensures `rhs.has_value() == this->has_value()`.
-    //! \remarks This constructor is trivial.
+    //! \merge
     constexpr expected(expected&&) = default;
 
     // Move constructor (non-trivial path)
@@ -335,9 +329,7 @@ class expected {
 
     // \ref{expected.object.dtor}, destructor
 
-    //! \effects None: `val` or `unex` (whichever is active) has a trivial
-    //! destructor.
-    //! \remarks This destructor is trivial.
+    //! \merge
     constexpr ~expected()
         requires(std::is_trivially_destructible_v<T> && std::is_trivially_destructible_v<E>)
     = default;
@@ -348,9 +340,7 @@ class expected {
     // \ref{expected.object.assign}, assignment
 
     // Copy assignment (trivial path)
-    //! \effects Trivially copies `rhs`'s active member into `*this`.
-    //! \returns `*this`.
-    //! \remarks This operator is trivial.
+    //! \merge
     constexpr expected& operator=(const expected&)
         requires(std::is_trivially_copy_constructible_v<T> && std::is_trivially_copy_assignable_v<T> &&
                  std::is_trivially_destructible_v<T> && std::is_trivially_copy_constructible_v<E> &&
@@ -394,9 +384,7 @@ class expected {
     = delete;
 
     // Move assignment (trivial path)
-    //! \effects Trivially moves `rhs`'s active member into `*this`.
-    //! \returns `*this`.
-    //! \remarks This operator is trivial.
+    //! \merge
     constexpr expected& operator=(expected&&) noexcept
         requires(std::is_trivially_move_constructible_v<T> && std::is_trivially_move_assignable_v<T> &&
                  std::is_trivially_destructible_v<T> && std::is_trivially_move_constructible_v<E> &&
@@ -645,6 +633,7 @@ constexpr expected<T, E>::expected() noexcept(std::is_nothrow_default_constructi
     std::construct_at(std::addressof(val_));
 }
 
+//! \constraints
 //! \effects If `rhs.has_value()` is `true`, direct-non-list-initializes
 //! `val` with `*rhs`. Otherwise, direct-non-list-initializes `unex` with
 //! `rhs.error()`.
@@ -668,6 +657,10 @@ constexpr expected<T, E>::expected(const expected& rhs) noexcept(std::is_nothrow
 }
 
 //! \seebelow noexcept
+//! \constraints
+//! \item `is_move_constructible_v<T>` is `true` and
+//! \item `is_move_constructible_v<E>` is `true` or `is_reference_v<E>` is
+//! `true`.
 //! \effects If `rhs.has_value()` is `true`, direct-non-list-initializes
 //! `val` with `std::move(*rhs)`. Otherwise, direct-non-list-initializes
 //! `unex` with `std::move(rhs.error())`.
@@ -895,8 +888,12 @@ constexpr expected<T, E>::expected(unexpect_t, std::initializer_list<U> il, Args
 
 // \rSec3[expected.object.dtor]{Destructor}
 
+//! \constraints
 //! \effects If `has_value()` is `true`, destroys `val`, otherwise destroys
 //! `unex`.
+//! \remarks If `is_trivially_destructible_v<T>` is `true`, and
+//! `is_trivially_destructible_v<E>` is `true`, then this destructor is a
+//! trivial destructor.
 template <class T, class E>
 constexpr expected<T, E>::~expected()
     requires(!(std::is_trivially_destructible_v<T> && std::is_trivially_destructible_v<E>))
@@ -910,6 +907,7 @@ constexpr expected<T, E>::~expected()
 // =============================================================================
 // \rSec3[expected.object.assign]{Assignment}
 
+//! \constraints
 //! \effects If `this->has_value() && rhs.has_value()`, equivalent to `val
 //! = *rhs`. Otherwise, if `this->has_value()`, equivalent to
 //! `reinit-expected(unex, val, rhs.error())`. Otherwise, if
@@ -960,6 +958,15 @@ constexpr expected<T, E>& expected<T, E>::operator=(const expected& rhs) noexcep
 }
 
 //! \seebelow noexcept
+//! \constraints
+//! \item `is_move_constructible_v<T>` is `true` and
+//! \item `is_move_assignable_v<T>` is `true` and
+//! \item `is_move_constructible_v<E>` is `true` or `is_reference_v<E>` is
+//! `true` and
+//! \item `is_move_assignable_v<E>` is `true` or `is_reference_v<E>` is
+//! `true` and
+//! \item `is_nothrow_move_constructible_v<T> ||
+//! is_nothrow_move_constructible_v<E>` is `true`.
 //! \effects If `this->has_value() && rhs.has_value()`, equivalent to `val
 //! = std::move(*rhs)`. Otherwise, if `this->has_value()`, equivalent to
 //! `reinit-expected(unex, val, std::move(rhs.error()))`. Otherwise, if
@@ -2228,6 +2235,7 @@ constexpr expected<void, E>::expected() noexcept : has_val_(true), void_() {}
 template <class E>
 constexpr expected<void, E>::expected(std::in_place_t) noexcept : has_val_(true), void_() {}
 
+//! \constraints
 //! \effects If `rhs.has_value()` is `false`, direct-non-list-initializes
 //! `unex` with `rhs.error()`.
 //! \ensures `rhs.has_value() == this->has_value()`.
@@ -2244,6 +2252,8 @@ constexpr expected<void, E>::expected(const expected& rhs) noexcept(std::is_noth
         std::construct_at(std::addressof(unex_), rhs.unex_);
 }
 
+//! \constraints `is_move_constructible_v<E>` is `true` or
+//! `is_reference_v<E>` is `true`.
 //! \effects If `rhs.has_value()` is `false`, direct-non-list-initializes
 //! `unex` with `std::move(rhs.error())`.
 //! \ensures `rhs.has_value()` is unchanged; `rhs.has_value() ==
@@ -2416,6 +2426,7 @@ constexpr expected<void, E>::~expected()
 // =============================================================================
 // \rSec3[expected.void.assign]{Assignment}
 
+//! \constraints
 //! \effects If `this->has_value() && rhs.has_value()`, no effects.
 //! Otherwise, if `this->has_value()`, equivalent to:
 //! `construct_at(addressof(unex), rhs.unex); has_val = false;`
@@ -2452,6 +2463,11 @@ expected<void, E>::operator=(const expected& rhs) noexcept(std::is_nothrow_copy_
 }
 
 //! \seebelow noexcept
+//! \constraints
+//! \item `is_move_constructible_v<E>` is `true` or `is_reference_v<E>` is
+//! `true` and
+//! \item `is_move_assignable_v<E>` is `true` or `is_reference_v<E>` is
+//! `true`.
 //! \effects If `this->has_value() && rhs.has_value()`, no effects.
 //! Otherwise, if `this->has_value()`, equivalent to:
 //! `construct_at(addressof(unex), std::move(rhs.unex)); has_val = false;`
@@ -3109,11 +3125,7 @@ class expected<T&, E> {
 
     // Copy constructor (trivial path). Unconstrained; see the primary
     // template's copy constructor for why.
-    //! \effects If `rhs.has_value()` is `true`, initializes `val` with
-    //! `rhs.val`, so that `*this` and `rhs` refer to the same object;
-    //! otherwise, initializes `unex` with `rhs.unex`.
-    //! \ensures `rhs.has_value() == this->has_value()`.
-    //! \remarks This constructor is trivial.
+    //! \merge
     constexpr expected(const expected&) = default;
 
     // Copy constructor (non-trivial path)
@@ -3121,11 +3133,7 @@ class expected<T&, E> {
         requires(std::is_copy_constructible_v<E> && !std::is_trivially_copy_constructible_v<E>);
 
     // Move constructor (trivial path). Unconstrained; no explicit noexcept.
-    //! \effects If `rhs.has_value()` is `true`, initializes `val` with
-    //! `rhs.val`, so that `*this` and `rhs` refer to the same object;
-    //! otherwise, initializes `unex` with `std::move(rhs.unex)`.
-    //! \ensures `rhs.has_value() == this->has_value()`.
-    //! \remarks This constructor is trivial.
+    //! \merge
     constexpr expected(expected&&) = default;
 
     // Move constructor (non-trivial path)
@@ -3277,9 +3285,7 @@ class expected<T&, E> {
 
     // \ref{expected.ref.dtor}, destructor
 
-    //! \effects None: `*this` never owns the object it refers to; `T` is
-    //! never destroyed.
-    //! \remarks This destructor is trivial.
+    //! \merge
     constexpr ~expected()
         requires std::is_trivially_destructible_v<E>
     = default;
@@ -3290,16 +3296,7 @@ class expected<T&, E> {
     // \ref{expected.ref.assign}, assignment
 
     // Copy assignment (trivial path)
-    //! \effects If `rhs.has_value()` is `true`: if `has_value()` is `true`,
-    //! assigns `rhs.val` to `val`; otherwise destroys `unex` and
-    //! initializes `val` with `rhs.val`. If `rhs.has_value()` is `false`,
-    //! the error of `rhs` is assigned to or used to initialize `unex`, as
-    //! for the primary template. In every case `*this` comes to refer to
-    //! the object `rhs` refers to, or to hold the error of `rhs`.
-    //! \returns `*this`.
-    //! \remarks Assignment rebinds: assigning to an `expected<T&, E>` that
-    //! holds a value changes which object it refers to. It never assigns
-    //! through to the referent. This operator is trivial.
+    //! \merge
     constexpr expected& operator=(const expected&)
         requires(std::is_trivially_copy_constructible_v<E> && std::is_trivially_copy_assignable_v<E> &&
                  std::is_trivially_destructible_v<E>)
@@ -3320,13 +3317,7 @@ class expected<T&, E> {
     = delete;
 
     // Move assignment (trivial path)
-    //! \effects If `rhs.has_value()` is `true`: if `has_value()` is `true`,
-    //! assigns `rhs.val` to `val`; otherwise destroys `unex` and
-    //! initializes `val` with `rhs.val`. If `rhs.has_value()` is `false`,
-    //! the error of `rhs` is assigned to or used to initialize `unex`, as
-    //! for the primary template.
-    //! \returns `*this`.
-    //! \remarks This operator is trivial.
+    //! \merge
     constexpr expected& operator=(expected&&) noexcept
         requires(std::is_trivially_move_constructible_v<E> && std::is_trivially_move_assignable_v<E> &&
                  std::is_trivially_destructible_v<E>)
@@ -3557,6 +3548,7 @@ class expected<T&, E> {
 // \rSec3[expected.ref.cons]{Constructors}
 
 //! \group ref-copy-move-ctor
+//! \constraints
 //! \effects If `rhs.has_value()` is `true`, initializes `val` with
 //! `rhs.val`, so that `*this` and `rhs` refer to the same object;
 //! otherwise, initializes `unex` with `rhs.unex`.
@@ -3755,7 +3747,12 @@ constexpr expected<T&, E>::~expected()
 
 // \rSec3[expected.ref.assign]{Assignment}
 
+//! Assignment rebinds: assigning to an `expected<T&, E>` that holds a value
+//! changes which object it refers to. It never assigns through to the
+//! referent.
+
 //! \group ref-copy-move-assign
+//! \constraints
 //! \effects If `rhs.has_value()` is `true`: if `has_value()` is `true`,
 //! assigns `rhs.val` to `val`; otherwise destroys `unex` and initializes
 //! `val` with `rhs.val`. If `rhs.has_value()` is `false`, the error of
@@ -3769,7 +3766,9 @@ constexpr expected<T&, E>::~expected()
 //! as deleted unless `is_copy_assignable_v<E>` is `true` and
 //! `is_copy_constructible_v<E>` is `true`, and the move assignment operator
 //! unless `is_move_assignable_v<E>` is `true` and
-//! `is_move_constructible_v<E>` is `true`.
+//! `is_move_constructible_v<E>` is `true`. Each of these operators is
+//! trivial if the corresponding constructor and assignment operator of `E`
+//! are trivial and `is_trivially_destructible_v<E>` is `true`.
 template <class T, class E>
 constexpr expected<T&, E>&
 expected<T&, E>::operator=(const expected& rhs) noexcept(std::is_nothrow_copy_constructible_v<E> &&

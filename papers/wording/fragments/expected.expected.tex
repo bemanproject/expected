@@ -20,12 +20,8 @@ namespace std {
 
     constexpr expected() noexcept(is_nothrow_default_constructible_v<T>);
 
-    constexpr expected(const expected&) = default;
-
     constexpr expected(const expected& rhs) noexcept(
         is_nothrow_copy_constructible_v<T> && is_nothrow_copy_constructible_v<E>);
-
-    constexpr expected(expected&&) = default;
 
     constexpr expected(expected&& rhs) noexcept(@\seebelow@);
 
@@ -85,19 +81,13 @@ namespace std {
 
     // \ref{expected.object.dtor}, destructor
 
-    constexpr ~expected() = default;
-
     constexpr ~expected();
 
     // \ref{expected.object.assign}, assignment
 
-    constexpr expected& operator=(const expected&) = default;
-
     constexpr expected& operator=(const expected& rhs) noexcept(
         is_nothrow_copy_constructible_v<T> && is_nothrow_copy_assignable_v<T> &&
         is_nothrow_copy_constructible_v<E> && is_nothrow_copy_assignable_v<E>);
-
-    constexpr expected& operator=(expected&&) noexcept = default;
 
     constexpr expected& operator=(expected&& rhs) noexcept(@\seebelow@);
 
@@ -239,33 +229,11 @@ Any exception thrown by the initialization of \exposid{val}.
 
 \indexlibraryctor{expected}%
 \begin{itemdecl}
-constexpr expected(const expected&) = default;
-\end{itemdecl}
-
-\begin{itemdescr}
-\pnum
-\effects
-Direct-non-list-initializes \exposid{val} or \exposid{unex} (matching \tcode{rhs}'s active member) by trivial copy construction.
-
-\pnum
-\ensures
-\tcode{rhs.has_value() == this->has_value()}.
-
-\pnum
-\remarks
-This constructor is trivial.
-\end{itemdescr}
-
-\indexlibraryctor{expected}%
-\begin{itemdecl}
 constexpr expected(const expected& rhs) noexcept(is_nothrow_copy_constructible_v<T> &&
                                                  is_nothrow_copy_constructible_v<E>);
 \end{itemdecl}
 
 \begin{itemdescr}
-\pnum
-\constraints
-\tcode{is_copy_constructible_v<T>} is \tcode{true}, \tcode{is_copy_constructible_v<E>} is \tcode{true}, and \tcode{(is_trivially_copy_constructible_v<T> \&\& is_trivially_copy_constructible_v<E>)} is \tcode{false}.
 
 \pnum
 \effects
@@ -286,32 +254,16 @@ This constructor is defined as deleted unless \tcode{is_copy_constructible_v<T>}
 
 \indexlibraryctor{expected}%
 \begin{itemdecl}
-constexpr expected(expected&&) = default;
-\end{itemdecl}
-
-\begin{itemdescr}
-\pnum
-\effects
-Direct-non-list-initializes \exposid{val} or \exposid{unex} (matching \tcode{rhs}'s active member) by trivial move construction.
-
-\pnum
-\ensures
-\tcode{rhs.has_value() == this->has_value()}.
-
-\pnum
-\remarks
-This constructor is trivial.
-\end{itemdescr}
-
-\indexlibraryctor{expected}%
-\begin{itemdecl}
 constexpr expected(expected&& rhs) noexcept(@\seebelow@);
 \end{itemdecl}
 
 \begin{itemdescr}
 \pnum
 \constraints
-\tcode{is_move_constructible_v<T>} is \tcode{true}, \tcode{is_move_constructible_v<E>} is \tcode{true}, and \tcode{(is_trivially_move_constructible_v<T> \&\& is_trivially_move_constructible_v<E>)} is \tcode{false}.
+\begin{itemize}
+\item \tcode{is_move_constructible_v<T>} is \tcode{true} and
+\item \tcode{is_move_constructible_v<E>} is \tcode{true} or \tcode{is_reference_v<E>} is \tcode{true}.
+\end{itemize}
 
 \pnum
 \effects
@@ -618,65 +570,17 @@ constexpr ~expected();
 \end{itemdecl}
 
 \begin{itemdescr}
-\pnum
-\constraints
-\tcode{is_trivially_destructible_v<T>} is \tcode{true} and \tcode{is_trivially_destructible_v<E>} is \tcode{true}.
-
-\pnum
-\effects
-None: \exposid{val} or \exposid{unex} (whichever is active) has a trivial destructor.
-
-\pnum
-\remarks
-This destructor is trivial.
-\end{itemdescr}
-
-\indexlibrarydtor{expected}%
-\begin{itemdecl}
-constexpr ~expected();
-\end{itemdecl}
-
-\begin{itemdescr}
-\pnum
-\constraints
-\tcode{(is_trivially_destructible_v<T> \&\& is_trivially_destructible_v<E>)} is \tcode{false}.
 
 \pnum
 \effects
 If \tcode{has_value()} is \tcode{true}, destroys \exposid{val}, otherwise destroys \exposid{unex}.
-\end{itemdescr}
-
-\rSec3[expected.object.assign]{Assignment}
-
-\indexlibrarymember{operator=}{expected}%
-\begin{itemdecl}
-constexpr expected& operator=(const expected&);
-\end{itemdecl}
-
-\begin{itemdescr}
-\pnum
-\constraints
-\begin{itemize}
-\item \tcode{is_trivially_copy_constructible_v<T>} is \tcode{true},
-\item \tcode{is_trivially_copy_assignable_v<T>} is \tcode{true},
-\item \tcode{is_trivially_destructible_v<T>} is \tcode{true},
-\item \tcode{is_trivially_copy_constructible_v<E>} is \tcode{true},
-\item \tcode{is_trivially_copy_assignable_v<E>} is \tcode{true},
-\item \tcode{is_trivially_destructible_v<E>} is \tcode{true}.
-\end{itemize}
-
-\pnum
-\effects
-Trivially copies \tcode{rhs}'s active member into \tcode{*this}.
-
-\pnum
-\returns
-\tcode{*this}.
 
 \pnum
 \remarks
-This operator is trivial.
+If \tcode{is_trivially_destructible_v<T>} is \tcode{true}, and \tcode{is_trivially_destructible_v<E>} is \tcode{true}, then this destructor is a trivial destructor.
 \end{itemdescr}
+
+\rSec3[expected.object.assign]{Assignment}
 
 \indexlibrarymember{operator=}{expected}%
 \begin{itemdecl}
@@ -687,15 +591,6 @@ constexpr expected& operator=(const expected& rhs) noexcept(is_nothrow_copy_cons
 \end{itemdecl}
 
 \begin{itemdescr}
-\pnum
-\constraints
-\begin{itemize}
-\item \tcode{is_copy_constructible_v<T>} is \tcode{true},
-\item \tcode{is_copy_assignable_v<T>} is \tcode{true},
-\item \tcode{is_reference_v<E> || (is_copy_constructible_v<E> \&\& is_copy_assignable_v<E>)} is \tcode{true},
-\item \tcode{is_nothrow_move_constructible_v<T> || is_nothrow_move_constructible_v<E>} is \tcode{true},
-\item \tcode{(is_trivially_copy_constructible_v<T> \&\& is_trivially_copy_assignable_v<T> \&\& is_trivially_destructible_v<T> \&\& is_trivially_copy_constructible_v<E> \&\& is_trivially_copy_assignable_v<E> \&\& is_trivially_destructible_v<E>)} is \tcode{false}.
-\end{itemize}
 
 \pnum
 \effects
@@ -712,36 +607,6 @@ This operator is defined as deleted unless \tcode{is_copy_assignable_v<T>} is \t
 
 \indexlibrarymember{operator=}{expected}%
 \begin{itemdecl}
-constexpr expected& operator=(expected&&) noexcept;
-\end{itemdecl}
-
-\begin{itemdescr}
-\pnum
-\constraints
-\begin{itemize}
-\item \tcode{is_trivially_move_constructible_v<T>} is \tcode{true},
-\item \tcode{is_trivially_move_assignable_v<T>} is \tcode{true},
-\item \tcode{is_trivially_destructible_v<T>} is \tcode{true},
-\item \tcode{is_trivially_move_constructible_v<E>} is \tcode{true},
-\item \tcode{is_trivially_move_assignable_v<E>} is \tcode{true},
-\item \tcode{is_trivially_destructible_v<E>} is \tcode{true}.
-\end{itemize}
-
-\pnum
-\effects
-Trivially moves \tcode{rhs}'s active member into \tcode{*this}.
-
-\pnum
-\returns
-\tcode{*this}.
-
-\pnum
-\remarks
-This operator is trivial.
-\end{itemdescr}
-
-\indexlibrarymember{operator=}{expected}%
-\begin{itemdecl}
 constexpr expected& operator=(expected&& rhs) noexcept(@\seebelow@);
 \end{itemdecl}
 
@@ -749,11 +614,11 @@ constexpr expected& operator=(expected&& rhs) noexcept(@\seebelow@);
 \pnum
 \constraints
 \begin{itemize}
-\item \tcode{is_move_constructible_v<T>} is \tcode{true},
-\item \tcode{is_move_assignable_v<T>} is \tcode{true},
-\item \tcode{is_reference_v<E> || (is_move_constructible_v<E> \&\& is_move_assignable_v<E>)} is \tcode{true},
-\item \tcode{is_nothrow_move_constructible_v<T> || is_nothrow_move_constructible_v<E>} is \tcode{true},
-\item \tcode{(is_trivially_move_constructible_v<T> \&\& is_trivially_move_assignable_v<T> \&\& is_trivially_destructible_v<T> \&\& is_trivially_move_constructible_v<E> \&\& is_trivially_move_assignable_v<E> \&\& is_trivially_destructible_v<E>)} is \tcode{false}.
+\item \tcode{is_move_constructible_v<T>} is \tcode{true} and
+\item \tcode{is_move_assignable_v<T>} is \tcode{true} and
+\item \tcode{is_move_constructible_v<E>} is \tcode{true} or \tcode{is_reference_v<E>} is \tcode{true} and
+\item \tcode{is_move_assignable_v<E>} is \tcode{true} or \tcode{is_reference_v<E>} is \tcode{true} and
+\item \tcode{is_nothrow_move_constructible_v<T> || is_nothrow_move_constructible_v<E>} is \tcode{true}.
 \end{itemize}
 
 \pnum
