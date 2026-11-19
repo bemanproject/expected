@@ -120,7 +120,7 @@ constexpr bool converts_from_any_cvref = std::disjunction_v<std::is_constructibl
                                                             std::is_convertible<const W, T>>;
 } // namespace detail
 
-// \rSec2[expected.expected]{Class template expected}
+// \rSec2[expected.expected]{Class template `expected`}
 // \rSec3[expected.object.general]{General}
 //! \mandates A program that instantiates the definition of `expected<T, E>`
 //! with a `T` that is not a valid value type for `expected` (that is,
@@ -1838,7 +1838,7 @@ constexpr auto expected<T, E>::transform_error(F&& f) const&& {
 // [expected.void] Partial specialization for void value type
 // =============================================================================
 
-// \rSec2[expected.void]{Partial specialization of expected for void types}
+// \rSec2[expected.void]{Partial specialization of `expected` for `void` types}
 // \rSec3[expected.void.general]{General}
 //! \at expected.void.general
 //! \mandates A program that instantiates the definition of `expected<T, E>`
@@ -3112,7 +3112,7 @@ constexpr auto expected<void, E>::transform_error(F&& f) const&& {
 // (E may be an object type or an lvalue reference to one)
 // =============================================================================
 
-// \rSec2[expected.ref]{Partial specialization of expected for reference types}
+// \rSec2[expected.ref]{Partial specialization of `expected` for reference types}
 // \rSec3[expected.ref.general]{General}
 //! \at expected.ref.general
 //! \mandates A program that instantiates the definition of `expected<T&,

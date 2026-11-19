@@ -58,7 +58,7 @@ inline constexpr bool reference_constructs_from_temporary_v = __reference_constr
 
 } // namespace detail
 
-// \rSec2[expected.unexpected]{Class template unexpected}
+// \rSec2[expected.unexpected]{Class template `unexpected`}
 // \rSec3[expected.un.general]{General}
 //! \mandates A program that instantiates the definition of `unexpected` for
 //! a non-object type other than an lvalue reference type, an array type, a
@@ -172,7 +172,7 @@ unexpected(E) -> unexpected<E>;
 // \rSec3[expected.un.swap]{Swap}
 // \rSec3[expected.un.eq]{Equality operator}
 
-// \rSec3[expected.un.ref]{Partial specialization unexpected<E&>}
+// \rSec3[expected.un.ref]{Partial specialization `unexpected<E&>`}
 // Stores a pointer to the referenced object; keeps expected<> from needing a
 // separate set of specializations just to hold a reference error type.
 //! \at expected.un.ref
