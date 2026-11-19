@@ -40,7 +40,7 @@ namespace std {
                                unexpected& y) noexcept(noexcept(x.swap(y)));
 
   private:
-    E @\exposidnc{unex}@; // exposition only
+    E @\exposid{unex}@; // \expos
   };
 }
 \end{codeblock}
@@ -196,7 +196,7 @@ The expression \tcode{x.error() == y.error()} is well-formed and its result is c
 \tcode{x.error() == y.error()}.
 \end{itemdescr}
 
-\rSec3[expected.un.ref]{Partial specialization unexpected<E&>}
+\rSec3[expected.un.ref]{Partial specialization unexpected<E\&>}
 
 \begin{codeblock}
 namespace std {
@@ -223,7 +223,7 @@ namespace std {
     friend constexpr void swap(unexpected& x, unexpected& y) noexcept;
 
   private:
-    E* unex;              // exposition only
+    E* unex;              // \expos
   };
 }
 \end{codeblock}

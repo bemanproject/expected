@@ -27,6 +27,11 @@ make clean-wording wording
 `wording` writes them all again. It deletes checked-in files, so it refuses to
 run when `specgen` is not found, and `make clean` does not reach it.
 
+The run validates the wording and fails on a finding: an error in a docblock,
+or a warning, which is something specgen checked and found wrong. The fragments
+are written first in either case, so what failed can be read in them. A note
+is something specgen cannot check for itself, and does not fail the run.
+
 GNU Make 4.3 or newer. One specgen invocation writes all six fragments, which
 the makefile states as a grouped target (`&:`) — a rule 4.2 parses as something
 else entirely, and would then run specgen once per fragment.

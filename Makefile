@@ -204,7 +204,8 @@ endif
 # depfile through them, and wording-check passes none.
 define specgen_wording
 $(SPECGEN) generate $(WORDING_HEADERS) \
-    --backend latex --validate --base-section-depth 2 \
+    --backend latex --validate --warnings-as-errors \
+    --base-section-depth 2 \
     --split $(1) \
     --root expected.unexpected.root \
     --root expected.bad.root \
