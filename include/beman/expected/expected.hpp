@@ -23,33 +23,41 @@
     #define BEMAN_EXPECTED_TRAP() std::abort()
 #endif
 
-/***
-22.8.2 Header <expected> synopsis[expected.syn]
+// \rSec2[expected.general]{General}
 
-// mostly freestanding
-namespace std {
-  // [expected.unexpected], class template unexpected
-  template<class E> class unexpected;
+//! Subclause \ref{expected} describes the class template `expected` that
+//! represents expected objects. An `expected<T, E>` object holds an object of
+//! type `T` or an object of type `E` and manages the lifetime of the contained
+//! objects.
 
-  // [expected.bad], class template bad_expected_access
-  template<class E> class bad_expected_access;
+// \rSec2[expected.syn]{Header `<expected>` synopsis}
 
-  // [expected.bad.void], specialization for void
-  template<> class bad_expected_access<void>;
+//! \verbatim-synopsis
+//! // mostly freestanding
+//! namespace std {
+//!   // \ref{expected.unexpected}, class template \tcode{unexpected}
+//!   template<class E> class unexpected;
+//!
+//!   // \ref{expected.bad}, class template \tcode{bad_expected_access}
+//!   template<class E> class bad_expected_access;
+//!
+//!   // \ref{expected.bad.void}, specialization for \tcode{void}
+//!   template<> class bad_expected_access<void>;
+//!
+//!   // in-place construction of unexpected values
+//!   struct unexpect_t {
+//!     explicit unexpect_t() = default;
+//!   };
+//!   inline constexpr unexpect_t unexpect{};
+//!
+//!   // \ref{expected.expected}, class template \tcode{expected}
+//!   template<class T, class E> class expected;                                // partially freestanding
+//!
+//!   // \ref{expected.void}, partial specialization of \tcode{expected} for \tcode{void} types
+//!   template<class T, class E> requires is_void_v<T> class expected<T, E>;    // partially freestanding
+//! }
 
-  // in-place construction of unexpected values
-  struct unexpect_t {
-    explicit unexpect_t() = default;
-  };
-  inline constexpr unexpect_t unexpect{};
-
-  // [expected.expected], class template expected
-  template<class T, class E> class expected;                                // partially freestanding
-
-  // [expected.void], partial specialization of expected for void types
-  template<class T, class E> requires is_void_v<T> class expected<T, E>;    // partially freestanding
-}
- */
+/// END [expected.syn]
 
 namespace beman {
 namespace expected {

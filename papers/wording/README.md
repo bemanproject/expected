@@ -32,7 +32,7 @@ or a warning, which is something specgen checked and found wrong. The fragments
 are written first in either case, so what failed can be read in them. A note
 is something specgen cannot check for itself, and does not fail the run.
 
-GNU Make 4.3 or newer. One specgen invocation writes all six fragments, which
+GNU Make 4.3 or newer. One specgen invocation writes all eight fragments, which
 the makefile states as a grouped target (`&:`) — a rule 4.2 parses as something
 else entirely, and would then run specgen once per fragment.
 
@@ -66,21 +66,23 @@ none, so name the revision when quoting the numbers.
 ## `expected.tex`
 
 All the generated subclauses concatenated in real standard order —
-`[expected.unexpected]` (including the new `[expected.un.ref]`) through
-`[expected.ref.eq]`. The makefile passes `--base-section-depth 2`, so each
+`[expected.general]` and `[expected.syn]`, then `[expected.unexpected]`
+(including the new `[expected.un.ref]`) through `[expected.ref.eq]`. The makefile passes `--base-section-depth 2`, so each
 `\rSec` marker comes out at the level the draft writes it at:
 `[expected.unexpected]` and its siblings are `\rSec2`, their subclauses
 `\rSec3`, numbering `22.8.3`, `22.8.3.1`, ... This file is everything that
 sits *inside* the existing `\rSec1[expected]{Expected objects}` in
 [the draft](https://github.com/cplusplus/draft)'s `source/utilities.tex` — no
 wrapper `\rSec1[expected]`, no `\input` directives — so it's the basis for a
-patch there: replace the current `[expected.unexpected]` through
+patch there: replace the current `[expected.general]` through
 `[expected.void]` subclauses with this file's content and the new
 `[expected.ref]` subclause lands after them, in place.
 
-It does not include `[expected.general]` or `[expected.syn]`: those are prose
-that doesn't come from any one declaration. See `papers/expected-new.tex` for
-hand-authored versions of both.
+`[expected.general]` and `[expected.syn]` come from the top of `expected.hpp`.
+The first is a paragraph of section prose. The second is the header synopsis
+typed out under `\verbatim-synopsis`, because the draft's header synopsis
+forward-declares each class and keeps the class's own synopsis in its
+subclause, which is not what gathering the declarations would produce.
 
 The makefile assembles this file from `fragments/` rather than taking
 specgen's own joined output, because the clause order is the draft's and not
@@ -93,8 +95,9 @@ thing about the paper's shape that lives outside the headers.
 ## `fragments/`
 
 The same content, split one file per top-level clause and named for its stable
-name (`expected.unexpected.tex`, `expected.bad.tex`, `expected.bad.void.tex`,
-`expected.expected.tex`, `expected.void.tex`, `expected.ref.tex`) — for
+name (`expected.general.tex`, `expected.syn.tex`, `expected.unexpected.tex`,
+`expected.bad.tex`, `expected.bad.void.tex`, `expected.expected.tex`,
+`expected.void.tex`, `expected.ref.tex`) — for
 `\input` into a standalone paper's own `\rSec1[expected]{Expected objects}`
 (see `papers/expected-new.tex`), which is the level `expected.tex` above
 assumes already exists.

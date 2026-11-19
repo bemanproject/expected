@@ -63,15 +63,14 @@ D4280R0.pdf : D4280R0.tex expected-new.tex wg21.bib
 strip-wording: expected-clean.tex ## Assemble clean [expected] wording for a working-draft pull request
 
 # expected-clean.tex is the clean [expected] wording to submit as a pull request
-# against the C++ working draft. Its subclause bodies are the specgen-generated
-# fragments -- the source of truth -- assembled by the repository-root makefile
-# into wording/expected.tex, so this file cannot lag the annotated headers. Only
-# [expected.general] and [expected.syn] are hand-authored prose specgen does not
-# emit; they are taken from expected-new.tex, everything above the first
-# generated clause, with its \added/addedblock change markup stripped.
-expected-clean.tex: expected-new.tex strip-wording.py wording/expected.tex
-	{ sed '/\\rSec2\[expected\.unexpected\]/,$$d' expected-new.tex \
-	    | python3 strip-wording.py; \
+# against the C++ working draft. All of it is the specgen-generated wording --
+# the source of truth -- assembled by the repository-root makefile into
+# wording/expected.tex, so this file cannot lag the annotated headers. The one
+# thing added here is the clause heading itself, which the generated wording
+# sits inside.
+expected-clean.tex: wording/expected.tex
+	{ printf '%s\n' '\rSec1[expected]{Expected objects}' \
+	    '\indexlibraryglobal{expected}%' ''; \
 	  cat wording/expected.tex; } > $@.tmp
 	mv $@.tmp $@
 
