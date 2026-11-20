@@ -17,7 +17,8 @@ is given beside it.
 **Progress:** stages 1 to 6 and 8 are done and merged on 2026-11-19 as
 [#121](https://github.com/bemanproject/expected/pull/121) (`daba145`), from
 the branch `specgen-catchup`. On the branch `synopsis-shape`, rebased onto
-that merge:
+that merge and open as
+[#122](https://github.com/bemanproject/expected/pull/122):
 [class-prose](#class-prose), [front-matter](#front-matter) and
 [api-site](#api-site) are done, and [synopsis-shape](#synopsis-shape) is
 done as far as it can go. What is left of it waits on
