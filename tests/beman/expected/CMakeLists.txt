@@ -214,6 +214,11 @@ beman_add_xfail_compile_test(
     LINK_LIBRARIES beman::expected
 )
 beman_add_xfail_compile_test(
+    or_else_returns_reference_fail
+    SOURCE or_else_returns_reference_fail.test.cpp
+    LINK_LIBRARIES beman::expected
+)
+beman_add_xfail_compile_test(
     transform_error_ref_result_fail
     SOURCE transform_error_ref_result_fail.test.cpp
     LINK_LIBRARIES beman::expected
@@ -291,6 +296,11 @@ beman_add_xfail_compile_test(
 beman_add_xfail_compile_test(
     expected_ref_or_else_wrong_value_type_fail
     SOURCE expected_ref_or_else_wrong_value_type_fail.test.cpp
+    LINK_LIBRARIES beman::expected
+)
+beman_add_xfail_compile_test(
+    expected_ref_or_else_returns_value_fail
+    SOURCE expected_ref_or_else_returns_value_fail.test.cpp
     LINK_LIBRARIES beman::expected
 )
 

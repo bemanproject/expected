@@ -10,7 +10,7 @@ namespace std {
     using @\exposid{error-value-type}@ = remove_cv_t<remove_reference_t<E>>; // \expos
 
   public:
-    using @\libmember{value_type}{expected}@ = T&;
+    using @\libmember{value_type}{expected}@ = T;
     using @\libmember{error_type}{expected}@ = E;
     using @\libmember{unexpected_type}{expected}@ = unexpected<E>;
 
@@ -869,7 +869,7 @@ template<class F>
 \begin{itemdescr}
 \pnum
 \mandates
-\tcode{remove_cvref_t<invoke_result_t<F, decltype(error())>>} is a specialization of \tcode{expected} and its \tcode{value_type} is the same type as \tcode{T\&}.
+\tcode{remove_cvref_t<invoke_result_t<F, decltype(error())>>} is \tcode{expected<T\&, X>} for some type \tcode{X}.
 
 \pnum
 \effects
@@ -887,7 +887,7 @@ template<class F>
 \begin{itemdescr}
 \pnum
 \mandates
-\tcode{remove_cvref_t<invoke_result_t<F, decltype(std::move(error()))>>} is a specialization of \tcode{expected} and its \tcode{value_type} is the same type as \tcode{T\&}.
+\tcode{remove_cvref_t<invoke_result_t<F, decltype(std::move(error()))>>} is \tcode{expected<T\&, X>} for some type \tcode{X}.
 
 \pnum
 \effects

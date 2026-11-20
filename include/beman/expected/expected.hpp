@@ -1581,9 +1581,8 @@ constexpr auto expected<T, E>::and_then(F&& f) const&& {
 
 //! \group monadic-or-else-lval
 //! \constraints `is_constructible_v<T, decltype((val))>` is `true`.
-//! \mandates `remove_cvref_t<invoke_result_t<F, decltype(error())>>` is a
-//! specialization of `expected` and its `value_type` is the same type as
-//! `T`.
+//! \mandates `remove_cvref_t<invoke_result_t<F, decltype(error())>>` is
+//! `expected<T, X>` for some type `X`.
 //! \effects Equivalent to: `if (has_value()) return G(in_place, val); else
 //! return invoke(std::forward<F>(f), error());` where `G` is
 //! `remove_cvref_t<invoke_result_t<F, decltype(error())>>`.
@@ -1593,8 +1592,8 @@ template <class F>
 constexpr auto expected<T, E>::or_else(F&& f) & {
     using G = std::remove_cvref_t<std::invoke_result_t<F, E&>>;
     static_assert(detail::is_expected_specialization<G>::value, "or_else: F must return a specialization of expected");
-    static_assert(std::is_same_v<typename G::value_type, T>,
-                  "or_else: F must return expected with the same value_type");
+    static_assert(std::is_same_v<G, expected<T, typename G::error_type>>,
+                  "or_else: F must return expected<T, X> for some X");
     if (has_val_)
         return G(std::in_place, val_);
     return std::invoke(std::forward<F>(f), unex_.error());
@@ -1604,8 +1603,7 @@ constexpr auto expected<T, E>::or_else(F&& f) & {
 //! \constraints `is_constructible_v<T, decltype(std::move(val))>` is
 //! `true`.
 //! \mandates `remove_cvref_t<invoke_result_t<F,
-//! decltype(std::move(error()))>>` is a specialization of `expected` and
-//! its `value_type` is the same type as `T`.
+//! decltype(std::move(error()))>>` is `expected<T, X>` for some type `X`.
 //! \effects Equivalent to: `if (has_value()) return G(in_place,
 //! std::move(val)); else return invoke(std::forward<F>(f),
 //! std::move(error()));` where `G` is `remove_cvref_t<invoke_result_t<F,
@@ -1616,8 +1614,8 @@ template <class F>
 constexpr auto expected<T, E>::or_else(F&& f) && {
     using G = std::remove_cvref_t<std::invoke_result_t<F, E&&>>;
     static_assert(detail::is_expected_specialization<G>::value, "or_else: F must return a specialization of expected");
-    static_assert(std::is_same_v<typename G::value_type, T>,
-                  "or_else: F must return expected with the same value_type");
+    static_assert(std::is_same_v<G, expected<T, typename G::error_type>>,
+                  "or_else: F must return expected<T, X> for some X");
     if (has_val_)
         return G(std::in_place, std::move(val_));
     return std::invoke(std::forward<F>(f), std::move(unex_).error());
@@ -1630,8 +1628,8 @@ template <class F>
 constexpr auto expected<T, E>::or_else(F&& f) const& {
     using G = std::remove_cvref_t<std::invoke_result_t<F, const E&>>;
     static_assert(detail::is_expected_specialization<G>::value, "or_else: F must return a specialization of expected");
-    static_assert(std::is_same_v<typename G::value_type, T>,
-                  "or_else: F must return expected with the same value_type");
+    static_assert(std::is_same_v<G, expected<T, typename G::error_type>>,
+                  "or_else: F must return expected<T, X> for some X");
     if (has_val_)
         return G(std::in_place, val_);
     return std::invoke(std::forward<F>(f), unex_.error());
@@ -1644,8 +1642,8 @@ template <class F>
 constexpr auto expected<T, E>::or_else(F&& f) const&& {
     using G = std::remove_cvref_t<std::invoke_result_t<F, const E&&>>;
     static_assert(detail::is_expected_specialization<G>::value, "or_else: F must return a specialization of expected");
-    static_assert(std::is_same_v<typename G::value_type, T>,
-                  "or_else: F must return expected with the same value_type");
+    static_assert(std::is_same_v<G, expected<T, typename G::error_type>>,
+                  "or_else: F must return expected<T, X> for some X");
     if (has_val_)
         return G(std::in_place, std::move(val_));
     return std::invoke(std::forward<F>(f), std::move(unex_).error());
@@ -3173,7 +3171,7 @@ class expected<T&, E> {
     using error_value_type = std::remove_cv_t<std::remove_reference_t<E>>;
 
   public:
-    using value_type      = T&;
+    using value_type      = T;
     using error_type      = E;
     using unexpected_type = unexpected<E>;
 
@@ -4241,9 +4239,8 @@ constexpr auto expected<T&, E>::and_then(F&& f) const&& {
 }
 
 //! \group ref-monadic-or-else-lval
-//! \mandates `remove_cvref_t<invoke_result_t<F, decltype(error())>>` is a
-//! specialization of `expected` and its `value_type` is the same type as
-//! `T&`.
+//! \mandates `remove_cvref_t<invoke_result_t<F, decltype(error())>>` is
+//! `expected<T&, X>` for some type `X`.
 //! \effects Equivalent to: `if (has_value()) return G(*val); else return
 //! invoke(std::forward<F>(f), error());` where `G` is
 //! `remove_cvref_t<invoke_result_t<F, decltype(error())>>`.
@@ -4252,8 +4249,8 @@ template <class F>
 constexpr auto expected<T&, E>::or_else(F&& f) & {
     using G = std::remove_cvref_t<std::invoke_result_t<F, E&>>;
     static_assert(detail::is_expected_specialization<G>::value, "or_else: F must return a specialization of expected");
-    static_assert(std::is_same_v<typename G::value_type, value_type>,
-                  "or_else: F must return expected with the same value_type");
+    static_assert(std::is_same_v<G, expected<T&, typename G::error_type>>,
+                  "or_else: F must return expected<T&, X> for some X");
     if (has_val_)
         return G(*val_);
     return std::invoke(std::forward<F>(f), unex_.error());
@@ -4261,8 +4258,7 @@ constexpr auto expected<T&, E>::or_else(F&& f) & {
 
 //! \group ref-monadic-or-else-rval
 //! \mandates `remove_cvref_t<invoke_result_t<F,
-//! decltype(std::move(error()))>>` is a specialization of `expected` and
-//! its `value_type` is the same type as `T&`.
+//! decltype(std::move(error()))>>` is `expected<T&, X>` for some type `X`.
 //! \effects Equivalent to: `if (has_value()) return G(*val); else return
 //! invoke(std::forward<F>(f), std::move(error()));` where `G` is
 //! `remove_cvref_t<invoke_result_t<F, decltype(std::move(error()))>>`.
@@ -4271,8 +4267,8 @@ template <class F>
 constexpr auto expected<T&, E>::or_else(F&& f) && {
     using G = std::remove_cvref_t<std::invoke_result_t<F, E&&>>;
     static_assert(detail::is_expected_specialization<G>::value, "or_else: F must return a specialization of expected");
-    static_assert(std::is_same_v<typename G::value_type, value_type>,
-                  "or_else: F must return expected with the same value_type");
+    static_assert(std::is_same_v<G, expected<T&, typename G::error_type>>,
+                  "or_else: F must return expected<T&, X> for some X");
     if (has_val_)
         return G(*val_);
     return std::invoke(std::forward<F>(f), std::move(unex_).error());
@@ -4284,8 +4280,8 @@ template <class F>
 constexpr auto expected<T&, E>::or_else(F&& f) const& {
     using G = std::remove_cvref_t<std::invoke_result_t<F, const E&>>;
     static_assert(detail::is_expected_specialization<G>::value, "or_else: F must return a specialization of expected");
-    static_assert(std::is_same_v<typename G::value_type, value_type>,
-                  "or_else: F must return expected with the same value_type");
+    static_assert(std::is_same_v<G, expected<T&, typename G::error_type>>,
+                  "or_else: F must return expected<T&, X> for some X");
     if (has_val_)
         return G(*val_);
     return std::invoke(std::forward<F>(f), unex_.error());
@@ -4297,8 +4293,8 @@ template <class F>
 constexpr auto expected<T&, E>::or_else(F&& f) const&& {
     using G = std::remove_cvref_t<std::invoke_result_t<F, const E&&>>;
     static_assert(detail::is_expected_specialization<G>::value, "or_else: F must return a specialization of expected");
-    static_assert(std::is_same_v<typename G::value_type, value_type>,
-                  "or_else: F must return expected with the same value_type");
+    static_assert(std::is_same_v<G, expected<T&, typename G::error_type>>,
+                  "or_else: F must return expected<T&, X> for some X");
     if (has_val_)
         return G(*val_);
     return std::invoke(std::forward<F>(f), std::move(unex_).error());
