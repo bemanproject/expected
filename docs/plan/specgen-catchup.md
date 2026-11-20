@@ -640,6 +640,11 @@ less the three `\index...` lines the paper has ahead of the synopsis.
 `strip-wording.py` stays for `wording-gap`, which strips the paper's markup
 to compare with, until [generated-diff](#generated-diff) retires both.
 
+Against the working draft, `wording-gap` reports 5 inline marks added and 5
+removed in `[expected.syn]`, where the paper makes none. All five are the
+`\ref` of a group comment, marked removed and added with the same text on
+both sides (specgen#392). The clause has no other mark.
+
 ### Stage 13 — <a id="exposition-helpers"></a>[exposition-helpers](#exposition-helpers)
 
 Today the `*.root.tex` fragments hold the exposition-only helpers and are
@@ -1220,6 +1225,7 @@ Filed 2026-11-19, from [synopsis-shape](#synopsis-shape):
 | [specgen#384](https://github.com/steve-downey/specgen/issues/384) | A deduction guide after its class is left out of the class synopsis, without a message. | [synopsis-shape](#synopsis-shape) |
 | [specgen#385](https://github.com/steve-downey/specgen/issues/385) | No markup leaves out of the wording what an implementation declares beyond the standard: a strengthened `noexcept`, `= default`, a parameter name. | [implementation-extras](#implementation-extras) |
 | [specgen#386](https://github.com/steve-downey/specgen/issues/386) | An empty `\constraints` removes the derived element, which the guide does not say; and a *Remarks* cannot cover a derived conjunct. | [overload-partitions](#overload-partitions), [validation-findings](#validation-findings) |
+| [specgen#392](https://github.com/steve-downey/specgen/issues/392) | With `--baseline-draft`, a `// \ref{...}` comment in a `\verbatim-synopsis` block is marked removed and added again where the draft has the same bytes. | [front-matter](#front-matter), [generated-diff](#generated-diff) |
 
 Not filed: a set of Doxygen `ALIASES` for specgen's markers, until
 [api-site-markup](#api-site-markup) has one that works here.
