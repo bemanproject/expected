@@ -1,6 +1,7 @@
 # Plan: specgen-catchup
 
-**Branch:** `specgen-catchup` (from `upstream/main` at `669166b`)
+**Branch:** `specgen-catchup` (from `upstream/main` at `669166b`), merged,
+then `synopsis-shape` (from `upstream/main` at `daba145`)
 **Read first:** the specgen user guide (`~/src/specgen/main/docs/user-guide.md`,
 specgen 0.47.0) and `papers/wording/README.md`.
 **Builds on:** [#117](https://github.com/bemanproject/expected/pull/117),
@@ -13,9 +14,10 @@ which are the headers on `main`, and the working draft at `65890fab`
 **Earlier rounds:** 0.23.0, then 0.41.1 (`9d1689d`) on 2026-11-16, then
 0.42.3 and 0.43.0 on 2026-11-17 and 18. Where a number moved, the earlier one
 is given beside it.
-**Progress:** stages 1 to 6 and 8 are done and are
-[#121](https://github.com/bemanproject/expected/pull/121), from the branch
-`specgen-catchup`. On the branch `synopsis-shape`, stacked on that one:
+**Progress:** stages 1 to 6 and 8 are done and merged on 2026-11-19 as
+[#121](https://github.com/bemanproject/expected/pull/121) (`daba145`), from
+the branch `specgen-catchup`. On the branch `synopsis-shape`, rebased onto
+that merge:
 [class-prose](#class-prose), [front-matter](#front-matter) and
 [api-site](#api-site) are done, and [synopsis-shape](#synopsis-shape) is
 done as far as it can go. What is left of it waits on
@@ -545,20 +547,20 @@ Then [draft-text-copies](#draft-text-copies).
 Under way, on the branch `synopsis-shape`. Done so far:
 
 - *see below* on the sixteen members whose item declaration has it in the
-  paper (`05f014c`). Where the draft's synopsis says *see below* and its item
+  paper (`a55fe6b`). Where the draft's synopsis says *see below* and its item
   declaration spells the condition out, as for `expected(U&& v)`, the
   condition stays: one marker masks both places.
 - The trivial twins of the special members, in the primary template and in
-  `expected<T&, E>`, are `\merge` (`ab56679`), as they were in
+  `expected<T&, E>`, are `\merge` (`3d7ec78`), as they were in
   `expected<void, E>`. The survivors' *Constraints* are the paper's in all
   three classes: an authored list for the move members, and an empty
   `\constraints` for the copy members and the destructors, which the paper
   states in *Remarks*. Item declarations fall from 165 to 153.
 - `\constraints-in-decl` on the first `operator==` of each class, and
-  `\freestanding-deleted` on `value()` (`cae7873`).
+  `\freestanding-deleted` on `value()` (`9d8930b`).
 - `bad_expected_access<E>::error()` is two items of two overloads. Its draft
   marks are 3 / 3, 2 / 2, from 6 / 10, 4 / 2.
-- `unexpected<E&>` has its synopsis extracted (`994273f`), and it declares
+- `unexpected<E&>` has its synopsis extracted (`78e2b10`), and it declares
   what the typed one did.
 
 Against the draft at `65890fab` after these: `[expected.expected]` 124 / 71,
@@ -589,7 +591,7 @@ in the draft's order, split around the synopsis with `\synopsis-here`, in
 place of the `\remarks` and `\mandates` stand-ins. See
 [class-ill-formed-paragraph](#class-ill-formed-paragraph).
 
-Done (`a27005c`). The six class docblocks are the paper's paragraphs in the
+Done (`c9953f6`). The six class docblocks are the paper's paragraphs in the
 paper's order. `unexpected` opens its subclause ahead of the synopsis; the
 others have all their prose after it, as the paper does. Each ill-formed
 sentence has a `\covers mandates` claim for every `static_assert` of its
@@ -629,7 +631,7 @@ Generate `[expected.general]` and `[expected.syn]`, add them to
 `strip-wording.py`'s part in it. See
 [header-synopsis-form](#header-synopsis-form).
 
-Done (`2c1c551`). `expected.hpp` opens with the general paragraph as section
+Done (`ad9ca81`). `expected.hpp` opens with the general paragraph as section
 prose and the header synopsis under `\verbatim-synopsis`, in place of the
 block comment that held a copy of the draft's text. The two fragments are in
 `$(WORDING_CLAUSES)`, and the generated text is the paper's token for token,
@@ -663,7 +665,7 @@ and can go any time after stage 2. See
 [api-site-markup](#api-site-markup). Check: no "unknown command" warning
 from `make docs`, and an *Effects* paragraph on the page carries its title.
 
-Done (`35a6724`). Warnings from the headers went from 592 to 93, all of
+Done (`6819380`). Warnings from the headers went from 592 to 93, all of
 them members with no documentation, and none is an unknown command. A
 member's page shows *Constraints*, *Effects* and the rest as titled
 paragraphs, a `\item` list as a list, and an overload joined with `\also` as
@@ -753,7 +755,7 @@ on purpose, so the survivor's `!(A && B)` has nothing to pair with and its
   `[expected.void.cons]` and `[expected.void.dtor]`, where the draft groups
   what the docblocks state one by one.
 - 2026-11-19: decided. Applied to the trivial twins of the primary template
-  and `expected<T&, E>` (`ab56679`). The survivor's `requires`-clause still
+  and `expected<T&, E>` (`3d7ec78`). The survivor's `requires`-clause still
   names the split, so its *Constraints* are authored; where the paper has no
   *Constraints* element the docblock has an empty `\constraints`, which
   removes the derived one (specgen#386 asks that this be documented, and
@@ -821,7 +823,7 @@ the sentence does not cover stays a note.
 - 2026-11-16: specgen 0.41.1 has `\covers mandates` on a class (specgen#283)
   and `\synopsis-here`. Recommendation changed from keeping `\mandates`.
 - 2026-11-19: applied as recommended in [class-prose](#class-prose)
-  (`a27005c`), to all six classes. Not ruled on.
+  (`c9953f6`), to all six classes. Not ruled on.
 
 ### warning-gate
 
@@ -868,7 +870,7 @@ content is classes.
 - 2026-11-16: opened, with two defects in the way.
 - 2026-11-16: both fixed in specgen 0.41.1 (specgen#284).
 - 2026-11-19: applied as recommended in [front-matter](#front-matter)
-  (`2c1c551`). Not ruled on. A `// \ref{...}` comment and a `\tcode{...}` in
+  (`ad9ca81`). Not ruled on. A `// \ref{...}` comment and a `\tcode{...}` in
   the typed synopsis are written out as they stand, which is what the
   draft's source has.
 
@@ -891,7 +893,7 @@ draft diff is the check that the class agrees with the standard.
 - 2026-11-19: opened. Three blocks: `bad_expected_access.hpp` lines 18 and
   38, `expected.hpp` line 26.
 - 2026-11-19: the one in `expected.hpp` is gone, replaced by the source of
-  `[expected.syn]` (`2c1c551`). The two in `bad_expected_access.hpp` stay
+  `[expected.syn]` (`ad9ca81`). The two in `bad_expected_access.hpp` stay
   until the generated synopses there match the draft's.
 
 ### clause-order
@@ -1106,7 +1108,7 @@ it, and is worth asking for once it is known to work here.
 **Log.**
 - 2026-11-19: opened. 506 unknown-command warnings from `make docs`, by
   marker in the table above.
-- 2026-11-19: both, each for what it can do (`35a6724`). `ALIASES` for the
+- 2026-11-19: both, each for what it can do (`6819380`). `ALIASES` for the
   six element tags and `\item`. An input filter for the headers,
   `docs/specgen-doxygen-filter.py`, for the markers that take the rest of
   the line, for `\verbatim-synopsis`, and for the draft's braced macros,
