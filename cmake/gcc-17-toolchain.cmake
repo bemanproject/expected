@@ -10,7 +10,7 @@ set(CMAKE_CXX_COMPILER g++-17)
 set(GCOV_EXECUTABLE "gcov-17" CACHE STRING "GCOV executable" FORCE)
 
 # Reflection (P2996). This belongs here rather than in gcc-flags.cmake, which
-# is shared with gcc-12 through gcc-15: -freflection is a gcc-17 feature, and
+# is shared with gcc-12 through gcc-15: -freflection arrived in gcc-16, and
 # gcc rejects it outright below -std=c++26 rather than warning. gcc-flags.cmake
 # already pins -std=gnu++26, so the requirement is met.
 #
