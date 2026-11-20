@@ -365,350 +365,366 @@ var NAVTREE =
       [ "Tests and Acceptance Criteria", "md_docs_plan_review_remediation_2026_09_02.html#autotoc_md308", null ],
       [ "Public Interface Effects", "md_docs_plan_review_remediation_2026_09_02.html#autotoc_md309", null ]
     ] ],
-    [ "Step 1: Implement unexpected<E>", "md_docs_plan_step1_unexpected.html", [
-      [ "Goal", "md_docs_plan_step1_unexpected.html#autotoc_md312", null ],
-      [ "Context for Executing Agent", "md_docs_plan_step1_unexpected.html#autotoc_md313", [
-        [ "Key files", "md_docs_plan_step1_unexpected.html#autotoc_md314", null ],
-        [ "Standard reference", "md_docs_plan_step1_unexpected.html#autotoc_md315", null ],
-        [ "Constraints on the converting constructor", "md_docs_plan_step1_unexpected.html#autotoc_md316", null ],
-        [ "Constraints on E", "md_docs_plan_step1_unexpected.html#autotoc_md317", null ]
+    [ "Plan: specgen-catchup", "md_docs_plan_specgen_catchup.html", [
+      [ "Goal", "md_docs_plan_specgen_catchup.html#autotoc_md312", null ],
+      [ "Where this stands with specgen 0.47.0", "md_docs_plan_specgen_catchup.html#autotoc_md313", [
+        [ "What specgen gained, and what it does here", "md_docs_plan_specgen_catchup.html#autotoc_md314", null ],
+        [ "Tried on a scratch copy of the headers", "md_docs_plan_specgen_catchup.html#autotoc_md315", null ]
       ] ],
-      [ "Deliverables", "md_docs_plan_step1_unexpected.html#autotoc_md318", null ],
-      [ "Procedure", "md_docs_plan_step1_unexpected.html#autotoc_md319", null ],
-      [ "Verification", "md_docs_plan_step1_unexpected.html#autotoc_md320", null ],
-      [ "Handoff to Step 2", "md_docs_plan_step1_unexpected.html#autotoc_md321", null ]
+      [ "What exists today", "md_docs_plan_specgen_catchup.html#autotoc_md316", [
+        [ "The gap to the paper, measured", "md_docs_plan_specgen_catchup.html#autotoc_md317", null ],
+        [ "The gap to the working draft, measured", "md_docs_plan_specgen_catchup.html#autotoc_md318", null ],
+        [ "What validation reports", "md_docs_plan_specgen_catchup.html#autotoc_md319", null ],
+        [ "Whether it compiles", "md_docs_plan_specgen_catchup.html#autotoc_md320", null ],
+        [ "What the API site makes of the docblocks", "md_docs_plan_specgen_catchup.html#autotoc_md321", null ],
+        [ "Stand-ins for what specgen could not do", "md_docs_plan_specgen_catchup.html#autotoc_md322", null ],
+        [ "Checked against specgen", "md_docs_plan_specgen_catchup.html#autotoc_md323", null ]
+      ] ]
+    ] ],
+    [ "Step 1: Implement unexpected<E>", "md_docs_plan_step1_unexpected.html", [
+      [ "Goal", "md_docs_plan_step1_unexpected.html#autotoc_md326", null ],
+      [ "Context for Executing Agent", "md_docs_plan_step1_unexpected.html#autotoc_md327", [
+        [ "Key files", "md_docs_plan_step1_unexpected.html#autotoc_md328", null ],
+        [ "Standard reference", "md_docs_plan_step1_unexpected.html#autotoc_md329", null ],
+        [ "Constraints on the converting constructor", "md_docs_plan_step1_unexpected.html#autotoc_md330", null ],
+        [ "Constraints on E", "md_docs_plan_step1_unexpected.html#autotoc_md331", null ]
+      ] ],
+      [ "Deliverables", "md_docs_plan_step1_unexpected.html#autotoc_md332", null ],
+      [ "Procedure", "md_docs_plan_step1_unexpected.html#autotoc_md333", null ],
+      [ "Verification", "md_docs_plan_step1_unexpected.html#autotoc_md334", null ],
+      [ "Handoff to Step 2", "md_docs_plan_step1_unexpected.html#autotoc_md335", null ]
     ] ],
     [ "Step 10: Implement expected<void, E&> Specialization", "md_docs_plan_step10_expected_void_ref_e.html", [
-      [ "Goal", "md_docs_plan_step10_expected_void_ref_e.html#autotoc_md324", null ],
-      [ "Context for Executing Agent", "md_docs_plan_step10_expected_void_ref_e.html#autotoc_md325", [
-        [ "Storage model", "md_docs_plan_step10_expected_void_ref_e.html#autotoc_md326", null ],
-        [ "Key properties", "md_docs_plan_step10_expected_void_ref_e.html#autotoc_md327", null ],
-        [ "Constructors", "md_docs_plan_step10_expected_void_ref_e.html#autotoc_md328", null ],
-        [ "Assignment", "md_docs_plan_step10_expected_void_ref_e.html#autotoc_md329", null ],
-        [ "Observers", "md_docs_plan_step10_expected_void_ref_e.html#autotoc_md330", null ],
-        [ "Monadic operations", "md_docs_plan_step10_expected_void_ref_e.html#autotoc_md331", null ]
+      [ "Goal", "md_docs_plan_step10_expected_void_ref_e.html#autotoc_md338", null ],
+      [ "Context for Executing Agent", "md_docs_plan_step10_expected_void_ref_e.html#autotoc_md339", [
+        [ "Storage model", "md_docs_plan_step10_expected_void_ref_e.html#autotoc_md340", null ],
+        [ "Key properties", "md_docs_plan_step10_expected_void_ref_e.html#autotoc_md341", null ],
+        [ "Constructors", "md_docs_plan_step10_expected_void_ref_e.html#autotoc_md342", null ],
+        [ "Assignment", "md_docs_plan_step10_expected_void_ref_e.html#autotoc_md343", null ],
+        [ "Observers", "md_docs_plan_step10_expected_void_ref_e.html#autotoc_md344", null ],
+        [ "Monadic operations", "md_docs_plan_step10_expected_void_ref_e.html#autotoc_md345", null ]
       ] ],
-      [ "Deliverables", "md_docs_plan_step10_expected_void_ref_e.html#autotoc_md332", null ],
-      [ "Procedure", "md_docs_plan_step10_expected_void_ref_e.html#autotoc_md333", null ],
-      [ "Verification", "md_docs_plan_step10_expected_void_ref_e.html#autotoc_md334", null ],
-      [ "Completion", "md_docs_plan_step10_expected_void_ref_e.html#autotoc_md335", null ]
+      [ "Deliverables", "md_docs_plan_step10_expected_void_ref_e.html#autotoc_md346", null ],
+      [ "Procedure", "md_docs_plan_step10_expected_void_ref_e.html#autotoc_md347", null ],
+      [ "Verification", "md_docs_plan_step10_expected_void_ref_e.html#autotoc_md348", null ],
+      [ "Completion", "md_docs_plan_step10_expected_void_ref_e.html#autotoc_md349", null ]
     ] ],
     [ "Step 2: Implement bad_expected_access", "md_docs_plan_step2_bad_expected_access.html", [
-      [ "Goal", "md_docs_plan_step2_bad_expected_access.html#autotoc_md338", null ],
-      [ "Context for Executing Agent", "md_docs_plan_step2_bad_expected_access.html#autotoc_md339", [
-        [ "Key files", "md_docs_plan_step2_bad_expected_access.html#autotoc_md340", null ],
-        [ "Standard reference", "md_docs_plan_step2_bad_expected_access.html#autotoc_md341", null ],
-        [ "Notes", "md_docs_plan_step2_bad_expected_access.html#autotoc_md342", null ]
+      [ "Goal", "md_docs_plan_step2_bad_expected_access.html#autotoc_md352", null ],
+      [ "Context for Executing Agent", "md_docs_plan_step2_bad_expected_access.html#autotoc_md353", [
+        [ "Key files", "md_docs_plan_step2_bad_expected_access.html#autotoc_md354", null ],
+        [ "Standard reference", "md_docs_plan_step2_bad_expected_access.html#autotoc_md355", null ],
+        [ "Notes", "md_docs_plan_step2_bad_expected_access.html#autotoc_md356", null ]
       ] ],
-      [ "Deliverables", "md_docs_plan_step2_bad_expected_access.html#autotoc_md343", null ],
-      [ "Procedure", "md_docs_plan_step2_bad_expected_access.html#autotoc_md344", null ],
-      [ "Verification", "md_docs_plan_step2_bad_expected_access.html#autotoc_md345", null ],
-      [ "Handoff to Step 3", "md_docs_plan_step2_bad_expected_access.html#autotoc_md346", null ]
+      [ "Deliverables", "md_docs_plan_step2_bad_expected_access.html#autotoc_md357", null ],
+      [ "Procedure", "md_docs_plan_step2_bad_expected_access.html#autotoc_md358", null ],
+      [ "Verification", "md_docs_plan_step2_bad_expected_access.html#autotoc_md359", null ],
+      [ "Handoff to Step 3", "md_docs_plan_step2_bad_expected_access.html#autotoc_md360", null ]
     ] ],
     [ "Step 3: Implement expected<T, E> Primary Template", "md_docs_plan_step3_expected_primary.html", [
-      [ "Goal", "md_docs_plan_step3_expected_primary.html#autotoc_md349", null ],
-      [ "Context for Executing Agent", "md_docs_plan_step3_expected_primary.html#autotoc_md350", [
-        [ "Key files", "md_docs_plan_step3_expected_primary.html#autotoc_md351", null ],
-        [ "Standard reference (non-monadic subset)", "md_docs_plan_step3_expected_primary.html#autotoc_md352", null ],
-        [ "Storage", "md_docs_plan_step3_expected_primary.html#autotoc_md353", null ],
-        [ "Constraints", "md_docs_plan_step3_expected_primary.html#autotoc_md354", null ],
-        [ "Exception safety in assignment", "md_docs_plan_step3_expected_primary.html#autotoc_md355", null ]
+      [ "Goal", "md_docs_plan_step3_expected_primary.html#autotoc_md363", null ],
+      [ "Context for Executing Agent", "md_docs_plan_step3_expected_primary.html#autotoc_md364", [
+        [ "Key files", "md_docs_plan_step3_expected_primary.html#autotoc_md365", null ],
+        [ "Standard reference (non-monadic subset)", "md_docs_plan_step3_expected_primary.html#autotoc_md366", null ],
+        [ "Storage", "md_docs_plan_step3_expected_primary.html#autotoc_md367", null ],
+        [ "Constraints", "md_docs_plan_step3_expected_primary.html#autotoc_md368", null ],
+        [ "Exception safety in assignment", "md_docs_plan_step3_expected_primary.html#autotoc_md369", null ]
       ] ],
-      [ "Deliverables", "md_docs_plan_step3_expected_primary.html#autotoc_md356", null ],
-      [ "Procedure", "md_docs_plan_step3_expected_primary.html#autotoc_md357", null ],
-      [ "Verification", "md_docs_plan_step3_expected_primary.html#autotoc_md358", null ],
-      [ "Handoff to Step 4", "md_docs_plan_step3_expected_primary.html#autotoc_md359", null ]
+      [ "Deliverables", "md_docs_plan_step3_expected_primary.html#autotoc_md370", null ],
+      [ "Procedure", "md_docs_plan_step3_expected_primary.html#autotoc_md371", null ],
+      [ "Verification", "md_docs_plan_step3_expected_primary.html#autotoc_md372", null ],
+      [ "Handoff to Step 4", "md_docs_plan_step3_expected_primary.html#autotoc_md373", null ]
     ] ],
     [ "Step 4: Implement expected<void, E> Specialization", "md_docs_plan_step4_expected_void.html", [
-      [ "Goal", "md_docs_plan_step4_expected_void.html#autotoc_md362", null ],
-      [ "Context for Executing Agent", "md_docs_plan_step4_expected_void.html#autotoc_md363", [
-        [ "Key differences from primary template", "md_docs_plan_step4_expected_void.html#autotoc_md364", null ],
-        [ "Constructors [expected.void.cons]", "md_docs_plan_step4_expected_void.html#autotoc_md365", null ],
-        [ "Storage", "md_docs_plan_step4_expected_void.html#autotoc_md366", null ]
+      [ "Goal", "md_docs_plan_step4_expected_void.html#autotoc_md376", null ],
+      [ "Context for Executing Agent", "md_docs_plan_step4_expected_void.html#autotoc_md377", [
+        [ "Key differences from primary template", "md_docs_plan_step4_expected_void.html#autotoc_md378", null ],
+        [ "Constructors [expected.void.cons]", "md_docs_plan_step4_expected_void.html#autotoc_md379", null ],
+        [ "Storage", "md_docs_plan_step4_expected_void.html#autotoc_md380", null ]
       ] ],
-      [ "Deliverables", "md_docs_plan_step4_expected_void.html#autotoc_md367", null ],
-      [ "Procedure", "md_docs_plan_step4_expected_void.html#autotoc_md368", null ],
-      [ "Verification", "md_docs_plan_step4_expected_void.html#autotoc_md369", null ],
-      [ "Handoff to Step 5", "md_docs_plan_step4_expected_void.html#autotoc_md370", null ]
+      [ "Deliverables", "md_docs_plan_step4_expected_void.html#autotoc_md381", null ],
+      [ "Procedure", "md_docs_plan_step4_expected_void.html#autotoc_md382", null ],
+      [ "Verification", "md_docs_plan_step4_expected_void.html#autotoc_md383", null ],
+      [ "Handoff to Step 5", "md_docs_plan_step4_expected_void.html#autotoc_md384", null ]
     ] ],
     [ "Step 5: Monadic Operations for expected<T, E>", "md_docs_plan_step5_expected_primary_monadic.html", [
-      [ "Goal", "md_docs_plan_step5_expected_primary_monadic.html#autotoc_md373", null ],
-      [ "Context for Executing Agent", "md_docs_plan_step5_expected_primary_monadic.html#autotoc_md374", [
-        [ "Monadic operations overview", "md_docs_plan_step5_expected_primary_monadic.html#autotoc_md375", null ],
-        [ "Key constraints per [expected.object.monadic]", "md_docs_plan_step5_expected_primary_monadic.html#autotoc_md376", null ],
-        [ "Ref-qualification pattern", "md_docs_plan_step5_expected_primary_monadic.html#autotoc_md377", null ]
+      [ "Goal", "md_docs_plan_step5_expected_primary_monadic.html#autotoc_md387", null ],
+      [ "Context for Executing Agent", "md_docs_plan_step5_expected_primary_monadic.html#autotoc_md388", [
+        [ "Monadic operations overview", "md_docs_plan_step5_expected_primary_monadic.html#autotoc_md389", null ],
+        [ "Key constraints per [expected.object.monadic]", "md_docs_plan_step5_expected_primary_monadic.html#autotoc_md390", null ],
+        [ "Ref-qualification pattern", "md_docs_plan_step5_expected_primary_monadic.html#autotoc_md391", null ]
       ] ],
-      [ "Deliverables", "md_docs_plan_step5_expected_primary_monadic.html#autotoc_md378", null ],
-      [ "Procedure", "md_docs_plan_step5_expected_primary_monadic.html#autotoc_md379", null ],
-      [ "Verification", "md_docs_plan_step5_expected_primary_monadic.html#autotoc_md380", null ],
-      [ "Handoff to Step 6", "md_docs_plan_step5_expected_primary_monadic.html#autotoc_md381", null ]
+      [ "Deliverables", "md_docs_plan_step5_expected_primary_monadic.html#autotoc_md392", null ],
+      [ "Procedure", "md_docs_plan_step5_expected_primary_monadic.html#autotoc_md393", null ],
+      [ "Verification", "md_docs_plan_step5_expected_primary_monadic.html#autotoc_md394", null ],
+      [ "Handoff to Step 6", "md_docs_plan_step5_expected_primary_monadic.html#autotoc_md395", null ]
     ] ],
     [ "Step 6: Monadic Operations for expected<void, E>", "md_docs_plan_step6_expected_void_monadic.html", [
-      [ "Goal", "md_docs_plan_step6_expected_void_monadic.html#autotoc_md384", null ],
-      [ "Context for Executing Agent", "md_docs_plan_step6_expected_void_monadic.html#autotoc_md385", [
-        [ "Differences from primary template monadic ops", "md_docs_plan_step6_expected_void_monadic.html#autotoc_md386", null ],
-        [ "Constraints per [expected.void.monadic]", "md_docs_plan_step6_expected_void_monadic.html#autotoc_md387", null ]
+      [ "Goal", "md_docs_plan_step6_expected_void_monadic.html#autotoc_md398", null ],
+      [ "Context for Executing Agent", "md_docs_plan_step6_expected_void_monadic.html#autotoc_md399", [
+        [ "Differences from primary template monadic ops", "md_docs_plan_step6_expected_void_monadic.html#autotoc_md400", null ],
+        [ "Constraints per [expected.void.monadic]", "md_docs_plan_step6_expected_void_monadic.html#autotoc_md401", null ]
       ] ],
-      [ "Deliverables", "md_docs_plan_step6_expected_void_monadic.html#autotoc_md388", null ],
-      [ "Procedure", "md_docs_plan_step6_expected_void_monadic.html#autotoc_md389", null ],
-      [ "Verification", "md_docs_plan_step6_expected_void_monadic.html#autotoc_md390", null ],
-      [ "Handoff to Step 7", "md_docs_plan_step6_expected_void_monadic.html#autotoc_md391", null ]
+      [ "Deliverables", "md_docs_plan_step6_expected_void_monadic.html#autotoc_md402", null ],
+      [ "Procedure", "md_docs_plan_step6_expected_void_monadic.html#autotoc_md403", null ],
+      [ "Verification", "md_docs_plan_step6_expected_void_monadic.html#autotoc_md404", null ],
+      [ "Handoff to Step 7", "md_docs_plan_step6_expected_void_monadic.html#autotoc_md405", null ]
     ] ],
     [ "Step 7: Implement expected<T&, E> Reference Specialization", "md_docs_plan_step7_expected_ref_t.html", [
-      [ "Goal", "md_docs_plan_step7_expected_ref_t.html#autotoc_md394", null ],
-      [ "Context for Executing Agent", "md_docs_plan_step7_expected_ref_t.html#autotoc_md395", [
-        [ "Design principles (from optional<T&>)", "md_docs_plan_step7_expected_ref_t.html#autotoc_md396", null ],
-        [ "Storage model", "md_docs_plan_step7_expected_ref_t.html#autotoc_md397", null ],
-        [ "Reference binding helper", "md_docs_plan_step7_expected_ref_t.html#autotoc_md398", null ],
-        [ "Constructors", "md_docs_plan_step7_expected_ref_t.html#autotoc_md399", null ],
-        [ "Assignment (rebind semantics)", "md_docs_plan_step7_expected_ref_t.html#autotoc_md400", null ],
-        [ "Observers", "md_docs_plan_step7_expected_ref_t.html#autotoc_md401", null ],
-        [ "Monadic operations", "md_docs_plan_step7_expected_ref_t.html#autotoc_md402", null ],
-        [ "reference_constructs_from_temporary_v", "md_docs_plan_step7_expected_ref_t.html#autotoc_md403", null ]
+      [ "Goal", "md_docs_plan_step7_expected_ref_t.html#autotoc_md408", null ],
+      [ "Context for Executing Agent", "md_docs_plan_step7_expected_ref_t.html#autotoc_md409", [
+        [ "Design principles (from optional<T&>)", "md_docs_plan_step7_expected_ref_t.html#autotoc_md410", null ],
+        [ "Storage model", "md_docs_plan_step7_expected_ref_t.html#autotoc_md411", null ],
+        [ "Reference binding helper", "md_docs_plan_step7_expected_ref_t.html#autotoc_md412", null ],
+        [ "Constructors", "md_docs_plan_step7_expected_ref_t.html#autotoc_md413", null ],
+        [ "Assignment (rebind semantics)", "md_docs_plan_step7_expected_ref_t.html#autotoc_md414", null ],
+        [ "Observers", "md_docs_plan_step7_expected_ref_t.html#autotoc_md415", null ],
+        [ "Monadic operations", "md_docs_plan_step7_expected_ref_t.html#autotoc_md416", null ],
+        [ "reference_constructs_from_temporary_v", "md_docs_plan_step7_expected_ref_t.html#autotoc_md417", null ]
       ] ],
-      [ "Deliverables", "md_docs_plan_step7_expected_ref_t.html#autotoc_md404", null ],
-      [ "Procedure", "md_docs_plan_step7_expected_ref_t.html#autotoc_md405", null ],
-      [ "Verification", "md_docs_plan_step7_expected_ref_t.html#autotoc_md406", null ],
-      [ "Handoff to Step 8", "md_docs_plan_step7_expected_ref_t.html#autotoc_md407", null ]
+      [ "Deliverables", "md_docs_plan_step7_expected_ref_t.html#autotoc_md418", null ],
+      [ "Procedure", "md_docs_plan_step7_expected_ref_t.html#autotoc_md419", null ],
+      [ "Verification", "md_docs_plan_step7_expected_ref_t.html#autotoc_md420", null ],
+      [ "Handoff to Step 8", "md_docs_plan_step7_expected_ref_t.html#autotoc_md421", null ]
     ] ],
     [ "Step 8: Implement expected<T, E&> Error-Reference Specialization", "md_docs_plan_step8_expected_ref_e.html", [
-      [ "Goal", "md_docs_plan_step8_expected_ref_e.html#autotoc_md410", null ],
-      [ "Context for Executing Agent", "md_docs_plan_step8_expected_ref_e.html#autotoc_md411", [
-        [ "Storage model", "md_docs_plan_step8_expected_ref_e.html#autotoc_md412", null ],
-        [ "Design principles", "md_docs_plan_step8_expected_ref_e.html#autotoc_md413", null ],
-        [ "Constructors", "md_docs_plan_step8_expected_ref_e.html#autotoc_md414", null ],
-        [ "Assignment (rebind on error side)", "md_docs_plan_step8_expected_ref_e.html#autotoc_md415", null ],
-        [ "Observers", "md_docs_plan_step8_expected_ref_e.html#autotoc_md416", null ],
-        [ "Monadic operations", "md_docs_plan_step8_expected_ref_e.html#autotoc_md417", null ]
+      [ "Goal", "md_docs_plan_step8_expected_ref_e.html#autotoc_md424", null ],
+      [ "Context for Executing Agent", "md_docs_plan_step8_expected_ref_e.html#autotoc_md425", [
+        [ "Storage model", "md_docs_plan_step8_expected_ref_e.html#autotoc_md426", null ],
+        [ "Design principles", "md_docs_plan_step8_expected_ref_e.html#autotoc_md427", null ],
+        [ "Constructors", "md_docs_plan_step8_expected_ref_e.html#autotoc_md428", null ],
+        [ "Assignment (rebind on error side)", "md_docs_plan_step8_expected_ref_e.html#autotoc_md429", null ],
+        [ "Observers", "md_docs_plan_step8_expected_ref_e.html#autotoc_md430", null ],
+        [ "Monadic operations", "md_docs_plan_step8_expected_ref_e.html#autotoc_md431", null ]
       ] ],
-      [ "Deliverables", "md_docs_plan_step8_expected_ref_e.html#autotoc_md418", null ],
-      [ "Procedure", "md_docs_plan_step8_expected_ref_e.html#autotoc_md419", null ],
-      [ "Verification", "md_docs_plan_step8_expected_ref_e.html#autotoc_md420", null ],
-      [ "Handoff to Step 9", "md_docs_plan_step8_expected_ref_e.html#autotoc_md421", null ]
+      [ "Deliverables", "md_docs_plan_step8_expected_ref_e.html#autotoc_md432", null ],
+      [ "Procedure", "md_docs_plan_step8_expected_ref_e.html#autotoc_md433", null ],
+      [ "Verification", "md_docs_plan_step8_expected_ref_e.html#autotoc_md434", null ],
+      [ "Handoff to Step 9", "md_docs_plan_step8_expected_ref_e.html#autotoc_md435", null ]
     ] ],
     [ "Step 9: Implement expected<T&, E&> Both-Reference Specialization", "md_docs_plan_step9_expected_ref_both.html", [
-      [ "Goal", "md_docs_plan_step9_expected_ref_both.html#autotoc_md424", null ],
-      [ "Context for Executing Agent", "md_docs_plan_step9_expected_ref_both.html#autotoc_md425", [
-        [ "Storage model", "md_docs_plan_step9_expected_ref_both.html#autotoc_md426", null ],
-        [ "Key properties", "md_docs_plan_step9_expected_ref_both.html#autotoc_md427", null ],
-        [ "Constructors", "md_docs_plan_step9_expected_ref_both.html#autotoc_md428", null ],
-        [ "Assignment", "md_docs_plan_step9_expected_ref_both.html#autotoc_md429", null ],
-        [ "Observers", "md_docs_plan_step9_expected_ref_both.html#autotoc_md430", null ],
-        [ "Monadic operations", "md_docs_plan_step9_expected_ref_both.html#autotoc_md431", null ]
+      [ "Goal", "md_docs_plan_step9_expected_ref_both.html#autotoc_md438", null ],
+      [ "Context for Executing Agent", "md_docs_plan_step9_expected_ref_both.html#autotoc_md439", [
+        [ "Storage model", "md_docs_plan_step9_expected_ref_both.html#autotoc_md440", null ],
+        [ "Key properties", "md_docs_plan_step9_expected_ref_both.html#autotoc_md441", null ],
+        [ "Constructors", "md_docs_plan_step9_expected_ref_both.html#autotoc_md442", null ],
+        [ "Assignment", "md_docs_plan_step9_expected_ref_both.html#autotoc_md443", null ],
+        [ "Observers", "md_docs_plan_step9_expected_ref_both.html#autotoc_md444", null ],
+        [ "Monadic operations", "md_docs_plan_step9_expected_ref_both.html#autotoc_md445", null ]
       ] ],
-      [ "Deliverables", "md_docs_plan_step9_expected_ref_both.html#autotoc_md432", null ],
-      [ "Procedure", "md_docs_plan_step9_expected_ref_both.html#autotoc_md433", null ],
-      [ "Verification", "md_docs_plan_step9_expected_ref_both.html#autotoc_md434", null ],
-      [ "Handoff to Step 10", "md_docs_plan_step9_expected_ref_both.html#autotoc_md435", null ]
+      [ "Deliverables", "md_docs_plan_step9_expected_ref_both.html#autotoc_md446", null ],
+      [ "Procedure", "md_docs_plan_step9_expected_ref_both.html#autotoc_md447", null ],
+      [ "Verification", "md_docs_plan_step9_expected_ref_both.html#autotoc_md448", null ],
+      [ "Handoff to Step 10", "md_docs_plan_step9_expected_ref_both.html#autotoc_md449", null ]
     ] ],
     [ "Test Plan Overview — beman::expected", "md_docs_plan_tests_overview.html", [
-      [ "Test Framework", "md_docs_plan_tests_overview.html#autotoc_md438", null ],
-      [ "Standard Testing Conventions", "md_docs_plan_tests_overview.html#autotoc_md440", [
-        [ "1. Header idempotence", "md_docs_plan_tests_overview.html#autotoc_md441", null ],
-        [ "2. Three tiers of negative testing", "md_docs_plan_tests_overview.html#autotoc_md442", null ],
-        [ "3. Negative compile test pattern", "md_docs_plan_tests_overview.html#autotoc_md443", [
-          [ "Source file format", "md_docs_plan_tests_overview.html#autotoc_md444", null ],
-          [ "CMakeLists pattern", "md_docs_plan_tests_overview.html#autotoc_md445", null ]
+      [ "Test Framework", "md_docs_plan_tests_overview.html#autotoc_md452", null ],
+      [ "Standard Testing Conventions", "md_docs_plan_tests_overview.html#autotoc_md454", [
+        [ "1. Header idempotence", "md_docs_plan_tests_overview.html#autotoc_md455", null ],
+        [ "2. Three tiers of negative testing", "md_docs_plan_tests_overview.html#autotoc_md456", null ],
+        [ "3. Negative compile test pattern", "md_docs_plan_tests_overview.html#autotoc_md457", [
+          [ "Source file format", "md_docs_plan_tests_overview.html#autotoc_md458", null ],
+          [ "CMakeLists pattern", "md_docs_plan_tests_overview.html#autotoc_md459", null ]
         ] ],
-        [ "4. Type-trait / static_assert tests", "md_docs_plan_tests_overview.html#autotoc_md446", null ],
-        [ "5. Hardened precondition tests", "md_docs_plan_tests_overview.html#autotoc_md447", null ]
+        [ "4. Type-trait / static_assert tests", "md_docs_plan_tests_overview.html#autotoc_md460", null ],
+        [ "5. Hardened precondition tests", "md_docs_plan_tests_overview.html#autotoc_md461", null ]
       ] ],
-      [ "Files per Step", "md_docs_plan_tests_overview.html#autotoc_md449", [
-        [ "6. Constraint and mandate coverage requirement", "md_docs_plan_tests_overview.html#autotoc_md450", [
-          [ "How to cover each kind:", "md_docs_plan_tests_overview.html#autotoc_md451", null ],
-          [ "What to cover for each step:", "md_docs_plan_tests_overview.html#autotoc_md452", null ],
-          [ "Naming convention:", "md_docs_plan_tests_overview.html#autotoc_md453", null ]
+      [ "Files per Step", "md_docs_plan_tests_overview.html#autotoc_md463", [
+        [ "6. Constraint and mandate coverage requirement", "md_docs_plan_tests_overview.html#autotoc_md464", [
+          [ "How to cover each kind:", "md_docs_plan_tests_overview.html#autotoc_md465", null ],
+          [ "What to cover for each step:", "md_docs_plan_tests_overview.html#autotoc_md466", null ],
+          [ "Naming convention:", "md_docs_plan_tests_overview.html#autotoc_md467", null ]
         ] ]
       ] ],
-      [ "Standard Reference Summary", "md_docs_plan_tests_overview.html#autotoc_md455", null ],
-      [ "CMakeLists Structure", "md_docs_plan_tests_overview.html#autotoc_md457", null ]
+      [ "Standard Reference Summary", "md_docs_plan_tests_overview.html#autotoc_md469", null ],
+      [ "CMakeLists Structure", "md_docs_plan_tests_overview.html#autotoc_md471", null ]
     ] ],
     [ "Test Plan: Step 1 — unexpected<E>", "md_docs_plan_tests_step1.html", [
-      [ "Testing Strategy", "md_docs_plan_tests_step1.html#autotoc_md460", null ],
-      [ "Testable Statements from the Standard", "md_docs_plan_tests_step1.html#autotoc_md462", [
-        [ "[expected.un.general] para 2 — ill-formed instantiations", "md_docs_plan_tests_step1.html#autotoc_md463", null ],
-        [ "[expected.un.cons] — constructors", "md_docs_plan_tests_step1.html#autotoc_md464", null ],
-        [ "[expected.un.obs] — observers", "md_docs_plan_tests_step1.html#autotoc_md465", null ],
-        [ "[expected.un.swap] — swap", "md_docs_plan_tests_step1.html#autotoc_md466", null ],
-        [ "[expected.un.eq] — equality", "md_docs_plan_tests_step1.html#autotoc_md467", null ]
+      [ "Testing Strategy", "md_docs_plan_tests_step1.html#autotoc_md474", null ],
+      [ "Testable Statements from the Standard", "md_docs_plan_tests_step1.html#autotoc_md476", [
+        [ "[expected.un.general] para 2 — ill-formed instantiations", "md_docs_plan_tests_step1.html#autotoc_md477", null ],
+        [ "[expected.un.cons] — constructors", "md_docs_plan_tests_step1.html#autotoc_md478", null ],
+        [ "[expected.un.obs] — observers", "md_docs_plan_tests_step1.html#autotoc_md479", null ],
+        [ "[expected.un.swap] — swap", "md_docs_plan_tests_step1.html#autotoc_md480", null ],
+        [ "[expected.un.eq] — equality", "md_docs_plan_tests_step1.html#autotoc_md481", null ]
       ] ],
-      [ "Test Outline", "md_docs_plan_tests_step1.html#autotoc_md469", [
-        [ "Normal (positive) tests", "md_docs_plan_tests_step1.html#autotoc_md470", null ],
-        [ "Constraint / type-trait tests (in normal test file)", "md_docs_plan_tests_step1.html#autotoc_md471", null ]
+      [ "Test Outline", "md_docs_plan_tests_step1.html#autotoc_md483", [
+        [ "Normal (positive) tests", "md_docs_plan_tests_step1.html#autotoc_md484", null ],
+        [ "Constraint / type-trait tests (in normal test file)", "md_docs_plan_tests_step1.html#autotoc_md485", null ]
       ] ],
-      [ "Negative Compile Tests", "md_docs_plan_tests_step1.html#autotoc_md473", [
-        [ "<tt>unexpected_array_fail.cpp</tt>", "md_docs_plan_tests_step1.html#autotoc_md474", null ],
-        [ "<tt>unexpected_cvref_fail.cpp</tt>", "md_docs_plan_tests_step1.html#autotoc_md475", null ],
-        [ "<tt>unexpected_self_fail.cpp</tt>", "md_docs_plan_tests_step1.html#autotoc_md476", null ],
-        [ "<tt>unexpected_swap_nonswappable_fail.cpp</tt>", "md_docs_plan_tests_step1.html#autotoc_md477", null ]
+      [ "Negative Compile Tests", "md_docs_plan_tests_step1.html#autotoc_md487", [
+        [ "<tt>unexpected_array_fail.cpp</tt>", "md_docs_plan_tests_step1.html#autotoc_md488", null ],
+        [ "<tt>unexpected_cvref_fail.cpp</tt>", "md_docs_plan_tests_step1.html#autotoc_md489", null ],
+        [ "<tt>unexpected_self_fail.cpp</tt>", "md_docs_plan_tests_step1.html#autotoc_md490", null ],
+        [ "<tt>unexpected_swap_nonswappable_fail.cpp</tt>", "md_docs_plan_tests_step1.html#autotoc_md491", null ]
       ] ],
-      [ "CMakeLists additions", "md_docs_plan_tests_step1.html#autotoc_md479", null ]
+      [ "CMakeLists additions", "md_docs_plan_tests_step1.html#autotoc_md493", null ]
     ] ],
     [ "Test Plan: Step 10 — expected<void, E&> Void+Error-Reference Specialization", "md_docs_plan_tests_step10.html", [
-      [ "Testing Strategy", "md_docs_plan_tests_step10.html#autotoc_md482", null ],
-      [ "Type-Level Tests (static_assert)", "md_docs_plan_tests_step10.html#autotoc_md484", null ],
-      [ "Test Outline", "md_docs_plan_tests_step10.html#autotoc_md486", null ],
-      [ "Negative Compile Tests", "md_docs_plan_tests_step10.html#autotoc_md488", [
-        [ "<tt>expected_void_ref_e_temporary_fail.cpp</tt>", "md_docs_plan_tests_step10.html#autotoc_md489", null ],
-        [ "<tt>expected_void_ref_e_const_lvalue_fail.cpp</tt>", "md_docs_plan_tests_step10.html#autotoc_md490", null ],
-        [ "<tt>expected_void_ref_e_no_value_or_fail.cpp</tt>", "md_docs_plan_tests_step10.html#autotoc_md491", null ]
+      [ "Testing Strategy", "md_docs_plan_tests_step10.html#autotoc_md496", null ],
+      [ "Type-Level Tests (static_assert)", "md_docs_plan_tests_step10.html#autotoc_md498", null ],
+      [ "Test Outline", "md_docs_plan_tests_step10.html#autotoc_md500", null ],
+      [ "Negative Compile Tests", "md_docs_plan_tests_step10.html#autotoc_md502", [
+        [ "<tt>expected_void_ref_e_temporary_fail.cpp</tt>", "md_docs_plan_tests_step10.html#autotoc_md503", null ],
+        [ "<tt>expected_void_ref_e_const_lvalue_fail.cpp</tt>", "md_docs_plan_tests_step10.html#autotoc_md504", null ],
+        [ "<tt>expected_void_ref_e_no_value_or_fail.cpp</tt>", "md_docs_plan_tests_step10.html#autotoc_md505", null ]
       ] ],
-      [ "CMakeLists additions", "md_docs_plan_tests_step10.html#autotoc_md493", null ]
+      [ "CMakeLists additions", "md_docs_plan_tests_step10.html#autotoc_md507", null ]
     ] ],
     [ "Test Plan: Step 2 — bad_expected_access<E>", "md_docs_plan_tests_step2.html", [
-      [ "Testing Strategy", "md_docs_plan_tests_step2.html#autotoc_md496", null ],
-      [ "Testable Statements from the Standard", "md_docs_plan_tests_step2.html#autotoc_md498", [
-        [ "[expected.bad.void] — base specialization", "md_docs_plan_tests_step2.html#autotoc_md499", null ],
-        [ "[expected.bad] — primary template", "md_docs_plan_tests_step2.html#autotoc_md500", null ]
+      [ "Testing Strategy", "md_docs_plan_tests_step2.html#autotoc_md510", null ],
+      [ "Testable Statements from the Standard", "md_docs_plan_tests_step2.html#autotoc_md512", [
+        [ "[expected.bad.void] — base specialization", "md_docs_plan_tests_step2.html#autotoc_md513", null ],
+        [ "[expected.bad] — primary template", "md_docs_plan_tests_step2.html#autotoc_md514", null ]
       ] ],
-      [ "Test Outline", "md_docs_plan_tests_step2.html#autotoc_md502", null ],
-      [ "Return value conventions", "md_docs_plan_tests_step2.html#autotoc_md504", null ],
-      [ "No negative compile tests", "md_docs_plan_tests_step2.html#autotoc_md506", null ]
+      [ "Test Outline", "md_docs_plan_tests_step2.html#autotoc_md516", null ],
+      [ "Return value conventions", "md_docs_plan_tests_step2.html#autotoc_md518", null ],
+      [ "No negative compile tests", "md_docs_plan_tests_step2.html#autotoc_md520", null ]
     ] ],
     [ "Test Plan: Step 3 — expected<T, E> Primary Template", "md_docs_plan_tests_step3.html", [
-      [ "Testing Strategy", "md_docs_plan_tests_step3.html#autotoc_md509", null ],
-      [ "Ill-Formed Instantiations [expected.object.general] para 2–3", "md_docs_plan_tests_step3.html#autotoc_md511", null ],
-      [ "Constructors [expected.object.cons]", "md_docs_plan_tests_step3.html#autotoc_md513", [
-        [ "Default constructor", "md_docs_plan_tests_step3.html#autotoc_md514", null ],
-        [ "Copy constructor", "md_docs_plan_tests_step3.html#autotoc_md515", null ],
-        [ "Move constructor", "md_docs_plan_tests_step3.html#autotoc_md516", null ],
-        [ "Converting constructor from expected<U, G>", "md_docs_plan_tests_step3.html#autotoc_md517", null ],
-        [ "Converting constructor from value U&&", "md_docs_plan_tests_step3.html#autotoc_md518", null ],
-        [ "Constructors from unexpected<G>", "md_docs_plan_tests_step3.html#autotoc_md519", null ],
-        [ "In-place constructors", "md_docs_plan_tests_step3.html#autotoc_md520", null ]
+      [ "Testing Strategy", "md_docs_plan_tests_step3.html#autotoc_md523", null ],
+      [ "Ill-Formed Instantiations [expected.object.general] para 2–3", "md_docs_plan_tests_step3.html#autotoc_md525", null ],
+      [ "Constructors [expected.object.cons]", "md_docs_plan_tests_step3.html#autotoc_md527", [
+        [ "Default constructor", "md_docs_plan_tests_step3.html#autotoc_md528", null ],
+        [ "Copy constructor", "md_docs_plan_tests_step3.html#autotoc_md529", null ],
+        [ "Move constructor", "md_docs_plan_tests_step3.html#autotoc_md530", null ],
+        [ "Converting constructor from expected<U, G>", "md_docs_plan_tests_step3.html#autotoc_md531", null ],
+        [ "Converting constructor from value U&&", "md_docs_plan_tests_step3.html#autotoc_md532", null ],
+        [ "Constructors from unexpected<G>", "md_docs_plan_tests_step3.html#autotoc_md533", null ],
+        [ "In-place constructors", "md_docs_plan_tests_step3.html#autotoc_md534", null ]
       ] ],
-      [ "Destructor [expected.object.dtor]", "md_docs_plan_tests_step3.html#autotoc_md522", null ],
-      [ "Assignment [expected.object.assign]", "md_docs_plan_tests_step3.html#autotoc_md524", [
-        [ "Copy assignment", "md_docs_plan_tests_step3.html#autotoc_md525", null ],
-        [ "Move assignment", "md_docs_plan_tests_step3.html#autotoc_md526", null ],
-        [ "Assign from value U&&", "md_docs_plan_tests_step3.html#autotoc_md527", null ],
-        [ "Assign from unexpected<G>", "md_docs_plan_tests_step3.html#autotoc_md528", null ]
+      [ "Destructor [expected.object.dtor]", "md_docs_plan_tests_step3.html#autotoc_md536", null ],
+      [ "Assignment [expected.object.assign]", "md_docs_plan_tests_step3.html#autotoc_md538", [
+        [ "Copy assignment", "md_docs_plan_tests_step3.html#autotoc_md539", null ],
+        [ "Move assignment", "md_docs_plan_tests_step3.html#autotoc_md540", null ],
+        [ "Assign from value U&&", "md_docs_plan_tests_step3.html#autotoc_md541", null ],
+        [ "Assign from unexpected<G>", "md_docs_plan_tests_step3.html#autotoc_md542", null ]
       ] ],
-      [ "Emplace [expected.object.assign] para 18–21", "md_docs_plan_tests_step3.html#autotoc_md530", null ],
-      [ "Swap [expected.object.swap]", "md_docs_plan_tests_step3.html#autotoc_md532", null ],
-      [ "Observers [expected.object.obs]", "md_docs_plan_tests_step3.html#autotoc_md534", [
-        [ "operator->() — Hardened precondition: has_value()", "md_docs_plan_tests_step3.html#autotoc_md535", null ],
-        [ "operator*() — Hardened precondition: has_value()", "md_docs_plan_tests_step3.html#autotoc_md536", null ],
-        [ "has_value() / operator bool()", "md_docs_plan_tests_step3.html#autotoc_md537", null ],
-        [ "value() — throws bad_expected_access when empty", "md_docs_plan_tests_step3.html#autotoc_md538", null ],
-        [ "error() — Hardened precondition: !has_value()", "md_docs_plan_tests_step3.html#autotoc_md539", null ],
-        [ "value_or()", "md_docs_plan_tests_step3.html#autotoc_md540", null ],
-        [ "error_or()", "md_docs_plan_tests_step3.html#autotoc_md541", null ]
+      [ "Emplace [expected.object.assign] para 18–21", "md_docs_plan_tests_step3.html#autotoc_md544", null ],
+      [ "Swap [expected.object.swap]", "md_docs_plan_tests_step3.html#autotoc_md546", null ],
+      [ "Observers [expected.object.obs]", "md_docs_plan_tests_step3.html#autotoc_md548", [
+        [ "operator->() — Hardened precondition: has_value()", "md_docs_plan_tests_step3.html#autotoc_md549", null ],
+        [ "operator*() — Hardened precondition: has_value()", "md_docs_plan_tests_step3.html#autotoc_md550", null ],
+        [ "has_value() / operator bool()", "md_docs_plan_tests_step3.html#autotoc_md551", null ],
+        [ "value() — throws bad_expected_access when empty", "md_docs_plan_tests_step3.html#autotoc_md552", null ],
+        [ "error() — Hardened precondition: !has_value()", "md_docs_plan_tests_step3.html#autotoc_md553", null ],
+        [ "value_or()", "md_docs_plan_tests_step3.html#autotoc_md554", null ],
+        [ "error_or()", "md_docs_plan_tests_step3.html#autotoc_md555", null ]
       ] ],
-      [ "Equality Operators [expected.object.eq]", "md_docs_plan_tests_step3.html#autotoc_md543", [
-        [ "expected == expected (T2 not void)", "md_docs_plan_tests_step3.html#autotoc_md544", null ],
-        [ "expected == T2 (comparison with value)", "md_docs_plan_tests_step3.html#autotoc_md545", null ],
-        [ "expected == unexpected<E2>", "md_docs_plan_tests_step3.html#autotoc_md546", null ]
+      [ "Equality Operators [expected.object.eq]", "md_docs_plan_tests_step3.html#autotoc_md557", [
+        [ "expected == expected (T2 not void)", "md_docs_plan_tests_step3.html#autotoc_md558", null ],
+        [ "expected == T2 (comparison with value)", "md_docs_plan_tests_step3.html#autotoc_md559", null ],
+        [ "expected == unexpected<E2>", "md_docs_plan_tests_step3.html#autotoc_md560", null ]
       ] ],
-      [ "Negative Compile Tests", "md_docs_plan_tests_step3.html#autotoc_md548", [
-        [ "<tt>expected_t_ref_fail.cpp</tt>", "md_docs_plan_tests_step3.html#autotoc_md549", null ],
-        [ "<tt>expected_e_ref_fail.cpp</tt>", "md_docs_plan_tests_step3.html#autotoc_md550", null ],
-        [ "<tt>expected_t_array_fail.cpp</tt>", "md_docs_plan_tests_step3.html#autotoc_md551", null ],
-        [ "<tt>expected_value_mandate_fail.cpp</tt>", "md_docs_plan_tests_step3.html#autotoc_md552", null ],
-        [ "<tt>expected_emplace_throwing_fail.cpp</tt>", "md_docs_plan_tests_step3.html#autotoc_md553", null ]
+      [ "Negative Compile Tests", "md_docs_plan_tests_step3.html#autotoc_md562", [
+        [ "<tt>expected_t_ref_fail.cpp</tt>", "md_docs_plan_tests_step3.html#autotoc_md563", null ],
+        [ "<tt>expected_e_ref_fail.cpp</tt>", "md_docs_plan_tests_step3.html#autotoc_md564", null ],
+        [ "<tt>expected_t_array_fail.cpp</tt>", "md_docs_plan_tests_step3.html#autotoc_md565", null ],
+        [ "<tt>expected_value_mandate_fail.cpp</tt>", "md_docs_plan_tests_step3.html#autotoc_md566", null ],
+        [ "<tt>expected_emplace_throwing_fail.cpp</tt>", "md_docs_plan_tests_step3.html#autotoc_md567", null ]
       ] ]
     ] ],
     [ "Test Plan: Step 4 — expected<void, E> Specialization", "md_docs_plan_tests_step4.html", [
-      [ "Testing Strategy", "md_docs_plan_tests_step4.html#autotoc_md556", null ],
-      [ "Ill-Formed Instantiations [expected.void.general] para 2", "md_docs_plan_tests_step4.html#autotoc_md558", null ],
-      [ "Constructors [expected.void.cons]", "md_docs_plan_tests_step4.html#autotoc_md560", [
-        [ "Default constructor", "md_docs_plan_tests_step4.html#autotoc_md561", null ],
-        [ "Copy constructor", "md_docs_plan_tests_step4.html#autotoc_md562", null ],
-        [ "Move constructor", "md_docs_plan_tests_step4.html#autotoc_md563", null ],
-        [ "Converting constructor from expected<U, G> (void case)", "md_docs_plan_tests_step4.html#autotoc_md564", null ],
-        [ "Constructors from unexpected<G>", "md_docs_plan_tests_step4.html#autotoc_md565", null ],
-        [ "in_place_t constructor", "md_docs_plan_tests_step4.html#autotoc_md566", null ],
-        [ "unexpect_t constructors", "md_docs_plan_tests_step4.html#autotoc_md567", null ]
+      [ "Testing Strategy", "md_docs_plan_tests_step4.html#autotoc_md570", null ],
+      [ "Ill-Formed Instantiations [expected.void.general] para 2", "md_docs_plan_tests_step4.html#autotoc_md572", null ],
+      [ "Constructors [expected.void.cons]", "md_docs_plan_tests_step4.html#autotoc_md574", [
+        [ "Default constructor", "md_docs_plan_tests_step4.html#autotoc_md575", null ],
+        [ "Copy constructor", "md_docs_plan_tests_step4.html#autotoc_md576", null ],
+        [ "Move constructor", "md_docs_plan_tests_step4.html#autotoc_md577", null ],
+        [ "Converting constructor from expected<U, G> (void case)", "md_docs_plan_tests_step4.html#autotoc_md578", null ],
+        [ "Constructors from unexpected<G>", "md_docs_plan_tests_step4.html#autotoc_md579", null ],
+        [ "in_place_t constructor", "md_docs_plan_tests_step4.html#autotoc_md580", null ],
+        [ "unexpect_t constructors", "md_docs_plan_tests_step4.html#autotoc_md581", null ]
       ] ],
-      [ "Destructor [expected.void.dtor]", "md_docs_plan_tests_step4.html#autotoc_md569", null ],
-      [ "Assignment [expected.void.assign]", "md_docs_plan_tests_step4.html#autotoc_md571", [
-        [ "Copy assignment", "md_docs_plan_tests_step4.html#autotoc_md572", null ],
-        [ "Move assignment", "md_docs_plan_tests_step4.html#autotoc_md573", null ],
-        [ "Assign from unexpected<G>", "md_docs_plan_tests_step4.html#autotoc_md574", null ],
-        [ "emplace()", "md_docs_plan_tests_step4.html#autotoc_md575", null ]
+      [ "Destructor [expected.void.dtor]", "md_docs_plan_tests_step4.html#autotoc_md583", null ],
+      [ "Assignment [expected.void.assign]", "md_docs_plan_tests_step4.html#autotoc_md585", [
+        [ "Copy assignment", "md_docs_plan_tests_step4.html#autotoc_md586", null ],
+        [ "Move assignment", "md_docs_plan_tests_step4.html#autotoc_md587", null ],
+        [ "Assign from unexpected<G>", "md_docs_plan_tests_step4.html#autotoc_md588", null ],
+        [ "emplace()", "md_docs_plan_tests_step4.html#autotoc_md589", null ]
       ] ],
-      [ "Swap [expected.void.swap]", "md_docs_plan_tests_step4.html#autotoc_md577", null ],
-      [ "Observers [expected.void.obs]", "md_docs_plan_tests_step4.html#autotoc_md579", [
-        [ "operator bool() / has_value()", "md_docs_plan_tests_step4.html#autotoc_md580", null ],
-        [ "operator*() — void, noexcept, Hardened precondition: has_value()", "md_docs_plan_tests_step4.html#autotoc_md581", null ],
-        [ "value() — returns void, throws when empty", "md_docs_plan_tests_step4.html#autotoc_md582", null ],
-        [ "error() — Hardened precondition: !has_value()", "md_docs_plan_tests_step4.html#autotoc_md583", null ],
-        [ "error_or()", "md_docs_plan_tests_step4.html#autotoc_md584", null ]
+      [ "Swap [expected.void.swap]", "md_docs_plan_tests_step4.html#autotoc_md591", null ],
+      [ "Observers [expected.void.obs]", "md_docs_plan_tests_step4.html#autotoc_md593", [
+        [ "operator bool() / has_value()", "md_docs_plan_tests_step4.html#autotoc_md594", null ],
+        [ "operator*() — void, noexcept, Hardened precondition: has_value()", "md_docs_plan_tests_step4.html#autotoc_md595", null ],
+        [ "value() — returns void, throws when empty", "md_docs_plan_tests_step4.html#autotoc_md596", null ],
+        [ "error() — Hardened precondition: !has_value()", "md_docs_plan_tests_step4.html#autotoc_md597", null ],
+        [ "error_or()", "md_docs_plan_tests_step4.html#autotoc_md598", null ]
       ] ],
-      [ "Equality Operators [expected.void.eq]", "md_docs_plan_tests_step4.html#autotoc_md586", [
-        [ "expected<void> == expected<void, E2>", "md_docs_plan_tests_step4.html#autotoc_md587", null ],
-        [ "expected<void> == unexpected<E2>", "md_docs_plan_tests_step4.html#autotoc_md588", null ]
+      [ "Equality Operators [expected.void.eq]", "md_docs_plan_tests_step4.html#autotoc_md600", [
+        [ "expected<void> == expected<void, E2>", "md_docs_plan_tests_step4.html#autotoc_md601", null ],
+        [ "expected<void> == unexpected<E2>", "md_docs_plan_tests_step4.html#autotoc_md602", null ]
       ] ],
-      [ "No-value members (confirm absence)", "md_docs_plan_tests_step4.html#autotoc_md590", null ]
+      [ "No-value members (confirm absence)", "md_docs_plan_tests_step4.html#autotoc_md604", null ]
     ] ],
     [ "Test Plan: Step 5 — Monadic Operations for expected<T, E>", "md_docs_plan_tests_step5.html", [
-      [ "Testing Strategy", "md_docs_plan_tests_step5.html#autotoc_md593", null ],
-      [ "and_then [expected.object.monadic] para 1–8", "md_docs_plan_tests_step5.html#autotoc_md595", [
-        [ "<tt>and_then(F)</tt> — lvalue and const-lvalue overloads (para 1–4)", "md_docs_plan_tests_step5.html#autotoc_md596", null ],
-        [ "<tt>and_then(F)</tt> — rvalue and const-rvalue overloads (para 5–8)", "md_docs_plan_tests_step5.html#autotoc_md597", null ]
+      [ "Testing Strategy", "md_docs_plan_tests_step5.html#autotoc_md607", null ],
+      [ "and_then [expected.object.monadic] para 1–8", "md_docs_plan_tests_step5.html#autotoc_md609", [
+        [ "<tt>and_then(F)</tt> — lvalue and const-lvalue overloads (para 1–4)", "md_docs_plan_tests_step5.html#autotoc_md610", null ],
+        [ "<tt>and_then(F)</tt> — rvalue and const-rvalue overloads (para 5–8)", "md_docs_plan_tests_step5.html#autotoc_md611", null ]
       ] ],
-      [ "or_else [expected.object.monadic] para 9–16", "md_docs_plan_tests_step5.html#autotoc_md599", null ],
-      [ "transform [expected.object.monadic] para 17–24", "md_docs_plan_tests_step5.html#autotoc_md601", null ],
-      [ "transform_error [expected.object.monadic] para 25–32", "md_docs_plan_tests_step5.html#autotoc_md603", null ],
-      [ "Test Outline", "md_docs_plan_tests_step5.html#autotoc_md605", null ],
-      [ "Negative Compile Tests", "md_docs_plan_tests_step5.html#autotoc_md607", [
-        [ "<tt>and_then_wrong_error_type_fail.cpp</tt>", "md_docs_plan_tests_step5.html#autotoc_md608", null ],
-        [ "<tt>and_then_not_expected_fail.cpp</tt>", "md_docs_plan_tests_step5.html#autotoc_md609", null ],
-        [ "<tt>or_else_wrong_value_type_fail.cpp</tt>", "md_docs_plan_tests_step5.html#autotoc_md610", null ],
-        [ "<tt>transform_error_not_valid_unexpected_arg_fail.cpp</tt>", "md_docs_plan_tests_step5.html#autotoc_md611", null ]
+      [ "or_else [expected.object.monadic] para 9–16", "md_docs_plan_tests_step5.html#autotoc_md613", null ],
+      [ "transform [expected.object.monadic] para 17–24", "md_docs_plan_tests_step5.html#autotoc_md615", null ],
+      [ "transform_error [expected.object.monadic] para 25–32", "md_docs_plan_tests_step5.html#autotoc_md617", null ],
+      [ "Test Outline", "md_docs_plan_tests_step5.html#autotoc_md619", null ],
+      [ "Negative Compile Tests", "md_docs_plan_tests_step5.html#autotoc_md621", [
+        [ "<tt>and_then_wrong_error_type_fail.cpp</tt>", "md_docs_plan_tests_step5.html#autotoc_md622", null ],
+        [ "<tt>and_then_not_expected_fail.cpp</tt>", "md_docs_plan_tests_step5.html#autotoc_md623", null ],
+        [ "<tt>or_else_wrong_value_type_fail.cpp</tt>", "md_docs_plan_tests_step5.html#autotoc_md624", null ],
+        [ "<tt>transform_error_not_valid_unexpected_arg_fail.cpp</tt>", "md_docs_plan_tests_step5.html#autotoc_md625", null ]
       ] ]
     ] ],
     [ "Test Plan: Step 6 — Monadic Operations for expected<void, E>", "md_docs_plan_tests_step6.html", [
-      [ "Testing Strategy", "md_docs_plan_tests_step6.html#autotoc_md614", null ],
-      [ "and_then [expected.void.monadic] para 1–8", "md_docs_plan_tests_step6.html#autotoc_md616", [
-        [ "Lvalue overloads (para 1–4)", "md_docs_plan_tests_step6.html#autotoc_md617", null ],
-        [ "Rvalue overloads (para 5–8)", "md_docs_plan_tests_step6.html#autotoc_md618", null ]
+      [ "Testing Strategy", "md_docs_plan_tests_step6.html#autotoc_md628", null ],
+      [ "and_then [expected.void.monadic] para 1–8", "md_docs_plan_tests_step6.html#autotoc_md630", [
+        [ "Lvalue overloads (para 1–4)", "md_docs_plan_tests_step6.html#autotoc_md631", null ],
+        [ "Rvalue overloads (para 5–8)", "md_docs_plan_tests_step6.html#autotoc_md632", null ]
       ] ],
-      [ "or_else [expected.void.monadic] para 9–14", "md_docs_plan_tests_step6.html#autotoc_md620", null ],
-      [ "transform [expected.void.monadic] para 15–22", "md_docs_plan_tests_step6.html#autotoc_md622", null ],
-      [ "transform_error [expected.void.monadic] para 23–28", "md_docs_plan_tests_step6.html#autotoc_md624", null ],
-      [ "Test Outline", "md_docs_plan_tests_step6.html#autotoc_md626", null ],
-      [ "Negative Compile Tests", "md_docs_plan_tests_step6.html#autotoc_md628", [
-        [ "<tt>void_and_then_wrong_error_type_fail.cpp</tt>", "md_docs_plan_tests_step6.html#autotoc_md629", null ],
-        [ "<tt>void_or_else_wrong_value_type_fail.cpp</tt>", "md_docs_plan_tests_step6.html#autotoc_md630", null ]
+      [ "or_else [expected.void.monadic] para 9–14", "md_docs_plan_tests_step6.html#autotoc_md634", null ],
+      [ "transform [expected.void.monadic] para 15–22", "md_docs_plan_tests_step6.html#autotoc_md636", null ],
+      [ "transform_error [expected.void.monadic] para 23–28", "md_docs_plan_tests_step6.html#autotoc_md638", null ],
+      [ "Test Outline", "md_docs_plan_tests_step6.html#autotoc_md640", null ],
+      [ "Negative Compile Tests", "md_docs_plan_tests_step6.html#autotoc_md642", [
+        [ "<tt>void_and_then_wrong_error_type_fail.cpp</tt>", "md_docs_plan_tests_step6.html#autotoc_md643", null ],
+        [ "<tt>void_or_else_wrong_value_type_fail.cpp</tt>", "md_docs_plan_tests_step6.html#autotoc_md644", null ]
       ] ]
     ] ],
     [ "Test Plan: Step 7 — expected<T&, E> Reference Specialization", "md_docs_plan_tests_step7.html", [
-      [ "Testing Strategy", "md_docs_plan_tests_step7.html#autotoc_md633", null ],
-      [ "Type-Level Tests (static_assert)", "md_docs_plan_tests_step7.html#autotoc_md635", null ],
-      [ "Test Outline", "md_docs_plan_tests_step7.html#autotoc_md637", null ],
-      [ "Negative Compile Tests", "md_docs_plan_tests_step7.html#autotoc_md639", [
-        [ "<tt>expected_ref_temporary_fail.cpp</tt>", "md_docs_plan_tests_step7.html#autotoc_md640", null ],
-        [ "<tt>expected_ref_no_default_fail.cpp</tt>", "md_docs_plan_tests_step7.html#autotoc_md641", null ],
-        [ "<tt>expected_ref_inplace_value_fail.cpp</tt>", "md_docs_plan_tests_step7.html#autotoc_md642", null ]
+      [ "Testing Strategy", "md_docs_plan_tests_step7.html#autotoc_md647", null ],
+      [ "Type-Level Tests (static_assert)", "md_docs_plan_tests_step7.html#autotoc_md649", null ],
+      [ "Test Outline", "md_docs_plan_tests_step7.html#autotoc_md651", null ],
+      [ "Negative Compile Tests", "md_docs_plan_tests_step7.html#autotoc_md653", [
+        [ "<tt>expected_ref_temporary_fail.cpp</tt>", "md_docs_plan_tests_step7.html#autotoc_md654", null ],
+        [ "<tt>expected_ref_no_default_fail.cpp</tt>", "md_docs_plan_tests_step7.html#autotoc_md655", null ],
+        [ "<tt>expected_ref_inplace_value_fail.cpp</tt>", "md_docs_plan_tests_step7.html#autotoc_md656", null ]
       ] ],
-      [ "CMakeLists additions", "md_docs_plan_tests_step7.html#autotoc_md644", null ]
+      [ "CMakeLists additions", "md_docs_plan_tests_step7.html#autotoc_md658", null ]
     ] ],
     [ "Test Plan: Step 8 — expected<T, E&> Error-Reference Specialization", "md_docs_plan_tests_step8.html", [
-      [ "Testing Strategy", "md_docs_plan_tests_step8.html#autotoc_md647", null ],
-      [ "Type-Level Tests (static_assert)", "md_docs_plan_tests_step8.html#autotoc_md649", null ],
-      [ "Test Outline", "md_docs_plan_tests_step8.html#autotoc_md651", null ],
-      [ "Negative Compile Tests", "md_docs_plan_tests_step8.html#autotoc_md653", [
-        [ "<tt>expected_ref_e_temporary_error_fail.cpp</tt>", "md_docs_plan_tests_step8.html#autotoc_md654", null ],
-        [ "<tt>expected_ref_e_const_lvalue_assignment_fail.cpp</tt>", "md_docs_plan_tests_step8.html#autotoc_md655", null ]
+      [ "Testing Strategy", "md_docs_plan_tests_step8.html#autotoc_md661", null ],
+      [ "Type-Level Tests (static_assert)", "md_docs_plan_tests_step8.html#autotoc_md663", null ],
+      [ "Test Outline", "md_docs_plan_tests_step8.html#autotoc_md665", null ],
+      [ "Negative Compile Tests", "md_docs_plan_tests_step8.html#autotoc_md667", [
+        [ "<tt>expected_ref_e_temporary_error_fail.cpp</tt>", "md_docs_plan_tests_step8.html#autotoc_md668", null ],
+        [ "<tt>expected_ref_e_const_lvalue_assignment_fail.cpp</tt>", "md_docs_plan_tests_step8.html#autotoc_md669", null ]
       ] ]
     ] ],
     [ "Test Plan: Step 9 — expected<T&, E&> Both-Reference Specialization", "md_docs_plan_tests_step9.html", [
-      [ "Testing Strategy", "md_docs_plan_tests_step9.html#autotoc_md658", null ],
-      [ "Type-Level Tests (static_assert)", "md_docs_plan_tests_step9.html#autotoc_md660", null ],
-      [ "Test Outline", "md_docs_plan_tests_step9.html#autotoc_md662", null ],
-      [ "Negative Compile Tests", "md_docs_plan_tests_step9.html#autotoc_md664", [
-        [ "<tt>expected_ref_both_temp_value_fail.cpp</tt>", "md_docs_plan_tests_step9.html#autotoc_md665", null ],
-        [ "<tt>expected_ref_both_temp_error_fail.cpp</tt>", "md_docs_plan_tests_step9.html#autotoc_md666", null ],
-        [ "<tt>expected_ref_both_no_default_fail.cpp</tt>", "md_docs_plan_tests_step9.html#autotoc_md667", null ]
+      [ "Testing Strategy", "md_docs_plan_tests_step9.html#autotoc_md672", null ],
+      [ "Type-Level Tests (static_assert)", "md_docs_plan_tests_step9.html#autotoc_md674", null ],
+      [ "Test Outline", "md_docs_plan_tests_step9.html#autotoc_md676", null ],
+      [ "Negative Compile Tests", "md_docs_plan_tests_step9.html#autotoc_md678", [
+        [ "<tt>expected_ref_both_temp_value_fail.cpp</tt>", "md_docs_plan_tests_step9.html#autotoc_md679", null ],
+        [ "<tt>expected_ref_both_temp_error_fail.cpp</tt>", "md_docs_plan_tests_step9.html#autotoc_md680", null ],
+        [ "<tt>expected_ref_both_no_default_fail.cpp</tt>", "md_docs_plan_tests_step9.html#autotoc_md681", null ]
       ] ]
     ] ],
     [ "std::expected Parity", "md_docs_std_parity.html", [
-      [ "How it works", "md_docs_std_parity.html#autotoc_md669", null ],
-      [ "Result", "md_docs_std_parity.html#autotoc_md670", null ],
-      [ "Divergences found", "md_docs_std_parity.html#autotoc_md671", null ],
-      [ "<tt>.std</tt> target is skipped on libc++", "md_docs_std_parity.html#autotoc_md672", null ],
-      [ "Not yet covered", "md_docs_std_parity.html#autotoc_md673", null ]
+      [ "How it works", "md_docs_std_parity.html#autotoc_md683", null ],
+      [ "Result", "md_docs_std_parity.html#autotoc_md684", null ],
+      [ "Divergences found", "md_docs_std_parity.html#autotoc_md685", null ],
+      [ "<tt>.std</tt> target is skipped on libc++", "md_docs_std_parity.html#autotoc_md686", null ],
+      [ "Not yet covered", "md_docs_std_parity.html#autotoc_md687", null ]
     ] ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
@@ -730,9 +746,9 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"index.html",
-"md_docs_plan_handoff.html#autotoc_md288",
-"md_docs_plan_tests_step4.html#autotoc_md574"
+"md_docs_blog_scrap_your_static_assert.html#autotoc_md3",
+"md_docs_plan_handoff.html#autotoc_md293",
+"md_docs_plan_tests_step4.html#autotoc_md578"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

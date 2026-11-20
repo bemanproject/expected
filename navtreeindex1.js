@@ -1,10 +1,5 @@
 var NAVTREEINDEX1 =
 {
-"index.html":[],
-"md_docs_blog_pins.html":[0],
-"md_docs_blog_pins.html#autotoc_md1":[0,0],
-"md_docs_blog_pins.html#autotoc_md2":[0,1],
-"md_docs_blog_scrap_your_static_assert.html":[1],
 "md_docs_blog_scrap_your_static_assert.html#autotoc_md3":[1,0],
 "md_docs_blog_scrap_your_static_assert.html#autotoc_md4":[1,1],
 "md_docs_blog_scrap_your_static_assert.html#autotoc_md5":[1,2],
@@ -249,5 +244,10 @@ var NAVTREEINDEX1 =
 "md_docs_plan_handoff.html#autotoc_md284":[15,0],
 "md_docs_plan_handoff.html#autotoc_md285":[15,1],
 "md_docs_plan_handoff.html#autotoc_md286":[15,2],
-"md_docs_plan_handoff.html#autotoc_md287":[15,2,0]
+"md_docs_plan_handoff.html#autotoc_md287":[15,2,0],
+"md_docs_plan_handoff.html#autotoc_md288":[15,2,1],
+"md_docs_plan_handoff.html#autotoc_md289":[15,2,2],
+"md_docs_plan_handoff.html#autotoc_md290":[15,2,3],
+"md_docs_plan_handoff.html#autotoc_md291":[15,2,4],
+"md_docs_plan_handoff.html#autotoc_md292":[15,3]
 };
