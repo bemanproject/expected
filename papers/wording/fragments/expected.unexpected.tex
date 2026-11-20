@@ -2,6 +2,9 @@
 
 \rSec3[expected.un.general]{General}
 
+\pnum
+Subclause \ref{expected.unexpected} describes the class template \tcode{unexpected} that represents unexpected objects stored in \tcode{expected} objects.
+
 \begin{codeblock}
 namespace std {
   template<class E>
@@ -47,12 +50,8 @@ namespace std {
 \end{codeblock}
 
 \pnum
-\mandates
 A program that instantiates the definition of \tcode{unexpected} for a non-object type other than an lvalue reference type, an array type, a specialization of \tcode{unexpected}, or a cv-qualified type is ill-formed.
 
-\pnum
-\remarks
-Subclause \ref{expected.unexpected} describes the class template \tcode{unexpected} that represents unexpected objects stored in \tcode{expected} objects.
 
 \rSec3[expected.un.cons]{Constructors}
 
@@ -202,14 +201,14 @@ The expression \tcode{x.error() == y.error()} is well-formed and its result is c
 \begin{codeblock}
 namespace std {
   template<class E>
-  class unexpected<E&> {
+  class @\libglobal{unexpected}@<E&> {
   public:
     constexpr unexpected(const unexpected&) = default;
     constexpr unexpected(unexpected&&) = default;
-    template<class G = E>
-      constexpr explicit unexpected(G&&) noexcept;
-    template<class G = E>
-      constexpr explicit unexpected(in_place_t, G&&) noexcept;
+
+    template<class G = E> constexpr explicit unexpected(G&& e) noexcept;
+
+    template<class G = E> constexpr explicit unexpected(in_place_t, G&& e) noexcept;
 
     constexpr unexpected& operator=(const unexpected&) = default;
     constexpr unexpected& operator=(unexpected&&) = default;
@@ -219,23 +218,22 @@ namespace std {
     constexpr void swap(unexpected& other) noexcept;
 
     template<class E2>
-      friend constexpr bool operator==(const unexpected&, const unexpected<E2>&);
+    friend constexpr bool operator==(const unexpected& x, const unexpected<E2>& y);
 
     friend constexpr void swap(unexpected& x, unexpected& y) noexcept;
 
   private:
-    E* unex;              // \expos
+    E* @\exposid{unex}@; // \expos
   };
 }
 \end{codeblock}
 
 \pnum
-\mandates
-A program that instantiates the definition of \tcode{unexpected<E\&>} for a referenced type that is not an object type, an array type, or a specialization of \tcode{unexpected} is ill-formed.
+An object of type \tcode{unexpected<E\&>} holds a pointer to an object of type \tcode{E}. The referenced object is not owned by the \tcode{unexpected<E\&>} object.
 
 \pnum
-\remarks
-An object of type \tcode{unexpected<E\&>} holds a pointer to an object of type \tcode{E}. The referenced object is not owned by the \tcode{unexpected<E\&>} object. Unlike the primary template, \tcode{E} may be a cv-qualified type.
+A program that instantiates the definition of \tcode{unexpected<E\&>} for a referenced type that is not an object type, an array type, or a specialization of \tcode{unexpected} is ill-formed. Unlike the primary template, \tcode{E} may be a cv-qualified type.
+
 
 \indexlibraryctor{unexpected}%
 \begin{itemdecl}

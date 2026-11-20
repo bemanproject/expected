@@ -292,7 +292,13 @@ TAB_SIZE               = 4
 # with the commands \{ and \} for these it is advised to use the version @{ and
 # @} or use a double escape (\\{ and \\})
 
-ALIASES                =
+ALIASES                = "effects=\par Effects:^^" \
+                         "constraints=\par Constraints:^^" \
+                         "mandates=\par Mandates:^^" \
+                         "ensures=\par Postconditions:^^" \
+                         "expects=\par Preconditions:^^" \
+                         "hardexpects=\par Hardened preconditions:^^" \
+                         "item=\li"
 
 # Set the OPTIMIZE_OUTPUT_FOR_C tag to YES if your project consists of C sources
 # only. Doxygen will then generate output that is more tailored for C. For
@@ -1140,7 +1146,7 @@ INPUT_FILTER           =
 # need to set EXTENSION_MAPPING for the extension otherwise the files are not
 # properly processed by Doxygen.
 
-FILTER_PATTERNS        =
+FILTER_PATTERNS        = *.hpp="python3 docs/specgen-doxygen-filter.py"
 
 # If the FILTER_SOURCE_FILES tag is set to YES, the input filter (if set using
 # INPUT_FILTER) will also be used to filter the input files that are used for

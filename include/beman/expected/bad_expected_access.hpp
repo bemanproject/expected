@@ -86,10 +86,10 @@ inline BEMAN_EXPECTED_CONSTEXPR_EXCEPTION const char* bad_expected_access<void>:
 }
 
 // \rSec2[expected.bad]{Class template `bad_expected_access`}
-//! \remarks The class template `bad_expected_access` defines the type of
-//! objects thrown as exceptions to report the situation where an attempt is
-//! made to access the value of an `expected<T, E>` object for which
-//! `has_value()` is `false`.
+//! The class template `bad_expected_access` defines the type of objects
+//! thrown as exceptions to report the situation where an attempt is made to
+//! access the value of an `expected<T, E>` object for which `has_value()` is
+//! `false`.
 template <class E>
 class bad_expected_access : public bad_expected_access<void> {
   public:
@@ -111,24 +111,15 @@ class bad_expected_access : public bad_expected_access<void> {
 template <class E>
 BEMAN_EXPECTED_CONSTEXPR_EXCEPTION bad_expected_access<E>::bad_expected_access(E e) : unex(std::move(e)) {}
 
-//! \returns An
-//! \impldef{return value of \tcode{bad_expected_access<E>::what}}
-//! \ntbs{}, which during constant evaluation is encoded with the ordinary
-//! literal encoding\iref{lex.ccon}.
-template <class E>
-BEMAN_EXPECTED_CONSTEXPR_EXCEPTION const char* bad_expected_access<E>::what() const noexcept {
-    return "bad expected access";
-}
-
-//! \returns `unex`.
-template <class E>
-constexpr E& bad_expected_access<E>::error() & noexcept {
-    return unex;
-}
-
 //! \returns `unex`.
 template <class E>
 constexpr const E& bad_expected_access<E>::error() const& noexcept {
+    return unex;
+}
+
+//! \also
+template <class E>
+constexpr E& bad_expected_access<E>::error() & noexcept {
     return unex;
 }
 
@@ -138,10 +129,19 @@ constexpr E&& bad_expected_access<E>::error() && noexcept {
     return std::move(unex);
 }
 
-//! \returns `std::move(unex)`.
+//! \also
 template <class E>
 constexpr const E&& bad_expected_access<E>::error() const&& noexcept {
     return std::move(unex);
+}
+
+//! \returns An
+//! \impldef{return value of \tcode{bad_expected_access<E>::what}}
+//! \ntbs{}, which during constant evaluation is encoded with the ordinary
+//! literal encoding\iref{lex.ccon}.
+template <class E>
+BEMAN_EXPECTED_CONSTEXPR_EXCEPTION const char* bad_expected_access<E>::what() const noexcept {
+    return "bad expected access";
 }
 
 } // namespace expected

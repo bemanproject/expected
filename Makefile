@@ -183,6 +183,8 @@ WORDING_HEADERS := $(addprefix include/beman/expected/, \
 # [expected.object.assign]'s own intro -- so they are deliberately not part of
 # the assembled wording.
 WORDING_CLAUSES := \
+    expected.general \
+    expected.syn \
     expected.unexpected \
     expected.bad \
     expected.bad.void \

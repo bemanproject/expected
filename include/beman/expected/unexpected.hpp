@@ -60,12 +60,17 @@ inline constexpr bool reference_constructs_from_temporary_v = __reference_constr
 
 // \rSec2[expected.unexpected]{Class template `unexpected`}
 // \rSec3[expected.un.general]{General}
-//! \mandates A program that instantiates the definition of `unexpected` for
-//! a non-object type other than an lvalue reference type, an array type, a
+//! Subclause \ref{expected.unexpected} describes the class template
+//! `unexpected` that represents unexpected objects stored in `expected`
+//! objects.
+//! \synopsis-here
+//! A program that instantiates the definition of `unexpected` for a
+//! non-object type other than an lvalue reference type, an array type, a
 //! specialization of `unexpected`, or a cv-qualified type is ill-formed.
-//! \remarks Subclause \ref{expected.unexpected} describes the class
-//! template `unexpected` that represents unexpected objects stored in
-//! `expected` objects.
+//! \covers mandates is_object_v<E>
+//! \covers mandates !is_array_v<E>
+//! \covers mandates is_same_v<E, remove_cv_t<E>>
+//! \covers mandates !is-unexpected-specialization<E>::value
 template <class E>
 class unexpected {
     // [expected.un.general] para 2: ill-formed instantiations
@@ -174,38 +179,16 @@ unexpected(E) -> unexpected<E>;
 // Stores a pointer to the referenced object; keeps expected<> from needing a
 // separate set of specializations just to hold a reference error type.
 //! \at expected.un.ref
-//! \mandates A program that instantiates the definition of `unexpected<E&>`
-//! for a referenced type that is not an object type, an array type, or a
-//! specialization of `unexpected` is ill-formed.
-//! \remarks An object of type `unexpected<E&>` holds a pointer to an object
-//! of type `E`. The referenced object is not owned by the `unexpected<E&>`
-//! object. Unlike the primary template, `E` may be a cv-qualified type.
-//! \verbatim-synopsis
-//! template<class E>
-//! class unexpected<E&> {
-//! public:
-//!   constexpr unexpected(const unexpected&) = default;
-//!   constexpr unexpected(unexpected&&) = default;
-//!   template<class G = E>
-//!     constexpr explicit unexpected(G&&) noexcept;
-//!   template<class G = E>
-//!     constexpr explicit unexpected(in_place_t, G&&) noexcept;
+//! An object of type `unexpected<E&>` holds a pointer to an object of type
+//! `E`. The referenced object is not owned by the `unexpected<E&>` object.
 //!
-//!   constexpr unexpected& operator=(const unexpected&) = default;
-//!   constexpr unexpected& operator=(unexpected&&) = default;
-//!
-//!   constexpr E& error() const noexcept;
-//!
-//!   constexpr void swap(unexpected& other) noexcept;
-//!
-//!   template<class E2>
-//!     friend constexpr bool operator==(const unexpected&, const unexpected<E2>&);
-//!
-//!   friend constexpr void swap(unexpected& x, unexpected& y) noexcept;
-//!
-//! private:
-//!   E* unex;              // exposition only
-//! };
+//! A program that instantiates the definition of `unexpected<E&>` for a
+//! referenced type that is not an object type, an array type, or a
+//! specialization of `unexpected` is ill-formed. Unlike the primary template,
+//! `E` may be a cv-qualified type.
+//! \covers mandates is_object_v<E>
+//! \covers mandates !is_array_v<E>
+//! \covers mandates !is-unexpected-specialization<remove_cv_t<E>>::value
 template <class E>
 class unexpected<E&> {
     static_assert(std::is_object_v<E>,

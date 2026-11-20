@@ -1,0 +1,27 @@
+\rSec2[expected.syn]{Header \tcode{<expected>} synopsis}
+
+\begin{codeblock}
+// mostly freestanding
+namespace std {
+  // \ref{expected.unexpected}, class template \tcode{unexpected}
+  template<class E> class unexpected;
+
+  // \ref{expected.bad}, class template \tcode{bad_expected_access}
+  template<class E> class bad_expected_access;
+
+  // \ref{expected.bad.void}, specialization for \tcode{void}
+  template<> class bad_expected_access<void>;
+
+  // in-place construction of unexpected values
+  struct unexpect_t {
+    explicit unexpect_t() = default;
+  };
+  inline constexpr unexpect_t unexpect{};
+
+  // \ref{expected.expected}, class template \tcode{expected}
+  template<class T, class E> class expected;                                // partially freestanding
+
+  // \ref{expected.void}, partial specialization of \tcode{expected} for \tcode{void} types
+  template<class T, class E> requires is_void_v<T> class expected<T, E>;    // partially freestanding
+}
+\end{codeblock}
