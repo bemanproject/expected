@@ -246,7 +246,7 @@ namespace std {
 template<class T, class E>
 class expected<T&, E> {
   public:
-    using value_type      = T&;
+    using value_type      = T;
     using error_type      = E;
     using unexpected_type = unexpected<E>;
     template<class U>
@@ -540,6 +540,29 @@ referent. The value-\tcode{G} cliff --- \tcode{unexpected<int\&>} works,
 \tcode{unexpected(42)} does not --- is a likely question, and the deleted
 overload's message names it.
 
+\section{\tcode{value\_type} is \tcode{T}, not \tcode{T\&}}
+
+\tcode{expected<T\&, E>::value_type} is \tcode{T}, as
+\tcode{optional<T\&>::value_type} is \cite{P2988R12}. Generic code uses
+\tcode{value_type} to name the thing it holds on to: a local, a member, a
+container element, a return type. If \tcode{value_type} were \tcode{T\&}, each
+of those would become a reference, and one initialized from a temporary or from
+a referent that goes away first dangles without any diagnostic. With
+\tcode{T}, generic code that materializes a \tcode{value_type} gets an object
+that owns its storage. Code that wants the reference has
+\tcode{decltype(*e)}, which is \tcode{T\&}.
+
+One consequence reaches back to the primary template. \tcode{or_else} on
+\tcode{expected<T, E>} mandates that the callable's result \tcode{G} has
+\tcode{G::value_type} the same as \tcode{T}. Once \tcode{expected<T\&, X>} exists
+with \tcode{value_type} \tcode{T}, that test no longer tells
+\tcode{expected<T, X>} from \tcode{expected<T\&, X>}, and in the reference
+specialization it would accept a callable returning \tcode{expected<T, X>},
+whose value path copies the referent. The Mandates is restated as ``\tcode{G}
+is \tcode{expected<T, X>} for some type \tcode{X}'', and as
+\tcode{expected<T\&, X>} for the reference specialization. No program that
+was valid before is rejected.
+
 \section{\tcode{value\_or} returns by value; \tcode{error\_or} mirrors it (D6)}
 
 \tcode{value_or} returns \tcode{T} by value, as
@@ -715,7 +738,11 @@ default and in-place constructors, the rebind-semantics assignment, and the
 shallow-\tcode{const} observers. Marked edits in place widen the error type of
 the primary \tcode{expected<T, E>} and of \tcode{expected<void, E>} to admit an
 lvalue reference, and add \tcode{unexpected<E\&>} with the reference-only
-construction rule of D5. The marked edits included here are the proposed
+construction rule of D5. The Mandates of the primary template's
+\tcode{or_else} is restated so that it names \tcode{expected<T, X>} rather
+than comparing \tcode{value_type}, which no longer separates
+\tcode{expected<T, X>} from \tcode{expected<T\&, X>}. The marked edits
+included here are the proposed
 changes.
 
 In \tcode{[version.syn]}, header \tcode{<version>} synopsis, update the values

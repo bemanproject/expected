@@ -1722,8 +1722,9 @@ Let \tcode{G} be \tcode{remove_cvref_t<invoke_result_t<F, decltype(error())>>}.
 
 \pnum
 \mandates
-\tcode{G} is a specialization of \tcode{expected} and
-\tcode{is_same_v<typename G::value_type, T>} is \tcode{true}.
+\tcode{G} is \removed{a specialization of \tcode{expected} and
+\tcode{is_same_v<typename G::value_type, T>} is \tcode{true}}\added{\tcode{expected<T, X>}
+for some type \tcode{X}}.
 
 \pnum
 \effects
@@ -1753,8 +1754,9 @@ Let \tcode{G} be
 
 \pnum
 \mandates
-\tcode{G} is a specialization of \tcode{expected} and
-\tcode{is_same_v<typename G::value_type, T>} is \tcode{true}.
+\tcode{G} is \removed{a specialization of \tcode{expected} and
+\tcode{is_same_v<typename G::value_type, T>} is \tcode{true}}\added{\tcode{expected<T, X>}
+for some type \tcode{X}}.
 
 \pnum
 \effects
@@ -2987,7 +2989,7 @@ otherwise \tcode{false}.
 template<class T, class E>
 class expected<T&, E> {
 public:
-  using value_type      = T&;
+  using value_type      = T;
   using error_type      = E;
   using unexpected_type = unexpected<E>;
 
@@ -3568,10 +3570,13 @@ The result is an object, never a reference.
 \pnum
 The member templates \tcode{and_then}, \tcode{or_else}, \tcode{transform}, and
 \tcode{transform_error} behave as specified for the primary template
-(\ref{expected.object.monadic}), with one difference: the value is passed to
-the callable as \tcode{T\&} for every ref-qualification of \tcode{*this}. An
-rvalue \tcode{expected<T\&, E>} does not pass its referent as an rvalue; the
-object referred to is never moved from by these operations.
+(\ref{expected.object.monadic}), with two differences: the value is passed to
+the callable as \tcode{T\&} for every ref-qualification of \tcode{*this}, and
+\tcode{or_else} mandates that \tcode{G} is \tcode{expected<T\&, X>} for some
+type \tcode{X}, and returns \tcode{G(*\exposid{val})} when
+\tcode{has_value()} is \tcode{true}. An rvalue \tcode{expected<T\&, E>} does
+not pass its referent as an rvalue; the object referred to is never moved from
+by these operations.
 
 \rSec3[expected.ref.eq]{Equality operators}
 
