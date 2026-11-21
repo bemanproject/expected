@@ -30,6 +30,18 @@ using beman::expected::testing::type_name;
 // bare word `false`.
 // =============================================================================
 
+TEST_CASE("expected<T&>: type aliases", "[expected_ref]") {
+    // value_type is T, not T&, as for optional<T&>: generic code that
+    // materializes a value_type gets an object, not a reference with nothing
+    // behind it.
+    using expected_t = expected<int&, std::string>;
+    CHECK(type_name<expected_t::value_type>() == type_name<int>());
+    CHECK(type_name<expected_t::error_type>() == type_name<std::string>());
+    CHECK(type_name<expected_t::unexpected_type>() == type_name<unexpected<std::string>>());
+    CHECK(type_name<expected_t::rebind<double>>() == type_name<expected<double, std::string>>());
+    CHECK(type_name<expected<const int&, int>::value_type>() == type_name<const int>());
+}
+
 TEST_CASE("expected<T&>: special member availability", "[expected_ref]") {
     using expected_t = expected<int&, int>;
     CHECK((std::is_constructible_v<expected_t, int&>));
@@ -627,6 +639,15 @@ TEST_CASE("expected<T&>: or_else on value returns value", "[expected_ref]") {
     auto                r = e.or_else([](int) -> expected<int&, int> { return unexpected(0); });
     REQUIRE(r.has_value());
     CHECK(*r == 42);
+}
+
+TEST_CASE("expected<T&>: or_else may change the error type", "[expected_ref]") {
+    int                 x = 42;
+    expected<int&, int> e(x);
+    auto r = e.or_else([](int) -> expected<int&, std::string> { return unexpected(std::string("no")); });
+    CHECK(type_name<decltype(r)>() == type_name<expected<int&, std::string>>());
+    REQUIRE(r.has_value());
+    CHECK(&*r == &x);
 }
 
 TEST_CASE("expected<T&>: transform_error transforms error", "[expected_ref]") {

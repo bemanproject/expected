@@ -28,6 +28,12 @@ using beman::expected::testing::type_name;
 // spellings used only to explain a failure.
 // =============================================================================
 
+TEST_CASE("expected<T&,E&>: type aliases", "[expected_ref_both]") {
+    using expected_t = expected<int&, long&>;
+    CHECK(type_name<expected_t::value_type>() == type_name<int>());
+    CHECK(type_name<expected_t::error_type>() == type_name<long&>());
+}
+
 TEST_CASE("expected<T&,E&>: special member availability", "[expected_ref_both]") {
     // No default constructor — T& cannot be default-initialized
     CHECK_FALSE(std::is_default_constructible_v<expected<int&, int&>>);
