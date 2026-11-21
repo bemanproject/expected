@@ -111,9 +111,9 @@ $(document).ready(function(){initNavTree('classbeman_1_1expected_1_1expected_3_0
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:ac08441f1ff260daf3c638e1e26a1707a"><td class="memItemLeft" align="right" valign="top"><a id="ac08441f1ff260daf3c638e1e26a1707a" name="ac08441f1ff260daf3c638e1e26a1707a"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>value_type</b> = T &amp;</td></tr>
-<tr class="separator:ac08441f1ff260daf3c638e1e26a1707a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ea3861a7e8205f503120b2a42e8b10f"><td class="memItemLeft" align="right" valign="top"><a id="a7ea3861a7e8205f503120b2a42e8b10f" name="a7ea3861a7e8205f503120b2a42e8b10f"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>value_type</b> = T</td></tr>
+<tr class="separator:a7ea3861a7e8205f503120b2a42e8b10f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9dde004bc50f4d2dd9e484f8adbea50f"><td class="memItemLeft" align="right" valign="top"><a id="a9dde004bc50f4d2dd9e484f8adbea50f" name="a9dde004bc50f4d2dd9e484f8adbea50f"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>error_type</b> = E</td></tr>
 <tr class="separator:a9dde004bc50f4d2dd9e484f8adbea50f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1575,7 +1575,7 @@ template&lt;class F &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<dl class="section user"><dt>Mandates:</dt><dd><code>remove_cvref_t&lt;invoke_result_t&lt;F, decltype(error())&gt;&gt;</code> is a specialization of <code>expected</code> and its <code>value_type</code> is the same type as <code>T&amp;</code>. </dd></dl>
+<dl class="section user"><dt>Mandates:</dt><dd><code>remove_cvref_t&lt;invoke_result_t&lt;F, decltype(error())&gt;&gt;</code> is <code>expected&lt;T&amp;, X&gt;</code> for some type <code>X</code>. </dd></dl>
 <dl class="section user"><dt>Effects:</dt><dd>Equivalent to: <code>if (<a class="el" href="classbeman_1_1expected_1_1expected_3_01T_01_6_00_01E_01_4.html#a3121e626e1d459cf0af99a53d4cf31c1" title="This is an overloaded member function, provided for convenience. It differs from the above function o...">has_value()</a>) return G(*val); else return invoke(std::forward&lt;F&gt;(f), <a class="el" href="classbeman_1_1expected_1_1expected_3_01T_01_6_00_01E_01_4.html#ac6ea1910988ecc9a9c51c611c6a34fcd">error()</a>);</code> where <code>G</code> is <code>remove_cvref_t&lt;invoke_result_t&lt;F, decltype(error())&gt;&gt;</code>. </dd></dl>
 
 </div>
@@ -1607,7 +1607,7 @@ template&lt;class F &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<dl class="section user"><dt>Mandates:</dt><dd><code>remove_cvref_t&lt;invoke_result_t&lt;F, decltype(std::move(error()))&gt;&gt;</code> is a specialization of <code>expected</code> and its <code>value_type</code> is the same type as <code>T&amp;</code>. </dd></dl>
+<dl class="section user"><dt>Mandates:</dt><dd><code>remove_cvref_t&lt;invoke_result_t&lt;F, decltype(std::move(error()))&gt;&gt;</code> is <code>expected&lt;T&amp;, X&gt;</code> for some type <code>X</code>. </dd></dl>
 <dl class="section user"><dt>Effects:</dt><dd>Equivalent to: <code>if (<a class="el" href="classbeman_1_1expected_1_1expected_3_01T_01_6_00_01E_01_4.html#a3121e626e1d459cf0af99a53d4cf31c1" title="This is an overloaded member function, provided for convenience. It differs from the above function o...">has_value()</a>) return G(*val); else return invoke(std::forward&lt;F&gt;(f), std::move(error()));</code> where <code>G</code> is <code>remove_cvref_t&lt;invoke_result_t&lt;F, decltype(std::move(error()))&gt;&gt;</code>. </dd></dl>
 
 </div>

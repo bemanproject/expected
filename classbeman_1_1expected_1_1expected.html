@@ -1789,7 +1789,7 @@ requires std::is_constructible_v&lt;T, T&amp;&gt;</div>
 </table>
 </div><div class="memdoc">
 <dl class="section user"><dt>Constraints:</dt><dd><code>is_constructible_v&lt;T, decltype((val))&gt;</code> is <code>true</code>. </dd></dl>
-<dl class="section user"><dt>Mandates:</dt><dd><code>remove_cvref_t&lt;invoke_result_t&lt;F, decltype(error())&gt;&gt;</code> is a specialization of <code>expected</code> and its <code>value_type</code> is the same type as <code>T</code>. </dd></dl>
+<dl class="section user"><dt>Mandates:</dt><dd><code>remove_cvref_t&lt;invoke_result_t&lt;F, decltype(error())&gt;&gt;</code> is <code>expected&lt;T, X&gt;</code> for some type <code>X</code>. </dd></dl>
 <dl class="section user"><dt>Effects:</dt><dd>Equivalent to: <code>if (<a class="el" href="classbeman_1_1expected_1_1expected.html#a46f3526387a412da0a3ae8a45fdbff28" title="This is an overloaded member function, provided for convenience. It differs from the above function o...">has_value()</a>) return G(in_place, val); else return invoke(std::forward&lt;F&gt;(f), <a class="el" href="classbeman_1_1expected_1_1expected.html#a2015a6436303731e8c3199d096cc83ca">error()</a>);</code> where <code>G</code> is <code>remove_cvref_t&lt;invoke_result_t&lt;F, decltype(error())&gt;&gt;</code>. </dd></dl>
 
 </div>
@@ -1823,7 +1823,7 @@ requires std::is_constructible_v&lt;T, T&amp;&amp;&gt;</div>
 </table>
 </div><div class="memdoc">
 <dl class="section user"><dt>Constraints:</dt><dd><code>is_constructible_v&lt;T, decltype(std::move(val))&gt;</code> is <code>true</code>. </dd></dl>
-<dl class="section user"><dt>Mandates:</dt><dd><code>remove_cvref_t&lt;invoke_result_t&lt;F, decltype(std::move(error()))&gt;&gt;</code> is a specialization of <code>expected</code> and its <code>value_type</code> is the same type as <code>T</code>. </dd></dl>
+<dl class="section user"><dt>Mandates:</dt><dd><code>remove_cvref_t&lt;invoke_result_t&lt;F, decltype(std::move(error()))&gt;&gt;</code> is <code>expected&lt;T, X&gt;</code> for some type <code>X</code>. </dd></dl>
 <dl class="section user"><dt>Effects:</dt><dd>Equivalent to: `if (<a class="el" href="classbeman_1_1expected_1_1expected.html#a46f3526387a412da0a3ae8a45fdbff28" title="This is an overloaded member function, provided for convenience. It differs from the above function o...">has_value()</a>) return G(in_place,
 std::move(val)); else return invoke(std::forward&lt;F&gt;(f), std::move(error()));<code>where</code>G<code>is</code>remove_cvref_t&lt;invoke_result_t&lt;F, decltype(std::move(error()))&gt;&gt;`. </dd></dl>
 
